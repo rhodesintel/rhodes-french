@@ -441,6 +441,62 @@ const VERBS = {
   }
 };
 
+// ===========================================
+// COMMONLY CONFUSABLE FRENCH WORDS
+// ===========================================
+// Words that learners frequently mix up - provides targeted hints for conceptual errors
+
+const CONFUSABLE_WORDS = {
+  // Gender pairs - family members
+  fils: { confusesWith: 'fille', hint: 'GENDER: fils = son (male), fille = daughter (female)' },
+  fille: { confusesWith: 'fils', hint: 'GENDER: fille = daughter (female), fils = son (male)' },
+  frère: { confusesWith: 'sœur', hint: 'GENDER: frère = brother (male), sœur = sister (female)' },
+  sœur: { confusesWith: 'frère', hint: 'GENDER: sœur = sister (female), frère = brother (male)' },
+  oncle: { confusesWith: 'tante', hint: 'GENDER: oncle = uncle (male), tante = aunt (female)' },
+  tante: { confusesWith: 'oncle', hint: 'GENDER: tante = aunt (female), oncle = uncle (male)' },
+  père: { confusesWith: 'mère', hint: 'GENDER: père = father (male), mère = mother (female)' },
+  mère: { confusesWith: 'père', hint: 'GENDER: mère = mother (female), père = father (male)' },
+
+  // Gender pairs - general
+  homme: { confusesWith: 'femme', hint: 'GENDER: homme = man (male), femme = woman (female)' },
+  femme: { confusesWith: 'homme', hint: 'GENDER: femme = woman (female), homme = man (male)' },
+  garçon: { confusesWith: 'fille', hint: 'GENDER: garçon = boy (male), fille = girl (female)' },
+  monsieur: { confusesWith: 'madame', hint: 'GENDER: monsieur = sir/Mr. (male), madame = ma\'am/Mrs. (female)' },
+  madame: { confusesWith: 'monsieur', hint: 'GENDER: madame = ma\'am/Mrs. (female), monsieur = sir/Mr. (male)' },
+
+  // Pronouns
+  il: { confusesWith: 'elle', hint: 'PRONOUN: il = he/it (masculine), elle = she/it (feminine)' },
+  elle: { confusesWith: 'il', hint: 'PRONOUN: elle = she/it (feminine), il = he/it (masculine)' },
+
+  // Articles
+  un: { confusesWith: 'une', hint: 'ARTICLE: un = a/an (masculine), une = a/an (feminine)' },
+  une: { confusesWith: 'un', hint: 'ARTICLE: une = a/an (feminine), un = a/an (masculine)' },
+  le: { confusesWith: 'la', hint: 'ARTICLE: le = the (masculine), la = the (feminine)' },
+  la: { confusesWith: 'le', hint: 'ARTICLE: la = the (feminine), le = the (masculine)' },
+  ce: { confusesWith: 'cette', hint: 'DEMONSTRATIVE: ce = this/that (masculine), cette = this/that (feminine)' },
+  cette: { confusesWith: 'ce', hint: 'DEMONSTRATIVE: cette = this/that (feminine), ce = this/that (masculine)' },
+
+  // Possessive adjectives
+  mon: { confusesWith: 'ma', hint: 'POSSESSIVE: mon = my (masculine), ma = my (feminine)' },
+  ma: { confusesWith: 'mon', hint: 'POSSESSIVE: ma = my (feminine), mon = my (masculine)' },
+  ton: { confusesWith: 'ta', hint: 'POSSESSIVE: ton = your (masculine), ta = your (feminine)' },
+  ta: { confusesWith: 'ton', hint: 'POSSESSIVE: ta = your (feminine), ton = your (masculine)' },
+  son: { confusesWith: 'sa', hint: 'POSSESSIVE: son = his/her (masculine), sa = his/her (feminine)' },
+  sa: { confusesWith: 'son', hint: 'POSSESSIVE: sa = his/her (feminine), son = his/her (masculine)' },
+
+  // Other common confusions
+  bon: { confusesWith: 'bien', hint: 'ADJECTIVE vs ADVERB: bon = good (adjective, describes nouns), bien = well (adverb, describes verbs)' },
+  bien: { confusesWith: 'bon', hint: 'ADVERB vs ADJECTIVE: bien = well (adverb, describes verbs), bon = good (adjective, describes nouns)' },
+  sur: { confusesWith: 'sous', hint: 'PREPOSITION: sur = on/upon, sous = under/beneath (opposites)' },
+  sous: { confusesWith: 'sur', hint: 'PREPOSITION: sous = under/beneath, sur = on/upon (opposites)' },
+  avant: { confusesWith: 'après', hint: 'PREPOSITION: avant = before, après = after (opposites)' },
+  après: { confusesWith: 'avant', hint: 'PREPOSITION: après = after, avant = before (opposites)' },
+  ici: { confusesWith: 'là', hint: 'ADVERB: ici = here (close), là = there (farther)' },
+  là: { confusesWith: 'ici', hint: 'ADVERB: là = there (farther), ici = here (close)' },
+  oui: { confusesWith: 'non', hint: 'oui = yes, non = no (opposites)' },
+  non: { confusesWith: 'oui', hint: 'non = no, oui = yes (opposites)' }
+};
+
 // Grammar patterns beyond verbs
 const GRAMMAR_PATTERNS = {
   passéComposé: {
@@ -691,6 +747,36 @@ function getVerbHintForError(expected, userInput) {
   return null;
 }
 
+// Get confusion hint when user confuses similar words (gender pairs, opposites, etc.)
+function getConfusionHint(expected, userInput) {
+  const expWords = expected.toLowerCase().split(/\s+/);
+  const userWords = userInput.toLowerCase().split(/\s+/);
+
+  // Check each word in the expected answer
+  for (const expWord of expWords) {
+    const confusableData = CONFUSABLE_WORDS[expWord];
+    if (!confusableData) continue;
+
+    // Check if user typed the confusable counterpart
+    if (userWords.includes(confusableData.confusesWith)) {
+      return confusableData.hint;
+    }
+  }
+
+  // Also check the reverse - if user typed a confusable word
+  for (const userWord of userWords) {
+    const confusableData = CONFUSABLE_WORDS[userWord];
+    if (!confusableData) continue;
+
+    // Check if the expected answer has the counterpart
+    if (expWords.includes(confusableData.confusesWith)) {
+      return confusableData.hint;
+    }
+  }
+
+  return null;
+}
+
 // Check if two words are similar enough to be a typo (vs completely different words)
 // Returns true for "phreise/phrase" (typo), false for "chien/chat" (different words)
 function isSimilarWord(word1, word2) {
@@ -719,9 +805,9 @@ function isSimilarWord(word1, word2) {
   const maxLen = Math.max(a.length, b.length);
   const coverage = (prefixLen + suffixLen) / maxLen;
 
-  // If >60% of the word matches at start/end, it's likely a typo
+  // If >70% of the word matches at start/end, it's likely a typo
   // Also require same first letter for typos (most typos keep first letter)
-  return coverage > 0.6 && a[0] === b[0];
+  return coverage > 0.7 && a[0] === b[0];
 }
 
 // Character-level diff for spelling errors within a word
@@ -2247,6 +2333,12 @@ function checkAnswer() {
     const verbHint = getVerbHintForError(expected, input.value);
     if (verbHint) {
       detailHtml += `<div style="margin-top: 12px; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107; font-size: 14px;"><strong>Conjugation:</strong> ${verbHint}</div>`;
+    }
+
+    // Show confusion hint if user mixed up commonly confused words
+    const confusionHint = getConfusionHint(expected, input.value);
+    if (confusionHint) {
+      detailHtml += `<div style="margin-top: 12px; padding: 10px; background: #e3f2fd; border-left: 4px solid #2196f3; font-size: 14px;"><strong>Word Confusion:</strong> ${confusionHint}</div>`;
     }
 
     feedbackDetail.innerHTML = detailHtml;
