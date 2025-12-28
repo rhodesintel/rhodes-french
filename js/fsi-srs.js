@@ -656,6 +656,12 @@ const FSI_SRS = {
     }
 
     this.saveAnalytics();
+
+    // Auto-sync to Firestore if available
+    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.firestoreEnabled) {
+      FSI_Auth.saveResponse(response);
+    }
+
     return response;
   },
 

@@ -40,7 +40,7 @@ const CDN_CONFIG = {
   },
 
   // Version string - increment to bust browser cache after content updates
-  version: '1.0.3'
+  version: '1.0.4'
 };
 
 // Helper to build full URL with cache-busting version
@@ -915,6 +915,12 @@ async function loadCourse() {
     if (typeof FSI_Auth !== 'undefined') {
       await FSI_Auth.init();
       console.log('Auth initialized:', FSI_Auth.authEnabled ? 'enabled' : 'offline mode');
+
+      // Initialize Firestore for auto-sync
+      if (FSI_Auth.authEnabled) {
+        FSI_Auth.initFirestore();
+        console.log('Firestore:', FSI_Auth.firestoreEnabled ? 'enabled - responses will auto-sync' : 'disabled');
+      }
     }
 
     updateSRSStats();

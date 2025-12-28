@@ -275,6 +275,177 @@ const FSI_Auth = {
 
       document.getElementById('closeAuthModal').onclick = () => modal.remove();
     }
+  },
+
+  // ============================================
+  // FIRESTORE DATABASE SYNC
+  // ============================================
+
+  db: null,
+  firestoreEnabled: false,
+  pendingWrites: [],  // Queue for offline writes
+  syncInterval: null,
+
+  // Initialize Firestore
+  initFirestore() {
+    if (!this.authEnabled) return false;
+
+    try {
+      if (typeof firebase.firestore === 'undefined') {
+        console.log('Firestore SDK not loaded');
+        return false;
+      }
+
+      this.db = firebase.firestore();
+
+      // Enable offline persistence
+      this.db.enablePersistence({ synchronizeTabs: true })
+        .catch(err => {
+          if (err.code === 'failed-precondition') {
+            console.warn('Firestore persistence failed: multiple tabs open');
+          } else if (err.code === 'unimplemented') {
+            console.warn('Firestore persistence not available in this browser');
+          }
+        });
+
+      this.firestoreEnabled = true;
+      console.log('Firestore initialized');
+
+      // Start periodic sync for any pending writes
+      this.startSyncInterval();
+
+      return true;
+    } catch (e) {
+      console.warn('Firestore init failed:', e.message);
+      return false;
+    }
+  },
+
+  // Start periodic sync interval
+  startSyncInterval() {
+    if (this.syncInterval) return;
+
+    // Sync pending writes every 30 seconds
+    this.syncInterval = setInterval(() => {
+      this.flushPendingWrites();
+    }, 30000);
+  },
+
+  // Save a response to Firestore (auto-batched)
+  async saveResponse(response) {
+    if (!this.firestoreEnabled || !this.user) {
+      // Queue for later if offline or not signed in
+      this.pendingWrites.push({ type: 'response', data: response, timestamp: Date.now() });
+      return false;
+    }
+
+    try {
+      await this.db.collection('users').doc(this.user.uid)
+        .collection('responses').add({
+          ...response,
+          syncedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      return true;
+    } catch (e) {
+      console.warn('Failed to save response:', e.message);
+      this.pendingWrites.push({ type: 'response', data: response, timestamp: Date.now() });
+      return false;
+    }
+  },
+
+  // Save user progress/stats summary
+  async saveProgress(progressData) {
+    if (!this.firestoreEnabled || !this.user) return false;
+
+    try {
+      await this.db.collection('users').doc(this.user.uid).set({
+        email: this.user.email,
+        displayName: this.user.displayName,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+        progress: progressData
+      }, { merge: true });
+      return true;
+    } catch (e) {
+      console.warn('Failed to save progress:', e.message);
+      return false;
+    }
+  },
+
+  // Flush pending writes when back online or signed in
+  async flushPendingWrites() {
+    if (!this.firestoreEnabled || !this.user || this.pendingWrites.length === 0) return;
+
+    console.log(`Syncing ${this.pendingWrites.length} pending writes...`);
+
+    const batch = this.db.batch();
+    const toRemove = [];
+
+    for (let i = 0; i < Math.min(this.pendingWrites.length, 500); i++) {
+      const item = this.pendingWrites[i];
+      if (item.type === 'response') {
+        const ref = this.db.collection('users').doc(this.user.uid)
+          .collection('responses').doc();
+        batch.set(ref, {
+          ...item.data,
+          syncedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          originalTimestamp: item.timestamp
+        });
+        toRemove.push(i);
+      }
+    }
+
+    try {
+      await batch.commit();
+      // Remove synced items (in reverse order to preserve indices)
+      toRemove.reverse().forEach(i => this.pendingWrites.splice(i, 1));
+      console.log('Sync complete');
+    } catch (e) {
+      console.warn('Batch sync failed:', e.message);
+    }
+  },
+
+  // Get user's response history from Firestore
+  async getResponseHistory(limit = 100) {
+    if (!this.firestoreEnabled || !this.user) return [];
+
+    try {
+      const snapshot = await this.db.collection('users').doc(this.user.uid)
+        .collection('responses')
+        .orderBy('timestamp', 'desc')
+        .limit(limit)
+        .get();
+
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (e) {
+      console.warn('Failed to get response history:', e.message);
+      return [];
+    }
+  },
+
+  // Get aggregate stats across all users (for pattern analysis)
+  async getGlobalErrorPatterns() {
+    if (!this.firestoreEnabled) return null;
+
+    try {
+      // This would require a Cloud Function or aggregation - simplified version
+      const snapshot = await this.db.collectionGroup('responses')
+        .where('correct', '==', false)
+        .limit(1000)
+        .get();
+
+      const errorTypes = {};
+      snapshot.docs.forEach(doc => {
+        const data = doc.data();
+        (data.errors || []).forEach(err => {
+          errorTypes[err.type] = (errorTypes[err.type] || 0) + 1;
+        });
+      });
+
+      return errorTypes;
+    } catch (e) {
+      console.warn('Failed to get global patterns:', e.message);
+      return null;
+    }
   }
 };
 
