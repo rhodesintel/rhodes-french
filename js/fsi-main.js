@@ -719,9 +719,9 @@ function isSimilarWord(word1, word2) {
   const maxLen = Math.max(a.length, b.length);
   const coverage = (prefixLen + suffixLen) / maxLen;
 
-  // If >40% of the word matches at start/end, it's likely a typo
+  // If >60% of the word matches at start/end, it's likely a typo
   // Also require same first letter for typos (most typos keep first letter)
-  return coverage > 0.4 && a[0] === b[0];
+  return coverage > 0.6 && a[0] === b[0];
 }
 
 // Character-level diff for spelling errors within a word
