@@ -177,19 +177,40 @@ const FSI_Auth = {
     }
   },
 
-  // Load user progress from Firestore
+  // Load user progress from Firestore (SOURCE OF TRUTH for signed-in users)
   async loadProgress() {
     if (!this.db || !this.user) return null;
 
     try {
       const doc = await this.db.collection('users').doc(this.user.uid).get();
       if (doc.exists) {
-        return doc.data();
+        const data = doc.data();
+        console.log('Loaded progress from cloud:', Object.keys(data.cards || {}).length, 'cards');
+        return data;
       }
     } catch (e) {
-      console.warn('Failed to load progress:', e.message);
+      console.warn('Failed to load progress from cloud:', e.message);
     }
     return null;
+  },
+
+  // Save full progress to Firestore (called on every review for signed-in users)
+  async saveProgress(progressData) {
+    if (!this.db || !this.user) return false;
+
+    try {
+      await this.db.collection('users').doc(this.user.uid).set({
+        ...progressData,
+        lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+        email: this.user.email,
+        displayName: this.user.displayName
+      }, { merge: true });
+      console.log('Progress saved to cloud');
+      return true;
+    } catch (e) {
+      console.warn('Failed to save progress to cloud:', e.message);
+      return false;
+    }
   }
 };
 

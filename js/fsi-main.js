@@ -939,17 +939,28 @@ const Storage = {
   },
 
   async load() {
-    // Try chrome.storage.sync first (cross-device)
+    // CLOUD IS SOURCE OF TRUTH for signed-in users
+    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.isSignedIn()) {
+      const cloudData = await FSI_Auth.loadProgress();
+      if (cloudData && cloudData.cards) {
+        console.log('Using cloud data as source of truth');
+        // Also update localStorage as cache
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData));
+        return cloudData;
+      }
+    }
+
+    // Fallback: Try chrome.storage.sync (cross-device)
     if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
       try {
         const result = await chrome.storage.sync.get(SYNC_KEY);
         if (result[SYNC_KEY]) return result[SYNC_KEY];
       } catch (e) {}
     }
-    // Try main localStorage
+    // Fallback: Try main localStorage
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) try { return JSON.parse(saved); } catch (e) {}
-    // Try recovering from backups
+    // Fallback: Try recovering from backups
     const recovered = await this.recover();
     if (recovered) {
       console.log('Recovered from backup!');
@@ -965,8 +976,13 @@ const Storage = {
   async save() {
     if (!this.data) return;
 
-    // Save current state
+    // Save current state to localStorage (always, as cache)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+
+    // SYNC TO CLOUD for signed-in users (cloud is source of truth)
+    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.isSignedIn()) {
+      FSI_Auth.saveProgress(this.data);
+    }
 
     // Auto-backup: keep last 10 versions with timestamps
     const backupKey = 'fsi_backup_' + new Date().toISOString().split('T')[0];
