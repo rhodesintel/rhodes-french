@@ -691,6 +691,47 @@ function getVerbHintForError(expected, userInput) {
   return null;
 }
 
+// Highlight differences between user input and expected answer
+function highlightDiff(userInput, expected) {
+  const userWords = userInput.trim().split(/\s+/);
+  const expWords = expected.trim().split(/\s+/);
+
+  // Normalize for comparison (lowercase, strip accents)
+  const normalize = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[.,!?;:«»""']/g, '');
+
+  let userHtml = [];
+  let expHtml = [];
+
+  const maxLen = Math.max(userWords.length, expWords.length);
+
+  for (let i = 0; i < maxLen; i++) {
+    const uw = userWords[i] || '';
+    const ew = expWords[i] || '';
+
+    if (normalize(uw) === normalize(ew)) {
+      // Correct word (or just accent difference)
+      userHtml.push(`<span style="color: #2e7d32;">${uw}</span>`);
+      expHtml.push(`<span>${ew}</span>`);
+    } else if (uw && ew) {
+      // Wrong word
+      userHtml.push(`<span style="color: #c62828; text-decoration: line-through;">${uw}</span>`);
+      expHtml.push(`<span style="color: #2e7d32; font-weight: bold;">${ew}</span>`);
+    } else if (uw && !ew) {
+      // Extra word
+      userHtml.push(`<span style="color: #c62828; text-decoration: line-through;">${uw}</span>`);
+    } else if (!uw && ew) {
+      // Missing word
+      userHtml.push(`<span style="color: #999;">_</span>`);
+      expHtml.push(`<span style="color: #2e7d32; font-weight: bold;">${ew}</span>`);
+    }
+  }
+
+  return {
+    userHighlighted: userHtml.join(' '),
+    expectedHighlighted: expHtml.join(' ')
+  };
+}
+
 // Set drill mode (translate vs repeat)
 function setDrillMode(mode) {
   drillMode = mode;
@@ -2101,16 +2142,17 @@ function checkAnswer() {
 
     feedbackTitle.textContent = 'Incorrect';
 
-    // Show ONLY wrong vs correct - clean and simple
+    // Show word-level diff highlighting
     const userAnswer = input.value.trim() || '(empty)';
+    const diff = highlightDiff(userAnswer, expected);
     let detailHtml = `
       <div style="margin-bottom: 12px; padding: 10px; background: #ffebee; border-left: 4px solid #dc3545;">
         <div style="font-size: 12px; color: #999; margin-bottom: 4px;">YOU WROTE:</div>
-        <div style="font-size: 20px; color: #c62828;">${userAnswer}</div>
+        <div style="font-size: 20px;">${diff.userHighlighted}</div>
       </div>
       <div style="padding: 10px; background: #e8f5e9; border-left: 4px solid #28a745;">
         <div style="font-size: 12px; color: #999; margin-bottom: 4px;">CORRECT:</div>
-        <div style="font-size: 20px; color: #2e7d32;">${expected}</div>
+        <div style="font-size: 20px;">${diff.expectedHighlighted}</div>
       </div>
     `;
 
