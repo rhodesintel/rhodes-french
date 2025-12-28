@@ -1076,12 +1076,16 @@ function setMode(mode) {
   // Refresh stats when switching modes
   if (mode === 'srs') {
     updateSRSStats();
-    // Scroll to SRS view
-    document.getElementById('srsView').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to SRS view - calculate exact position
+    const srsView = document.getElementById('srsView');
+    const srsTop = srsView.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: srsTop, behavior: 'smooth' });
   } else {
     renderUnits();
-    // Scroll to stats bar so units are visible below
-    document.querySelector('.stats-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to stats bar so units are visible below - calculate exact position
+    const statsBar = document.querySelector('.stats-bar');
+    const statsTop = statsBar.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top: statsTop, behavior: 'smooth' });
   }
 }
 
