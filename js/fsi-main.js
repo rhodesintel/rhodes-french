@@ -24,8 +24,7 @@ window.onerror = function(msg, url, line, col, error) {
 
 const CDN_CONFIG = {
   // Base URL for external content (set to '' for local/development mode)
-  // Example: 'https://yourusername.github.io/fsi-french-content/'
-  baseUrl: '',  // <-- SET YOUR GITHUB PAGES URL HERE FOR PRODUCTION
+  baseUrl: 'https://rhodesintel.github.io/rhodes-french/',  // Rhodes French CDN
 
   // Data files - updateable without extension republish
   data: {
@@ -81,22 +80,405 @@ let drillMode = 'translate';  // 'translate' or 'repeat'
 let sessionCorrect = 0;
 let sessionTotal = 0;
 
-// Grammar hint patterns - what grammar points are needed for common sentence patterns
-const GRAMMAR_HINTS = {
-  'être': 'verb "être" (je suis, tu es, il est...)',
-  'avoir': 'verb "avoir" (j\'ai, tu as, il a...)',
-  'aller': 'verb "aller" (je vais, tu vas, il va...)',
-  'faire': 'verb "faire" (je fais, tu fais, il fait...)',
-  'vouloir': 'verb "vouloir" (je veux, tu veux, il veut...)',
-  'pouvoir': 'verb "pouvoir" (je peux, tu peux, il peut...)',
-  'devoir': 'verb "devoir" (je dois, tu dois, il doit...)',
-  'prendre': 'verb "prendre" (je prends, tu prends, il prend...)',
-  'question': 'question formation (est-ce que, inversion)',
-  'negation': 'negation (ne...pas)',
-  'article': 'articles (le/la/les, un/une/des)',
-  'possessive': 'possessives (mon/ma/mes, votre/vos)',
-  'time': 'time expressions (à quelle heure, il est...)',
-  'location': 'location (à, au, en, chez)'
+// ===========================================
+// COMPREHENSIVE FRENCH GRAMMAR SYSTEM
+// ===========================================
+// Full verb conjugations, tense detection, and grammar patterns
+
+const VERBS = {
+  // ─── ESSENTIAL IRREGULAR VERBS ───
+  être: {
+    meaning: 'to be',
+    present: ['suis', 'es', 'est', 'sommes', 'êtes', 'sont'],
+    passéComposé: { aux: 'avoir', pp: 'été' },
+    imparfait: ['étais', 'étais', 'était', 'étions', 'étiez', 'étaient'],
+    futur: ['serai', 'seras', 'sera', 'serons', 'serez', 'seront'],
+    conditionnel: ['serais', 'serais', 'serait', 'serions', 'seriez', 'seraient'],
+    subjonctif: ['sois', 'sois', 'soit', 'soyons', 'soyez', 'soient'],
+    impératif: ['sois', 'soyons', 'soyez'],
+    tip: 'Most common verb. Used for identity, nationality, profession, characteristics, time, and with adjectives.'
+  },
+  avoir: {
+    meaning: 'to have',
+    present: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
+    passéComposé: { aux: 'avoir', pp: 'eu' },
+    imparfait: ['avais', 'avais', 'avait', 'avions', 'aviez', 'avaient'],
+    futur: ['aurai', 'auras', 'aura', 'aurons', 'aurez', 'auront'],
+    conditionnel: ['aurais', 'aurais', 'aurait', 'aurions', 'auriez', 'auraient'],
+    subjonctif: ['aie', 'aies', 'ait', 'ayons', 'ayez', 'aient'],
+    impératif: ['aie', 'ayons', 'ayez'],
+    expressions: ['avoir faim (hungry)', 'avoir soif (thirsty)', 'avoir chaud/froid (hot/cold)', 'avoir X ans (be X years old)', 'avoir besoin de (need)', 'avoir envie de (want to)', 'avoir peur de (afraid of)', 'avoir raison/tort (be right/wrong)'],
+    tip: 'Used as auxiliary for most verbs in passé composé. Also in many expressions where English uses "to be".'
+  },
+  aller: {
+    meaning: 'to go',
+    present: ['vais', 'vas', 'va', 'allons', 'allez', 'vont'],
+    passéComposé: { aux: 'être', pp: 'allé(e)(s)' },
+    imparfait: ['allais', 'allais', 'allait', 'allions', 'alliez', 'allaient'],
+    futur: ['irai', 'iras', 'ira', 'irons', 'irez', 'iront'],
+    conditionnel: ['irais', 'irais', 'irait', 'irions', 'iriez', 'iraient'],
+    subjonctif: ['aille', 'ailles', 'aille', 'allions', 'alliez', 'aillent'],
+    impératif: ['va', 'allons', 'allez'],
+    tip: 'Uses ÊTRE in passé composé. "Aller + infinitive" = near future (je vais manger = I\'m going to eat).'
+  },
+  faire: {
+    meaning: 'to do/make',
+    present: ['fais', 'fais', 'fait', 'faisons', 'faites', 'font'],
+    passéComposé: { aux: 'avoir', pp: 'fait' },
+    imparfait: ['faisais', 'faisais', 'faisait', 'faisions', 'faisiez', 'faisaient'],
+    futur: ['ferai', 'feras', 'fera', 'ferons', 'ferez', 'feront'],
+    conditionnel: ['ferais', 'ferais', 'ferait', 'ferions', 'feriez', 'feraient'],
+    subjonctif: ['fasse', 'fasses', 'fasse', 'fassions', 'fassiez', 'fassent'],
+    impératif: ['fais', 'faisons', 'faites'],
+    expressions: ['faire beau/mauvais (nice/bad weather)', 'faire chaud/froid (hot/cold weather)', 'faire attention (pay attention)', 'faire la cuisine (cook)', 'faire les courses (go shopping)', 'faire du sport (do sports)'],
+    tip: 'Very versatile. Used for weather, activities, and many expressions.'
+  },
+
+  // ─── MODAL VERBS ───
+  vouloir: {
+    meaning: 'to want',
+    present: ['veux', 'veux', 'veut', 'voulons', 'voulez', 'veulent'],
+    passéComposé: { aux: 'avoir', pp: 'voulu' },
+    conditionnel: ['voudrais', 'voudrais', 'voudrait', 'voudrions', 'voudriez', 'voudraient'],
+    subjonctif: ['veuille', 'veuilles', 'veuille', 'voulions', 'vouliez', 'veuillent'],
+    tip: '"Je voudrais" (conditional) is more polite than "je veux". Followed by infinitive or noun.'
+  },
+  pouvoir: {
+    meaning: 'can/to be able',
+    present: ['peux', 'peux', 'peut', 'pouvons', 'pouvez', 'peuvent'],
+    passéComposé: { aux: 'avoir', pp: 'pu' },
+    conditionnel: ['pourrais', 'pourrais', 'pourrait', 'pourrions', 'pourriez', 'pourraient'],
+    subjonctif: ['puisse', 'puisses', 'puisse', 'puissions', 'puissiez', 'puissent'],
+    tip: 'No imperative form. "Puis-je...?" is formal for "Can I...?" in questions.'
+  },
+  devoir: {
+    meaning: 'must/to have to/to owe',
+    present: ['dois', 'dois', 'doit', 'devons', 'devez', 'doivent'],
+    passéComposé: { aux: 'avoir', pp: 'dû' },
+    conditionnel: ['devrais', 'devrais', 'devrait', 'devrions', 'devriez', 'devraient'],
+    tip: '"Je devrais" (should). Past tense can mean "must have" (il a dû partir = he must have left).'
+  },
+  savoir: {
+    meaning: 'to know (facts/how to)',
+    present: ['sais', 'sais', 'sait', 'savons', 'savez', 'savent'],
+    passéComposé: { aux: 'avoir', pp: 'su' },
+    futur: ['saurai', 'sauras', 'saura', 'saurons', 'saurez', 'sauront'],
+    impératif: ['sache', 'sachons', 'sachez'],
+    tip: 'Know facts or how to do something. "Je sais nager" = I know how to swim. Compare with connaître.'
+  },
+  connaître: {
+    meaning: 'to know (people/places)',
+    present: ['connais', 'connais', 'connaît', 'connaissons', 'connaissez', 'connaissent'],
+    passéComposé: { aux: 'avoir', pp: 'connu' },
+    tip: 'Know people, places, or things through familiarity. "Je connais Paris" = I know (am familiar with) Paris.'
+  },
+
+  // ─── COMMON IRREGULAR VERBS ───
+  venir: {
+    meaning: 'to come',
+    present: ['viens', 'viens', 'vient', 'venons', 'venez', 'viennent'],
+    passéComposé: { aux: 'être', pp: 'venu(e)(s)' },
+    futur: ['viendrai', 'viendras', 'viendra', 'viendrons', 'viendrez', 'viendront'],
+    tip: 'Uses ÊTRE. "Venir de + infinitive" = just did something (je viens de manger = I just ate).'
+  },
+  partir: {
+    meaning: 'to leave/depart',
+    present: ['pars', 'pars', 'part', 'partons', 'partez', 'partent'],
+    passéComposé: { aux: 'être', pp: 'parti(e)(s)' },
+    tip: 'Uses ÊTRE. Leave a place. Compare: quitter (leave something/someone), sortir (go out).'
+  },
+  sortir: {
+    meaning: 'to go out/exit',
+    present: ['sors', 'sors', 'sort', 'sortons', 'sortez', 'sortent'],
+    passéComposé: { aux: 'être', pp: 'sorti(e)(s)' },
+    tip: 'Uses ÊTRE when intransitive. With direct object uses AVOIR: "J\'ai sorti le chien".'
+  },
+  prendre: {
+    meaning: 'to take',
+    present: ['prends', 'prends', 'prend', 'prenons', 'prenez', 'prennent'],
+    passéComposé: { aux: 'avoir', pp: 'pris' },
+    tip: 'Also: apprendre (learn), comprendre (understand), surprendre (surprise) - same pattern.'
+  },
+  mettre: {
+    meaning: 'to put/put on',
+    present: ['mets', 'mets', 'met', 'mettons', 'mettez', 'mettent'],
+    passéComposé: { aux: 'avoir', pp: 'mis' },
+    tip: 'Also: permettre (allow), promettre (promise), admettre (admit) - same pattern.'
+  },
+  voir: {
+    meaning: 'to see',
+    present: ['vois', 'vois', 'voit', 'voyons', 'voyez', 'voient'],
+    passéComposé: { aux: 'avoir', pp: 'vu' },
+    futur: ['verrai', 'verras', 'verra', 'verrons', 'verrez', 'verront'],
+    tip: 'Double R in future/conditional. Compare: regarder (watch/look at), apercevoir (notice).'
+  },
+  croire: {
+    meaning: 'to believe',
+    present: ['crois', 'crois', 'croit', 'croyons', 'croyez', 'croient'],
+    passéComposé: { aux: 'avoir', pp: 'cru' },
+    tip: '"Croire que" + indicative (believe that). "Croire à/en" (believe in).'
+  },
+  dire: {
+    meaning: 'to say/tell',
+    present: ['dis', 'dis', 'dit', 'disons', 'dites', 'disent'],
+    passéComposé: { aux: 'avoir', pp: 'dit' },
+    tip: 'Note irregular "vous dites". "Dire à quelqu\'un de + inf" = tell someone to do something.'
+  },
+  écrire: {
+    meaning: 'to write',
+    present: ['écris', 'écris', 'écrit', 'écrivons', 'écrivez', 'écrivent'],
+    passéComposé: { aux: 'avoir', pp: 'écrit' },
+    tip: 'Also: décrire (describe), inscrire (register) - same pattern.'
+  },
+  lire: {
+    meaning: 'to read',
+    present: ['lis', 'lis', 'lit', 'lisons', 'lisez', 'lisent'],
+    passéComposé: { aux: 'avoir', pp: 'lu' },
+    tip: 'Simple pattern. Also: élire (elect), relire (reread).'
+  },
+  boire: {
+    meaning: 'to drink',
+    present: ['bois', 'bois', 'boit', 'buvons', 'buvez', 'boivent'],
+    passéComposé: { aux: 'avoir', pp: 'bu' },
+    tip: 'Note stem change in nous/vous forms.'
+  },
+  recevoir: {
+    meaning: 'to receive',
+    present: ['reçois', 'reçois', 'reçoit', 'recevons', 'recevez', 'reçoivent'],
+    passéComposé: { aux: 'avoir', pp: 'reçu' },
+    futur: ['recevrai', 'recevras', 'recevra', 'recevrons', 'recevrez', 'recevront'],
+    tip: 'Cedilla (ç) before a/o/u to keep soft "s" sound. Also: apercevoir, concevoir.'
+  },
+  vivre: {
+    meaning: 'to live',
+    present: ['vis', 'vis', 'vit', 'vivons', 'vivez', 'vivent'],
+    passéComposé: { aux: 'avoir', pp: 'vécu' },
+    tip: 'Live (be alive/reside). Compare: habiter (reside - more common for "live at").'
+  },
+  suivre: {
+    meaning: 'to follow',
+    present: ['suis', 'suis', 'suit', 'suivons', 'suivez', 'suivent'],
+    passéComposé: { aux: 'avoir', pp: 'suivi' },
+    tip: '"Je suis" = I am (être) OR I follow (suivre). Context determines meaning.'
+  },
+  mourir: {
+    meaning: 'to die',
+    present: ['meurs', 'meurs', 'meurt', 'mourons', 'mourez', 'meurent'],
+    passéComposé: { aux: 'être', pp: 'mort(e)(s)' },
+    futur: ['mourrai', 'mourras', 'mourra', 'mourrons', 'mourrez', 'mourront'],
+    tip: 'Uses ÊTRE. Double R in future/conditional.'
+  },
+  naître: {
+    meaning: 'to be born',
+    present: ['nais', 'nais', 'naît', 'naissons', 'naissez', 'naissent'],
+    passéComposé: { aux: 'être', pp: 'né(e)(s)' },
+    tip: 'Uses ÊTRE. Usually seen in past: "Je suis né(e) en..." = I was born in...'
+  },
+  ouvrir: {
+    meaning: 'to open',
+    present: ['ouvre', 'ouvres', 'ouvre', 'ouvrons', 'ouvrez', 'ouvrent'],
+    passéComposé: { aux: 'avoir', pp: 'ouvert' },
+    tip: '-ir verb but conjugates like -er verb in present! Also: couvrir, découvrir, offrir, souffrir.'
+  },
+  tenir: {
+    meaning: 'to hold',
+    present: ['tiens', 'tiens', 'tient', 'tenons', 'tenez', 'tiennent'],
+    passéComposé: { aux: 'avoir', pp: 'tenu' },
+    tip: 'Same pattern as venir. Also: obtenir, retenir, maintenir, appartenir.'
+  },
+  dormir: {
+    meaning: 'to sleep',
+    present: ['dors', 'dors', 'dort', 'dormons', 'dormez', 'dorment'],
+    passéComposé: { aux: 'avoir', pp: 'dormi' },
+    tip: 'Loses the "m" in singular forms. Also: s\'endormir (fall asleep) - uses ÊTRE.'
+  },
+  sentir: {
+    meaning: 'to feel/smell',
+    present: ['sens', 'sens', 'sent', 'sentons', 'sentez', 'sentent'],
+    passéComposé: { aux: 'avoir', pp: 'senti' },
+    tip: 'Both "feel" and "smell". Se sentir (feel - reflexive): "Je me sens bien".'
+  },
+  servir: {
+    meaning: 'to serve',
+    present: ['sers', 'sers', 'sert', 'servons', 'servez', 'servent'],
+    passéComposé: { aux: 'avoir', pp: 'servi' },
+    tip: '"Se servir de" = to use. "Servir à" = to be used for.'
+  },
+  courir: {
+    meaning: 'to run',
+    present: ['cours', 'cours', 'court', 'courons', 'courez', 'courent'],
+    passéComposé: { aux: 'avoir', pp: 'couru' },
+    futur: ['courrai', 'courras', 'courra', 'courrons', 'courrez', 'courront'],
+    tip: 'Double R in future/conditional.'
+  },
+  conduire: {
+    meaning: 'to drive/lead',
+    present: ['conduis', 'conduis', 'conduit', 'conduisons', 'conduisez', 'conduisent'],
+    passéComposé: { aux: 'avoir', pp: 'conduit' },
+    tip: 'Also: produire, traduire, construire, détruire - same pattern.'
+  },
+  plaire: {
+    meaning: 'to please',
+    present: ['plais', 'plais', 'plaît', 'plaisons', 'plaisez', 'plaisent'],
+    passéComposé: { aux: 'avoir', pp: 'plu' },
+    tip: '"Ça me plaît" = I like it (it pleases me). "S\'il vous plaît" = please (if it pleases you).'
+  },
+  rire: {
+    meaning: 'to laugh',
+    present: ['ris', 'ris', 'rit', 'rions', 'riez', 'rient'],
+    passéComposé: { aux: 'avoir', pp: 'ri' },
+    tip: 'Also: sourire (smile) - same pattern.'
+  },
+  battre: {
+    meaning: 'to beat',
+    present: ['bats', 'bats', 'bat', 'battons', 'battez', 'battent'],
+    passéComposé: { aux: 'avoir', pp: 'battu' },
+    tip: 'Single T in singular, double in plural. Also: combattre, se battre (fight).'
+  },
+  craindre: {
+    meaning: 'to fear',
+    present: ['crains', 'crains', 'craint', 'craignons', 'craignez', 'craignent'],
+    passéComposé: { aux: 'avoir', pp: 'craint' },
+    tip: '-aindre verbs add "gn" in plural. Also: plaindre, peindre, joindre, atteindre.'
+  },
+  conclure: {
+    meaning: 'to conclude',
+    present: ['conclus', 'conclus', 'conclut', 'concluons', 'concluez', 'concluent'],
+    passéComposé: { aux: 'avoir', pp: 'conclu' },
+    tip: 'Also: exclure, inclure (but pp: inclus).'
+  },
+  résoudre: {
+    meaning: 'to solve/resolve',
+    present: ['résous', 'résous', 'résout', 'résolvons', 'résolvez', 'résolvent'],
+    passéComposé: { aux: 'avoir', pp: 'résolu' },
+    tip: 'Rare -oudre pattern. Also: absoudre, dissoudre.'
+  },
+  suffire: {
+    meaning: 'to suffice/be enough',
+    present: ['suffis', 'suffis', 'suffit', 'suffisons', 'suffisez', 'suffisent'],
+    passéComposé: { aux: 'avoir', pp: 'suffi' },
+    tip: '"Il suffit de..." = It\'s enough to.../All you have to do is...'
+  },
+  pleuvoir: {
+    meaning: 'to rain',
+    present: ['pleut'],
+    passéComposé: { aux: 'avoir', pp: 'plu' },
+    futur: ['pleuvra'],
+    tip: 'Impersonal - only "il" form. "Il pleut" = It\'s raining.'
+  },
+  falloir: {
+    meaning: 'must/to be necessary',
+    present: ['faut'],
+    passéComposé: { aux: 'avoir', pp: 'fallu' },
+    futur: ['faudra'],
+    conditionnel: ['faudrait'],
+    tip: 'Impersonal - only "il" form. "Il faut + infinitive" = One must.../It\'s necessary to...'
+  }
+};
+
+// Grammar patterns beyond verbs
+const GRAMMAR_PATTERNS = {
+  passéComposé: {
+    name: 'Passé Composé',
+    desc: 'avoir/être + past participle for completed past actions',
+    êtreVerbs: 'DR MRS VANDERTRAMP: Devenir, Revenir, Monter, Rester, Sortir, Venir, Aller, Naître, Descendre, Entrer, Rentrer, Tomber, Retourner, Arriver, Mourir, Partir + all reflexives',
+    agreement: 'With ÊTRE: agree with subject. With AVOIR: agree with preceding direct object.',
+    tip: 'Most common past tense in spoken French.'
+  },
+  imparfait: {
+    name: 'Imparfait',
+    desc: 'Ongoing/habitual past actions, descriptions, background',
+    formation: 'Nous present stem + -ais, -ais, -ait, -ions, -iez, -aient',
+    uses: 'Was doing, used to, description, weather, time, age, feelings in past',
+    tip: 'Sets the scene. Passé composé is for events that happened in that scene.'
+  },
+  futurSimple: {
+    name: 'Futur Simple',
+    desc: 'Future actions, predictions, formal promises',
+    formation: 'Infinitive + -ai, -as, -a, -ons, -ez, -ont (drop -e from -re verbs)',
+    tip: 'More formal/distant than "aller + infinitive". Common in writing.'
+  },
+  conditionnel: {
+    name: 'Conditionnel',
+    desc: 'Would do, polite requests, hypotheticals',
+    formation: 'Future stem + imparfait endings (-ais, -ais, -ait, -ions, -iez, -aient)',
+    tip: '"Je voudrais" (I would like) is much more polite than "je veux".'
+  },
+  subjonctif: {
+    name: 'Subjonctif',
+    desc: 'Doubt, emotion, necessity, desire - after "que"',
+    triggers: 'vouloir que, il faut que, avoir peur que, être content que, douter que, bien que, pour que, avant que',
+    tip: 'Required after expressions of will, emotion, doubt, necessity. Not about time.'
+  },
+  objectPronouns: {
+    name: 'Object Pronouns',
+    direct: 'me, te, le/la, nous, vous, les (replace direct objects)',
+    indirect: 'me, te, lui, nous, vous, leur (replace à + person)',
+    y: 'Replaces à/en/dans + place, or à + thing',
+    en: 'Replaces de + thing, or partitive (some/any), or numbers',
+    order: 'Before verb: me/te/nous/vous → le/la/les → lui/leur → y → en',
+    tip: 'With infinitive: pronoun goes before infinitive. With passé composé: before auxiliary.'
+  },
+  negation: {
+    name: 'Negation',
+    basic: 'ne...pas (not)',
+    others: 'ne...plus (no longer), ne...jamais (never), ne...rien (nothing), ne...personne (nobody), ne...que (only), ne...ni...ni (neither...nor)',
+    position: 'NE before verb/auxiliary, second part after conjugated verb',
+    tip: 'In spoken French, "ne" is often dropped but you should use it.'
+  },
+  questions: {
+    name: 'Question Formation',
+    intonation: 'Tu viens? (rising intonation - informal)',
+    estCeQue: "Est-ce que tu viens? (standard)",
+    inversion: 'Viens-tu? (formal, written)',
+    tip: 'Inversion adds -t- between vowels: A-t-il...? Parle-t-elle...?'
+  },
+  articles: {
+    name: 'Articles',
+    definite: 'le (m), la (f), les (pl) - the / general concepts / likes/dislikes',
+    indefinite: 'un (m), une (f), des (pl) - a, some',
+    partitive: 'du (m), de la (f), de l\' (vowel), des (pl) - some (unspecified quantity)',
+    afterNegative: 'All become "de/d\'" after negative (pas DE pain)',
+    tip: 'French requires articles more than English. "I like coffee" = "J\'aime LE café".'
+  },
+  possessives: {
+    name: 'Possessives',
+    forms: 'mon/ma/mes, ton/ta/tes, son/sa/ses, notre/nos, votre/vos, leur/leurs',
+    tip: 'Agree with the thing possessed, not the owner. "His mother" = "SA mère" (f).'
+  },
+  demonstratives: {
+    name: 'Demonstratives',
+    adjectives: 'ce/cet (m), cette (f), ces (pl) - this/that/these/those',
+    pronouns: 'celui (m), celle (f), ceux (m.pl), celles (f.pl) + -ci/-là or relative clause',
+    tip: 'Add -ci (here/this) or -là (there/that) for distinction.'
+  },
+  comparatives: {
+    name: 'Comparatives & Superlatives',
+    more: 'plus + adj + que',
+    less: 'moins + adj + que',
+    asAs: 'aussi + adj + que',
+    superlative: 'le/la/les plus + adj (+ de)',
+    irregular: 'bon→meilleur→le meilleur, bien→mieux→le mieux, mauvais→pire→le pire',
+    tip: 'Adjective placement rules still apply in superlatives.'
+  },
+  relatives: {
+    name: 'Relative Pronouns',
+    qui: 'who/which/that (subject of relative clause)',
+    que: 'whom/which/that (object of relative clause)',
+    où: 'where/when',
+    dont: 'whose/of which/about which (replaces de + noun)',
+    lequel: 'which (after prepositions, agrees in gender/number)',
+    tip: 'Qui is followed by verb. Que is followed by subject.'
+  },
+  prepositions: {
+    name: 'Prepositions',
+    à: 'to, at, in (cities). Contracts: à + le = au, à + les = aux',
+    de: 'from, of, about. Contracts: de + le = du, de + les = des',
+    en: 'in (feminine countries, continents), by (transport)',
+    dans: 'in, inside (more specific than en)',
+    chez: 'at someone\'s place, at the office of',
+    tip: 'Cities use à. Feminine countries/continents use en. Masculine countries use au.'
+  }
 };
 
 // Generate grammar hints based on sentence content
@@ -104,45 +486,143 @@ function generateGrammarHints(french, english) {
   const hints = [];
   const frLower = french.toLowerCase();
   const enLower = english.toLowerCase();
+  const frWords = frLower.split(/\s+/);
 
-  // Detect verbs and grammar patterns
-  if (frLower.includes(' suis ') || frLower.includes(' es ') || frLower.includes(' est ') || frLower.includes(' sont ')) {
-    hints.push(GRAMMAR_HINTS['être']);
-  }
-  if (frLower.includes(' ai ') || frLower.includes(' as ') || frLower.includes(' a ') || frLower.includes(' avez ')) {
-    hints.push(GRAMMAR_HINTS['avoir']);
-  }
-  if (frLower.includes(' vais ') || frLower.includes(' vas ') || frLower.includes(' va ') || frLower.includes(' allez ')) {
-    hints.push(GRAMMAR_HINTS['aller']);
-  }
-  if (frLower.includes(' fais ') || frLower.includes(' fait ') || frLower.includes(' faites ')) {
-    hints.push(GRAMMAR_HINTS['faire']);
-  }
-  if (frLower.includes(' veux ') || frLower.includes(' veut ') || frLower.includes(' voulez ') || frLower.includes(' voudrais ')) {
-    hints.push(GRAMMAR_HINTS['vouloir']);
-  }
-  if (frLower.includes(' peux ') || frLower.includes(' peut ') || frLower.includes(' pouvez ')) {
-    hints.push(GRAMMAR_HINTS['pouvoir']);
-  }
-  if (frLower.includes('ne ') && frLower.includes(' pas')) {
-    hints.push(GRAMMAR_HINTS['negation']);
-  }
-  if (frLower.includes('est-ce que') || frLower.includes('-vous') || frLower.includes('-il') || frLower.includes('-elle')) {
-    hints.push(GRAMMAR_HINTS['question']);
-  }
-  if (frLower.includes(' mon ') || frLower.includes(' ma ') || frLower.includes(' mes ') || frLower.includes(' votre ') || frLower.includes(' vos ')) {
-    hints.push(GRAMMAR_HINTS['possessive']);
-  }
-  if (frLower.includes(' heure') || enLower.includes('time') || enLower.includes("o'clock")) {
-    hints.push(GRAMMAR_HINTS['time']);
+  // Helper to check if any word matches
+  const hasWord = (words) => words.some(w => frWords.includes(w) || frLower.includes(' ' + w + ' ') || frLower.includes(' ' + w + '.') || frLower.includes(' ' + w + ',') || frLower.startsWith(w + ' ') || frLower.endsWith(' ' + w));
+
+  // ─── VERB DETECTION ───
+  for (const [verb, data] of Object.entries(VERBS)) {
+    const allForms = [
+      ...(data.present || []),
+      ...(data.imparfait || []),
+      ...(data.futur || []),
+      ...(data.conditionnel || []),
+      ...(data.subjonctif || []),
+      ...(data.impératif || [])
+    ];
+    if (data.passéComposé) allForms.push(data.passéComposé.pp);
+
+    if (hasWord(allForms)) {
+      let hint = `${verb.toUpperCase()} (${data.meaning})`;
+      if (data.tip) hint += `: ${data.tip}`;
+      hints.push({ priority: 1, text: hint });
+      break; // Only show one verb hint
+    }
   }
 
-  // Default hint if none detected
-  if (hints.length === 0) {
-    hints.push('basic vocabulary and sentence structure');
+  // ─── TENSE DETECTION ───
+  // Passé Composé (avoir/être + past participle)
+  if ((hasWord(['ai', 'as', 'a', 'avons', 'avez', 'ont']) || hasWord(['suis', 'es', 'est', 'sommes', 'êtes', 'sont'])) &&
+      (frLower.match(/\b(é|i|u|is|it|ert|ait|int|oint|us|ut)\b/) || frLower.includes('fait') || frLower.includes('dit') || frLower.includes('pris') || frLower.includes('mis'))) {
+    hints.push({ priority: 2, text: `PASSÉ COMPOSÉ: ${GRAMMAR_PATTERNS.passéComposé.desc}. ${GRAMMAR_PATTERNS.passéComposé.tip}` });
   }
 
-  return hints.slice(0, 3).join(', ');  // Max 3 hints
+  // Imparfait
+  if (frLower.match(/\b\w+(ais|ait|ions|iez|aient)\b/) && !frLower.match(/\b(voudrais|pourrais|devrais|serais|aurais|irais|ferais)\b/)) {
+    hints.push({ priority: 2, text: `IMPARFAIT: ${GRAMMAR_PATTERNS.imparfait.desc}. ${GRAMMAR_PATTERNS.imparfait.tip}` });
+  }
+
+  // Conditionnel
+  if (frLower.match(/\b(voudrais|voudrait|pourrais|pourrait|devrais|devrait|serais|serait|aurais|aurait|irais|irait|ferais|ferait)\b/)) {
+    hints.push({ priority: 2, text: `CONDITIONNEL: ${GRAMMAR_PATTERNS.conditionnel.desc}. ${GRAMMAR_PATTERNS.conditionnel.tip}` });
+  }
+
+  // Futur Simple
+  if (frLower.match(/\b\w+(rai|ras|ra|rons|rez|ront)\b/) && !frLower.match(/\b(voudrais|pourrais|devrais|serais|aurais)\b/)) {
+    hints.push({ priority: 2, text: `FUTUR SIMPLE: ${GRAMMAR_PATTERNS.futurSimple.desc}. ${GRAMMAR_PATTERNS.futurSimple.tip}` });
+  }
+
+  // Subjonctif triggers
+  if (frLower.match(/\b(veuille|puisse|fasse|soit|ait|aille|sache)\b/) ||
+      frLower.includes('il faut que') || frLower.includes('veux que') || frLower.includes('veut que')) {
+    hints.push({ priority: 2, text: `SUBJONCTIF: ${GRAMMAR_PATTERNS.subjonctif.desc}. Triggers: ${GRAMMAR_PATTERNS.subjonctif.triggers}` });
+  }
+
+  // ─── GRAMMAR PATTERNS ───
+  // Negation
+  if (frLower.includes('ne ') || frLower.includes("n'")) {
+    let negType = 'ne...pas';
+    if (frLower.includes(' plus')) negType = 'ne...plus (no longer)';
+    else if (frLower.includes(' jamais')) negType = 'ne...jamais (never)';
+    else if (frLower.includes(' rien')) negType = 'ne...rien (nothing)';
+    else if (frLower.includes(' personne')) negType = 'ne...personne (nobody)';
+    else if (frLower.includes(' que ')) negType = 'ne...que (only)';
+    hints.push({ priority: 3, text: `NEGATION: ${negType}. ${GRAMMAR_PATTERNS.negation.tip}` });
+  }
+
+  // Questions
+  if (frLower.includes('est-ce que') || frLower.includes('qu\'est-ce') || frLower.match(/-t-(il|elle|on)\b/) || frLower.match(/\b\w+-(vous|tu|il|elle|on|nous|ils|elles)\b/)) {
+    hints.push({ priority: 3, text: `QUESTIONS: ${GRAMMAR_PATTERNS.questions.tip}` });
+  }
+
+  // Object Pronouns
+  if (hasWord(['le', 'la', 'les', 'lui', 'leur', 'en', 'y']) &&
+      (frLower.match(/\b(le|la|les|lui|leur)\s+(dis|donne|montre|demande|répond|écri|voi|prend|mets|fais)/i) ||
+       frLower.match(/\b(me|te|nous|vous)\s+(le|la|les|lui|leur)/i) ||
+       frLower.includes(' y ') || frLower.includes(" en "))) {
+    hints.push({ priority: 3, text: `OBJECT PRONOUNS: ${GRAMMAR_PATTERNS.objectPronouns.order}` });
+  }
+
+  // Possessives
+  if (hasWord(['mon', 'ma', 'mes', 'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'notre', 'nos', 'votre', 'vos', 'leur', 'leurs'])) {
+    hints.push({ priority: 4, text: `POSSESSIVES: ${GRAMMAR_PATTERNS.possessives.tip}` });
+  }
+
+  // Comparatives
+  if (frLower.includes('plus ') || frLower.includes('moins ') || frLower.includes('aussi ') || frLower.includes('meilleur') || frLower.includes('mieux') || frLower.includes('pire')) {
+    hints.push({ priority: 4, text: `COMPARATIVES: ${GRAMMAR_PATTERNS.comparatives.irregular}` });
+  }
+
+  // Relative Pronouns
+  if (hasWord(['qui', 'que', 'dont', 'où']) && frLower.match(/\b(qui|que|dont|où)\s+\w/)) {
+    hints.push({ priority: 4, text: `RELATIVES: ${GRAMMAR_PATTERNS.relatives.tip}` });
+  }
+
+  // Preposition patterns
+  if (hasWord(['au', 'aux', 'du', 'des']) || (frLower.includes(' à ') && frLower.includes(' le ')) || frLower.includes(' chez ') || frLower.includes(' en ')) {
+    hints.push({ priority: 5, text: `PREPOSITIONS: ${GRAMMAR_PATTERNS.prepositions.tip}` });
+  }
+
+  // Sort by priority and take top hints
+  hints.sort((a, b) => a.priority - b.priority);
+  const topHints = hints.slice(0, 2).map(h => h.text);
+
+  if (topHints.length === 0) {
+    topHints.push('Basic vocabulary - focus on pronunciation and rhythm');
+  }
+
+  return topHints.join(' | ');
+}
+
+// Get verb-specific hint when user makes an error
+function getVerbHintForError(expected, userInput) {
+  const expLower = expected.toLowerCase();
+  const userLower = userInput.toLowerCase();
+
+  // Check each verb to see if it's in the expected sentence
+  for (const [verb, data] of Object.entries(VERBS)) {
+    const allForms = [
+      ...(data.present || []),
+      ...(data.imparfait || []),
+      ...(data.futur || []),
+      ...(data.conditionnel || [])
+    ];
+
+    // Check if expected contains this verb
+    const expectedForm = allForms.find(f => expLower.includes(f));
+    if (expectedForm) {
+      // Check if user got the form wrong
+      const userHasWrongForm = allForms.some(f => f !== expectedForm && userLower.includes(f));
+      if (userHasWrongForm || !userLower.includes(expectedForm)) {
+        // Show the conjugation
+        if (data.present) {
+          return `${verb.toUpperCase()}: je ${data.present[0]}, tu ${data.present[1]}, il/elle ${data.present[2]}, nous ${data.present[3]}, vous ${data.present[4]}, ils/elles ${data.present[5]}`;
+        }
+      }
+    }
+  }
+  return null;
 }
 
 // Set drill mode (translate vs repeat)
@@ -1373,8 +1853,8 @@ function updateDrillDisplay() {
       promptFr.style.display = 'block';
       promptFr.style.fontSize = '20px';
     }
-    grammarHints.style.display = 'block';
-    hintsContent.textContent = generateGrammarHints(frenchText, drill.english || '');
+    // Proactive hints disabled - hints only shown after errors
+    grammarHints.style.display = 'none';
   } else {
     // Repeat mode: show French to copy, English below, no hints
     promptFr.style.display = 'block';
@@ -1439,9 +1919,13 @@ function checkAnswer() {
     sessionCorrect++;
     sessionTotal++;
 
-    // Mark drill as seen for Unit 1 completion tracking
-    // Update SRS storage with review result
-    Storage.reviewCard(drill.id, 2);  // quality=2 (good)
+    // SRS: Schedule card with Good rating (or Easy if very fast/perfect)
+    const rating = FSI_SRS.Rating.Good;
+    if (typeof FSI_SRS !== 'undefined') {
+      FSI_SRS.processReview(drill.id, rating, null);
+      FSI_SRS.saveCards();
+    }
+    Storage.reviewCard(drill.id, rating);
     Storage.setUnitProgress(currentUnit, currentDrillIndex, drill.id);
 
     // Auto-advance after 1 second
@@ -1449,19 +1933,56 @@ function checkAnswer() {
   } else {
     input.className = 'incorrect';
     feedback.className = 'feedback show error';
-    feedbackTitle.textContent = result.primaryError?.type || 'Incorrect';
-    feedbackDetail.innerHTML = result.feedback.replace(/\n/g, '<br>');
     sessionTotal++;
 
+    // Determine SRS rating based on error severity
+    const rating = typeof FSI_SRS !== 'undefined'
+      ? FSI_SRS.errorToRating(result.errors)
+      : 1;  // Default to Again
+
+    // Build detailed error feedback
+    const errorType = result.primaryError?.type || 'error';
+    const errorLabel = {
+      'spelling': 'Spelling Error',
+      'grammar': 'Grammar Error',
+      'word_order': 'Word Order',
+      'missing': 'Missing Words',
+      'extra': 'Extra Words',
+      'confusable': 'Common Confusion',
+      'accent': 'Accent/Diacritic'
+    }[errorType] || 'Incorrect';
+
+    feedbackTitle.textContent = errorLabel;
+
+    // Show error feedback with verb hint if relevant
+    let detailHtml = result.feedback.replace(/\n/g, '<br>');
+
+    // Add verb conjugation help when user gets a verb wrong
+    if (result.primaryError?.type === 'grammar' || result.primaryError?.type === 'confusable') {
+      const verbHint = getVerbHintForError(expected, input.value);
+      if (verbHint) {
+        detailHtml += `<br><br><strong>Conjugation:</strong> ${verbHint}`;
+      }
+    }
+
+    feedbackDetail.innerHTML = detailHtml;
+
     if (result.primaryError?.drillLink) {
-      drillLink.textContent = `Review: ${result.primaryError.drillLink}`;
+      drillLink.textContent = `Practice: ${result.primaryError.drillLink}`;
       drillLink.style.display = 'inline-block';
     } else {
       drillLink.style.display = 'none';
     }
 
-    // SRS: Add wrong drill back to queue for later review
-    if (currentMode === 'srs') {
+    // SRS: Schedule card for sooner review based on error severity
+    if (typeof FSI_SRS !== 'undefined') {
+      FSI_SRS.processReview(drill.id, rating, result.errors);
+      FSI_SRS.saveCards();
+    }
+    Storage.reviewCard(drill.id, rating);  // Also update legacy storage
+
+    // Add wrong drill back to current session queue for immediate reinforcement
+    if (currentMode === 'srs' && rating === FSI_SRS?.Rating?.Again) {
       const wrongDrill = {...drill, wrongCount: (drill.wrongCount || 0) + 1};
       // Insert it 3-5 drills later for immediate reinforcement
       const insertAt = Math.min(currentDrillIndex + 3 + Math.floor(Math.random() * 3), currentDrills.length);
@@ -1820,9 +2341,13 @@ function checkVoiceAnswer(spoken, expected) {
     sessionCorrect++;
     sessionTotal++;
 
-    // Save progress
-    // Update SRS storage with review result
-    Storage.reviewCard(drill.id, 2);  // quality=2 (good)
+    // SRS: Schedule card with Good rating
+    const rating = typeof FSI_SRS !== 'undefined' ? FSI_SRS.Rating.Good : 3;
+    if (typeof FSI_SRS !== 'undefined') {
+      FSI_SRS.processReview(drill.id, rating, null);
+      FSI_SRS.saveCards();
+    }
+    Storage.reviewCard(drill.id, rating);
     Storage.setUnitProgress(currentUnit, currentDrillIndex, drill.id);
 
     // Play French confirmation, then auto-advance
@@ -1849,7 +2374,15 @@ function checkVoiceAnswer(spoken, expected) {
 
     sessionTotal++;
 
-    // SRS: Re-queue wrong drill
+    // SRS: Schedule card with Again rating (come back sooner)
+    const rating = typeof FSI_SRS !== 'undefined' ? FSI_SRS.Rating.Again : 1;
+    if (typeof FSI_SRS !== 'undefined') {
+      FSI_SRS.processReview(drill.id, rating, null);
+      FSI_SRS.saveCards();
+    }
+    Storage.reviewCard(drill.id, rating);
+
+    // Re-queue wrong drill for same session reinforcement
     if (currentMode === 'srs') {
       const wrongDrill = {...drill, wrongCount: (drill.wrongCount || 0) + 1};
       const insertAt = Math.min(currentDrillIndex + 3 + Math.floor(Math.random() * 3), currentDrills.length);
