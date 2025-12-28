@@ -680,9 +680,10 @@ function getVerbHintForError(expected, userInput) {
       // Check if user got the form wrong
       const userHasWrongForm = allForms.some(f => f !== expectedForm && userLower.includes(f));
       if (userHasWrongForm || !userLower.includes(expectedForm)) {
-        // Show the conjugation
+        // Show the conjugation with proper elision (j'ai, not je ai)
         if (data.present) {
-          return `${verb.toUpperCase()}: je ${data.present[0]}, tu ${data.present[1]}, il/elle ${data.present[2]}, nous ${data.present[3]}, vous ${data.present[4]}, ils/elles ${data.present[5]}`;
+          const je = /^[aeiouhéèêëàâäôùûü]/i.test(data.present[0]) ? "j'" : "je ";
+          return `${verb.toUpperCase()}: ${je}${data.present[0]}, tu ${data.present[1]}, il/elle ${data.present[2]}, nous ${data.present[3]}, vous ${data.present[4]}, ils/elles ${data.present[5]}`;
         }
       }
     }
