@@ -1,19 +1,25 @@
 /**
- * Rhodes French - Cloud Storage via npoint.io
- * Simple, free, no authentication required
+ * Rhodes French - Firebase Auth + Firestore
+ * Google sign-in with cloud storage
  */
 
 const FSI_Auth = {
-  // npoint.io bin ID - get from https://npoint.io
-  BIN_ID: 'a2f571b90cbc4a09707f',
-
-  // API endpoint
-  NPOINT_URL: 'https://api.npoint.io',
+  // Firebase config
+  firebaseConfig: {
+    apiKey: "AIzaSyCBBnsOhx2Yq5hYFXuFddoKiIkk_mTimQE",
+    authDomain: "rhodes-french-b3e2e.firebaseapp.com",
+    projectId: "rhodes-french-b3e2e",
+    storageBucket: "rhodes-french-b3e2e.firebasestorage.app",
+    messagingSenderId: "633559429572",
+    appId: "1:633559429572:web:4673318365851b0553f491"
+  },
 
   // State
+  app: null,
+  auth: null,
+  db: null,
+  user: null,
   initialized: false,
-  userId: null,
-  cloudData: null,
   saveQueue: [],
   saveTimeout: null,
 
@@ -21,54 +27,104 @@ const FSI_Auth = {
     if (this.initialized) return;
     this.initialized = true;
 
-    // Get or create user ID
-    this.userId = localStorage.getItem('fsi_user_id');
-    if (!this.userId) {
-      this.userId = 'user_' + Math.random().toString(36).substring(2, 15);
-      localStorage.setItem('fsi_user_id', this.userId);
-    }
+    // Initialize Firebase
+    if (typeof firebase !== 'undefined') {
+      this.app = firebase.initializeApp(this.firebaseConfig);
+      this.auth = firebase.auth();
+      this.db = firebase.firestore();
 
-    // Load cloud data if configured
-    if (this.isConfigured()) {
-      await this.loadFromCloud();
-    }
+      // Listen for auth changes
+      this.auth.onAuthStateChanged((user) => {
+        this.user = user;
+        if (user) {
+          console.log('Signed in as:', user.email);
+          this.updateSignInUI(true);
+        } else {
+          console.log('Not signed in');
+          this.updateSignInUI(false);
+        }
+      });
 
-    console.log('FSI_Auth initialized, userId:', this.userId,
-                'cloud:', this.isConfigured() ? 'enabled' : 'disabled');
+      console.log('Firebase initialized');
+    } else {
+      console.warn('Firebase SDK not loaded');
+    }
+  },
+
+  // Sign in with Google
+  async signIn() {
+    if (!this.auth) return;
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await this.auth.signInWithPopup(provider);
+    } catch (e) {
+      console.error('Sign in failed:', e.message);
+      alert('Sign in failed: ' + e.message);
+    }
+  },
+
+  // Sign out
+  async signOut() {
+    if (!this.auth) return;
+    try {
+      await this.auth.signOut();
+    } catch (e) {
+      console.error('Sign out failed:', e.message);
+    }
+  },
+
+  // Update UI based on sign-in state
+  updateSignInUI(signedIn) {
+    const btn = document.getElementById('auth-btn');
+    if (!btn) return;
+
+    if (signedIn && this.user) {
+      btn.textContent = `${this.user.displayName || this.user.email} (Sign Out)`;
+      btn.onclick = () => this.signOut();
+    } else {
+      btn.textContent = 'Sign In with Google';
+      btn.onclick = () => this.signIn();
+    }
   },
 
   isConfigured() {
-    return !!(this.BIN_ID && this.BIN_ID !== '');
+    return !!(this.db && this.user);
   },
 
-  // Load data from npoint.io
-  async loadFromCloud() {
-    try {
-      const res = await fetch(`${this.NPOINT_URL}/${this.BIN_ID}`);
-      if (res.ok) {
-        this.cloudData = await res.json();
-        console.log('Loaded cloud data:', Object.keys(this.cloudData.users || {}).length, 'users');
-      } else {
-        console.warn('Cloud load failed:', res.status);
-        this.cloudData = { users: {} };
-      }
-    } catch (e) {
-      console.warn('Cloud load error:', e.message);
-      this.cloudData = { users: {} };
+  isSignedIn() {
+    return !!this.user;
+  },
+
+  getUserId() {
+    return this.user?.uid || localStorage.getItem('fsi_user_id') || this.createAnonId();
+  },
+
+  createAnonId() {
+    const id = 'anon_' + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('fsi_user_id', id);
+    return id;
+  },
+
+  getUser() {
+    return this.user;
+  },
+
+  getUserProfile() {
+    if (this.user) {
+      return {
+        uid: this.user.uid,
+        email: this.user.email,
+        displayName: this.user.displayName
+      };
     }
+    return { uid: this.getUserId(), email: null, displayName: 'Anonymous' };
   },
 
-  // Save response to cloud (batched)
+  // Save response to Firestore (batched)
   async saveResponse(response) {
-    if (!this.isConfigured()) {
-      console.log('Cloud not configured - skipping save');
-      return false;
-    }
-
     // Add to queue
     this.saveQueue.push({
       timestamp: new Date().toISOString(),
-      userId: this.userId,
       ...response
     });
 
@@ -81,67 +137,59 @@ const FSI_Auth = {
 
   async flushQueue() {
     if (this.saveQueue.length === 0) return;
+    if (!this.db) {
+      console.log('Firestore not available - responses not saved to cloud');
+      this.saveQueue = [];
+      return;
+    }
 
     const toSave = [...this.saveQueue];
     this.saveQueue = [];
+    const userId = this.getUserId();
 
     try {
-      // Reload latest data first to avoid overwrites
-      await this.loadFromCloud();
+      const batch = this.db.batch();
+      const userRef = this.db.collection('users').doc(userId);
 
-      // Ensure cloudData structure
-      if (!this.cloudData) this.cloudData = { users: {} };
-      if (!this.cloudData.users) this.cloudData.users = {};
-      if (!this.cloudData.users[this.userId]) {
-        this.cloudData.users[this.userId] = {
-          responses: [],
-          created: new Date().toISOString()
-        };
+      // Create/update user doc
+      batch.set(userRef, {
+        lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+        email: this.user?.email || null,
+        displayName: this.user?.displayName || 'Anonymous'
+      }, { merge: true });
+
+      // Add responses as subcollection
+      for (const response of toSave) {
+        const responseRef = userRef.collection('responses').doc();
+        batch.set(responseRef, {
+          ...response,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
       }
 
-      // Add responses
-      this.cloudData.users[this.userId].responses.push(...toSave);
-      this.cloudData.users[this.userId].lastUpdate = new Date().toISOString();
-
-      // Keep only last 500 responses per user
-      const responses = this.cloudData.users[this.userId].responses;
-      if (responses.length > 500) {
-        this.cloudData.users[this.userId].responses = responses.slice(-500);
-      }
-
-      // Save to cloud
-      await this.saveToCloud();
-      console.log('Saved', toSave.length, 'responses to cloud');
+      await batch.commit();
+      console.log('Saved', toSave.length, 'responses to Firestore');
 
     } catch (e) {
-      console.warn('Cloud save error:', e.message);
+      console.warn('Firestore save error:', e.message);
       // Re-queue on failure
       this.saveQueue = [...toSave, ...this.saveQueue];
     }
   },
 
-  async saveToCloud() {
-    const res = await fetch(`${this.NPOINT_URL}/${this.BIN_ID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.cloudData)
-    });
+  // Load user progress from Firestore
+  async loadProgress() {
+    if (!this.db || !this.user) return null;
 
-    if (!res.ok) {
-      throw new Error('Failed to save: ' + res.status);
+    try {
+      const doc = await this.db.collection('users').doc(this.user.uid).get();
+      if (doc.exists) {
+        return doc.data();
+      }
+    } catch (e) {
+      console.warn('Failed to load progress:', e.message);
     }
-
-    return true;
-  },
-
-  // Compatibility methods
-  getUserId() { return this.userId; },
-  getUser() { return null; },
-  isSignedIn() { return false; },
-  getUserProfile() {
-    return { uid: this.userId, email: null, displayName: 'Anonymous' };
+    return null;
   }
 };
 

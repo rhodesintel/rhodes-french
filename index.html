@@ -375,6 +375,20 @@
       gap: 5px;
     }
 
+    .auth-btn {
+      background: #4285f4;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .auth-btn:hover {
+      background: #357abd;
+    }
+
     /* SRS Mode specific */
     .srs-stats {
       display: grid;
@@ -608,6 +622,7 @@
       <div class="stat"><strong>Vocab:</strong> <span id="vocabLearned">0</span></div>
       <div class="stat"><strong>Streak:</strong> <span id="currentStreak">0</span> days</div>
       <div class="stat"><strong>Accuracy:</strong> <span id="accuracy">0</span>%</div>
+      <button id="auth-btn" class="auth-btn" onclick="FSI_Auth.signIn()">Sign In with Google</button>
     </div>
 
     <!-- Linear Mode: Unit Grid -->
@@ -759,6 +774,11 @@
       </div>
     </div>
   </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 
   <script src="js/fsi-error.js"></script>
   <script src="js/fsi-srs.js"></script>
