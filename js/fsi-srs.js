@@ -38,9 +38,9 @@ const FSI_SRS = {
     Relearning: 3
   },
 
-  // Storage key - separate from fsi.html's Storage to avoid data structure conflicts
-  // FSI_SRS expects flat cards object, Storage expects {version, cards, unitProgress, stats}
+  // Storage keys
   STORAGE_KEY: 'allonsy_fsi_srs',
+  ANALYTICS_KEY: 'allonsy_fsi_analytics',
 
   // Chrome storage availability check
   _hasChrome: typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local,
@@ -48,6 +48,13 @@ const FSI_SRS = {
   // In-memory state
   cards: {},
   sessionQueue: [],
+
+  // Analytics: tracks every response for pattern analysis
+  analytics: {
+    userId: null,
+    responses: [],  // All logged responses
+    promptStartTime: null  // Track when current prompt was shown
+  },
   lastPattern: null,
   sessionStats: { reviewed: 0, correct: 0, incorrect: 0 },
 
@@ -548,6 +555,194 @@ const FSI_SRS = {
 
   resetSessionStats() {
     this.sessionStats = { reviewed: 0, correct: 0, incorrect: 0 };
+  },
+
+  // ============================================
+  // ANALYTICS - Response Tracking
+  // ============================================
+
+  async loadAnalytics() {
+    return new Promise((resolve) => {
+      if (this._hasChrome) {
+        chrome.storage.local.get([this.ANALYTICS_KEY], (result) => {
+          const saved = result[this.ANALYTICS_KEY] || {};
+          this.analytics.userId = saved.userId || null;
+          this.analytics.responses = saved.responses || [];
+          resolve();
+        });
+      } else {
+        try {
+          const saved = localStorage.getItem(this.ANALYTICS_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            this.analytics.userId = parsed.userId || null;
+            this.analytics.responses = parsed.responses || [];
+          }
+        } catch (e) {}
+        resolve();
+      }
+    });
+  },
+
+  async saveAnalytics() {
+    const data = {
+      userId: this.analytics.userId,
+      responses: this.analytics.responses,
+      lastUpdated: new Date().toISOString()
+    };
+
+    return new Promise((resolve) => {
+      if (this._hasChrome) {
+        chrome.storage.local.set({ [this.ANALYTICS_KEY]: data }, resolve);
+      } else {
+        try {
+          localStorage.setItem(this.ANALYTICS_KEY, JSON.stringify(data));
+        } catch (e) {}
+        resolve();
+      }
+    });
+  },
+
+  // Call when showing a new prompt to start timing
+  startPromptTimer() {
+    this.analytics.promptStartTime = Date.now();
+  },
+
+  // Log a response with full details for analysis
+  logResponse(data) {
+    const now = Date.now();
+    const responseTime = this.analytics.promptStartTime
+      ? now - this.analytics.promptStartTime
+      : null;
+
+    const response = {
+      // Timing
+      timestamp: new Date().toISOString(),
+      responseTimeMs: responseTime,
+
+      // Card info
+      cardId: data.cardId,
+      unit: data.unit,
+      drillType: data.drillType,
+
+      // Prompt & answer
+      promptEn: data.promptEn,
+      expectedFr: data.expectedFr,
+      userAnswer: data.userAnswer,
+
+      // Result
+      correct: data.correct,
+      grade: data.grade,  // Again/Hard/Good/Easy
+
+      // Error details (if incorrect)
+      errors: data.errors || [],  // [{type, detail, position}]
+
+      // Context
+      mode: data.mode || 'srs',  // 'srs' or 'linear'
+      register: data.register || 'formal',  // 'formal' or 'informal'
+
+      // User state
+      userId: this.analytics.userId,
+      cardState: data.cardState,  // New/Learning/Review/Relearning
+      cardReps: data.cardReps,
+      cardLapses: data.cardLapses
+    };
+
+    this.analytics.responses.push(response);
+
+    // Keep last 10000 responses to prevent storage overflow
+    if (this.analytics.responses.length > 10000) {
+      this.analytics.responses = this.analytics.responses.slice(-10000);
+    }
+
+    this.saveAnalytics();
+    return response;
+  },
+
+  // Set user ID (from auth)
+  setUserId(userId) {
+    this.analytics.userId = userId;
+    this.saveAnalytics();
+  },
+
+  // Get analytics summary for patterns
+  getAnalyticsSummary() {
+    const responses = this.analytics.responses;
+    if (responses.length === 0) return null;
+
+    // Error type frequency
+    const errorTypes = {};
+    // Average response time by correctness
+    let correctTimes = [];
+    let incorrectTimes = [];
+    // Errors by unit
+    const errorsByUnit = {};
+    // Common mistakes (specific cards)
+    const mistakesByCard = {};
+
+    for (const r of responses) {
+      // Response times
+      if (r.responseTimeMs) {
+        if (r.correct) {
+          correctTimes.push(r.responseTimeMs);
+        } else {
+          incorrectTimes.push(r.responseTimeMs);
+        }
+      }
+
+      // Error types
+      for (const err of (r.errors || [])) {
+        errorTypes[err.type] = (errorTypes[err.type] || 0) + 1;
+      }
+
+      // Errors by unit
+      if (!r.correct && r.unit) {
+        errorsByUnit[r.unit] = (errorsByUnit[r.unit] || 0) + 1;
+      }
+
+      // Mistakes by card
+      if (!r.correct && r.cardId) {
+        if (!mistakesByCard[r.cardId]) {
+          mistakesByCard[r.cardId] = { count: 0, errors: [], lastAnswer: '' };
+        }
+        mistakesByCard[r.cardId].count++;
+        mistakesByCard[r.cardId].errors.push(...(r.errors || []));
+        mistakesByCard[r.cardId].lastAnswer = r.userAnswer;
+      }
+    }
+
+    const avg = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+    return {
+      totalResponses: responses.length,
+      correctCount: responses.filter(r => r.correct).length,
+      incorrectCount: responses.filter(r => !r.correct).length,
+      accuracy: responses.length ? (responses.filter(r => r.correct).length / responses.length * 100).toFixed(1) : 0,
+      avgCorrectTimeMs: Math.round(avg(correctTimes)),
+      avgIncorrectTimeMs: Math.round(avg(incorrectTimes)),
+      errorTypes,
+      errorsByUnit,
+      topMistakes: Object.entries(mistakesByCard)
+        .sort((a, b) => b[1].count - a[1].count)
+        .slice(0, 20)
+        .map(([id, data]) => ({ cardId: id, ...data }))
+    };
+  },
+
+  // Export analytics as JSON for external analysis
+  exportAnalytics() {
+    return {
+      userId: this.analytics.userId,
+      exportedAt: new Date().toISOString(),
+      summary: this.getAnalyticsSummary(),
+      responses: this.analytics.responses
+    };
+  },
+
+  // Clear analytics data
+  clearAnalytics() {
+    this.analytics.responses = [];
+    this.saveAnalytics();
   }
 };
 

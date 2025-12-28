@@ -40,7 +40,7 @@ const CDN_CONFIG = {
   },
 
   // Version string - increment to bust browser cache after content updates
-  version: '1.0.2'
+  version: '1.0.3'
 };
 
 // Helper to build full URL with cache-busting version
@@ -905,7 +905,18 @@ async function loadCourse() {
         unit: d.unit
       }));
       FSI_SRS.initializeCards(sentences);
+
+      // Load analytics data
+      await FSI_SRS.loadAnalytics();
+      console.log('Analytics loaded:', FSI_SRS.analytics.responses.length, 'responses');
     }
+
+    // Initialize auth (optional - fails gracefully if Firebase not available)
+    if (typeof FSI_Auth !== 'undefined') {
+      await FSI_Auth.init();
+      console.log('Auth initialized:', FSI_Auth.authEnabled ? 'enabled' : 'offline mode');
+    }
+
     updateSRSStats();
     loadProgress();
     // Re-render units now that drills are loaded (for progress calculation)
@@ -1828,6 +1839,11 @@ function updateDrillDisplay() {
   const drill = currentDrills[currentDrillIndex];
   if (!drill) return;
 
+  // Start analytics timer for this prompt
+  if (typeof FSI_SRS !== 'undefined') {
+    FSI_SRS.startPromptTimer();
+  }
+
   document.getElementById('drillType').textContent = drill.type.toUpperCase();
   document.getElementById('drillProgress').textContent = `${currentDrillIndex + 1} / ${currentDrills.length}`;
 
@@ -1932,6 +1948,25 @@ function checkAnswer() {
     if (typeof FSI_SRS !== 'undefined') {
       FSI_SRS.processReview(drill.id, rating, null);
       FSI_SRS.saveCards();
+
+      // Log response for analytics
+      const card = FSI_SRS.cards[drill.id];
+      FSI_SRS.logResponse({
+        cardId: drill.id,
+        unit: drill.unit || currentUnit,
+        drillType: drill.type,
+        promptEn: drill.english,
+        expectedFr: expected,
+        userAnswer: input.value,
+        correct: true,
+        grade: rating,
+        errors: [],
+        mode: currentMode,
+        register: register,
+        cardState: card?.state,
+        cardReps: card?.reps,
+        cardLapses: card?.lapses
+      });
     }
     Storage.reviewCard(drill.id, rating);
     Storage.setUnitProgress(currentUnit, currentDrillIndex, drill.id);
@@ -1986,6 +2021,29 @@ function checkAnswer() {
     if (typeof FSI_SRS !== 'undefined') {
       FSI_SRS.processReview(drill.id, rating, result.errors);
       FSI_SRS.saveCards();
+
+      // Log response for analytics (including errors)
+      const card = FSI_SRS.cards[drill.id];
+      FSI_SRS.logResponse({
+        cardId: drill.id,
+        unit: drill.unit || currentUnit,
+        drillType: drill.type,
+        promptEn: drill.english,
+        expectedFr: expected,
+        userAnswer: input.value,
+        correct: false,
+        grade: rating,
+        errors: result.errors.map(e => ({
+          type: e.type,
+          detail: e.detail || e.message,
+          position: e.position
+        })),
+        mode: currentMode,
+        register: register,
+        cardState: card?.state,
+        cardReps: card?.reps,
+        cardLapses: card?.lapses
+      });
     }
     Storage.reviewCard(drill.id, rating);  // Also update legacy storage
 

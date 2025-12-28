@@ -577,6 +577,12 @@
         </div>
       </header>
     </div>
+    <!-- Auth Section (hidden if Firebase not available) -->
+    <div id="authSection" style="display:none;text-align:right;margin-bottom:10px;">
+      <span id="userInfo" style="display:none;margin-right:10px;font-size:14px;"></span>
+      <button id="authBtn" class="btn" style="padding:8px 15px;font-size:14px;">Sign In</button>
+    </div>
+
     <!-- Hidden import/export elements (functionality preserved, UI removed) -->
     <input type="file" id="importFile" accept=".json" style="display:none">
     <button id="exportBtn" style="display:none"></button>
@@ -755,8 +761,13 @@
     </div>
   </div>
 
+  <!-- Firebase SDK (optional - loads async, fails gracefully) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" async defer onerror="console.log('Firebase app SDK not loaded - offline mode')"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js" async defer onerror="console.log('Firebase auth SDK not loaded - offline mode')"></script>
+
   <script src="js/fsi-error.js"></script>
   <script src="js/fsi-srs.js"></script>
+  <script src="js/fsi-auth.js"></script>
   <script src="js/fsi-linear.js"></script>
   <script src="js/fsi-main.js"></script>
 </body>
