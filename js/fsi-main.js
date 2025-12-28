@@ -40,7 +40,7 @@ const CDN_CONFIG = {
   },
 
   // Version string - increment to bust browser cache after content updates
-  version: '1.0.1'
+  version: '1.0.2'
 };
 
 // Helper to build full URL with cache-busting version

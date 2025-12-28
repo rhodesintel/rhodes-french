@@ -14,7 +14,12 @@ const FSI_SRS = {
     w: [0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01,
         1.49, 0.14, 0.94, 2.18, 0.05, 0.34, 1.26, 0.29, 2.61],
     requestRetention: 0.9,
-    maximumInterval: 36500  // 100 years
+    maximumInterval: 36500,  // 100 years
+    // Anki-style learning steps (in minutes) for Again/failed cards
+    learningSteps: [1, 10],  // 1 min, 10 min, then graduate
+    relearningSteps: [1, 10],  // Same for lapsed cards
+    graduatingInterval: 1,  // Days after completing learning steps
+    easyInterval: 4  // Days for Easy on new card
   },
 
   // Rating enum
@@ -106,6 +111,7 @@ const FSI_SRS = {
       lapses: 0,
       state: this.State.New,
       last_review: null,
+      learning_step: 0,  // Current step in learningSteps array
 
       // NLP metadata for smart spacing
       pos_pattern: sentenceData.pos_pattern || '',
@@ -215,40 +221,75 @@ const FSI_SRS = {
       }
     }
 
-    // New card
-    if (card.state === this.State.New) {
-      card.stability = this.initStability(grade);
-      card.difficulty = this.initDifficulty(grade);
-      card.state = grade === this.Rating.Again ? this.State.Learning : this.State.Review;
+    let intervalMinutes = 0;
+    let intervalDays = 0;
+
+    // Handle Learning/Relearning states (Anki-style short intervals)
+    if (card.state === this.State.New || card.state === this.State.Learning || card.state === this.State.Relearning) {
+      const steps = card.state === this.State.Relearning ? this.params.relearningSteps : this.params.learningSteps;
+
+      if (grade === this.Rating.Again) {
+        // Reset to first step
+        card.learning_step = 0;
+        card.state = card.state === this.State.New ? this.State.Learning : this.State.Relearning;
+        intervalMinutes = steps[0];
+      } else if (grade === this.Rating.Easy) {
+        // Graduate immediately with easy interval
+        card.state = this.State.Review;
+        card.learning_step = 0;
+        card.stability = this.initStability(grade);
+        card.difficulty = this.initDifficulty(grade);
+        intervalDays = this.params.easyInterval;
+      } else {
+        // Good or Hard: advance to next step
+        card.learning_step = (card.learning_step || 0) + 1;
+
+        if (card.learning_step >= steps.length) {
+          // Graduate to review
+          card.state = this.State.Review;
+          card.learning_step = 0;
+          card.stability = this.initStability(grade);
+          card.difficulty = this.initDifficulty(grade);
+          intervalDays = grade === this.Rating.Hard ? 1 : this.params.graduatingInterval;
+        } else {
+          // Next learning step
+          card.state = card.state === this.State.New ? this.State.Learning : card.state;
+          intervalMinutes = steps[card.learning_step];
+        }
+      }
     }
-    // Existing card
+    // Handle Review state (FSRS algorithm)
     else {
       const r = this.retrievability(elapsedDays, card.stability);
 
       if (grade === this.Rating.Again) {
-        // Lapse
+        // Lapse - go to relearning with short steps
         card.stability = this.nextForgetStability(card.difficulty, card.stability, r);
         card.lapses++;
         card.state = this.State.Relearning;
+        card.learning_step = 0;
+        intervalMinutes = this.params.relearningSteps[0];
       } else {
-        // Success
+        // Success - use FSRS
         card.stability = this.nextReviewStability(card.difficulty, card.stability, r, grade);
-        card.state = this.State.Review;
+        card.difficulty = this.nextDifficulty(card.difficulty, grade);
+        intervalDays = Math.min(this.nextInterval(card.stability), this.params.maximumInterval);
       }
-
-      card.difficulty = this.nextDifficulty(card.difficulty, grade);
     }
-
-    // Calculate next interval
-    const interval = Math.min(this.nextInterval(card.stability), this.params.maximumInterval);
-    card.scheduled_days = interval;
-    card.elapsed_days = elapsedDays;
-    card.reps++;
-    card.last_review = now.toISOString();
 
     // Set next due date
     const dueDate = new Date(now);
-    dueDate.setDate(dueDate.getDate() + interval);
+    if (intervalMinutes > 0) {
+      dueDate.setMinutes(dueDate.getMinutes() + intervalMinutes);
+      card.scheduled_days = intervalMinutes / (60 * 24);  // Convert to days for display
+    } else {
+      dueDate.setDate(dueDate.getDate() + intervalDays);
+      card.scheduled_days = intervalDays;
+    }
+
+    card.elapsed_days = elapsedDays;
+    card.reps++;
+    card.last_review = now.toISOString();
     card.due = dueDate.toISOString();
 
     // Update last pattern for spacing
@@ -265,9 +306,11 @@ const FSI_SRS = {
     // Save
     this.saveCards();
 
+    const interval = intervalMinutes > 0 ? intervalMinutes / (60 * 24) : intervalDays;
     return {
       card: card,
       interval: interval,
+      intervalDisplay: intervalMinutes > 0 ? `${intervalMinutes}m` : `${intervalDays}d`,
       nextDue: card.due
     };
   },
