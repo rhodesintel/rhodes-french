@@ -1,21 +1,21 @@
 /**
- * FSI Course - Google Sheets Analytics
- * Simple webhook-based analytics - no complex auth required
+ * Rhodes French - Cloud Storage via JSONbin.io
  *
- * SETUP:
- * 1. Create Google Sheet "FSI French Analytics"
- * 2. Extensions → Apps Script → paste google-apps-script.js
- * 3. Deploy → New deployment → Web app → Anyone can access
- * 4. Copy URL and paste below
+ * Stores all user data in a single bin:
+ * { users: { "userId1": {...}, "userId2": {...} } }
+ *
+ * Setup:
+ * 1. Go to https://jsonbin.io and sign up (free)
+ * 2. Copy your X-Access-Key from the dashboard
+ * 3. Paste it below as JSONBIN_API_KEY
+ * 4. The bin will be auto-created on first save
  */
 
 const FSI_Auth = {
-  // Google Sheets webhook URL - DISABLED (using local storage only)
-  // To enable: paste your deployed Apps Script web app URL here
-  SHEETS_WEBHOOK_URL: '',  // Disabled - local storage works fine
-
-  // API key for webhook authentication (must match google-apps-script.js)
-  API_KEY: 'rhodes-french-2024-x7k9m',
+  // JSONbin.io config
+  JSONBIN_API_KEY: '$2b$10$YOUR_API_KEY_HERE',  // Get from jsonbin.io dashboard
+  JSONBIN_BIN_ID: null,  // Auto-created, then saved to localStorage
+  JSONBIN_URL: 'https://api.jsonbin.io/v3/b',
 
   // State
   initialized: false,
@@ -23,194 +23,154 @@ const FSI_Auth = {
   pendingWrites: [],
   syncInterval: null,
 
-  // For compatibility with existing code
-  firestoreEnabled: false,
-  authEnabled: false,
-  user: null,
-
-  // Initialize
   async init() {
-    // Generate anonymous user ID if not exists
+    if (this.initialized) return;
+    this.initialized = true;
+
+    // Get or create user ID
     this.userId = localStorage.getItem('fsi_user_id');
     if (!this.userId) {
-      this.userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      this.userId = 'user_' + Math.random().toString(36).substring(2, 15);
       localStorage.setItem('fsi_user_id', this.userId);
     }
 
-    // Load pending writes from storage
+    // Get bin ID if we created one before
+    this.JSONBIN_BIN_ID = localStorage.getItem('fsi_jsonbin_id');
+
+    // Load pending writes
     try {
       const pending = localStorage.getItem('fsi_pending_writes');
-      if (pending) {
-        this.pendingWrites = JSON.parse(pending);
-      }
+      if (pending) this.pendingWrites = JSON.parse(pending);
     } catch (e) {}
 
-    this.initialized = true;
+    // Sync pending writes periodically
+    this.syncInterval = setInterval(() => this.flushPendingWrites(), 60000);
 
-    // Flush any pending writes
-    if (this.SHEETS_WEBHOOK_URL && this.pendingWrites.length > 0) {
+    console.log('FSI_Auth initialized, userId:', this.userId);
+  },
+
+  isConfigured() {
+    return this.JSONBIN_API_KEY && !this.JSONBIN_API_KEY.includes('YOUR_API_KEY');
+  },
+
+  // Save a response (error or correct answer)
+  async saveResponse(response) {
+    if (!this.isConfigured()) {
+      console.log('JSONbin not configured, data saved locally only');
+      return false;
+    }
+
+    const record = {
+      timestamp: new Date().toISOString(),
+      ...response,
+      userId: this.userId
+    };
+
+    this.pendingWrites.push(record);
+    this.savePendingWrites();
+
+    // Try to sync immediately if we have a few items
+    if (this.pendingWrites.length >= 5) {
       this.flushPendingWrites();
     }
 
-    // Sync every 60 seconds
-    this.syncInterval = setInterval(() => this.flushPendingWrites(), 60000);
-
-    // Update SRS with user ID
-    if (typeof FSI_SRS !== 'undefined') {
-      FSI_SRS.setUserId(this.userId);
-    }
-
-    console.log('Analytics initialized:', this.userId);
-    console.log('Sheets sync:', this.SHEETS_WEBHOOK_URL ? 'configured' : 'not configured (local only)');
-
-    this.updateUI();
-    return this;
+    return true;
   },
 
-  // Check if sheets sync is configured
-  isConfigured() {
-    return !!this.SHEETS_WEBHOOK_URL;
-  },
-
-  // Save a response to Google Sheets
-  async saveResponse(response) {
-    const payload = {
-      type: 'response',
-      apiKey: this.API_KEY,
-      payload: {
-        ...response,
-        userId: this.userId
-      }
-    };
-
-    if (!this.SHEETS_WEBHOOK_URL) {
-      // Queue for later if not configured
-      this.pendingWrites.push(payload);
-      this.savePendingWrites();
-      console.log('Response queued (sheets not configured)');
-      return false;
-    }
-
-    try {
-      const res = await fetch(this.SHEETS_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        redirect: 'follow'  // Apps Script may redirect
-      });
-
-      // Verify the response
-      if (res.ok) {
-        try {
-          const data = await res.json();
-          if (data.success) {
-            console.log('Response saved to sheets:', data.timestamp);
-            return true;
-          } else {
-            console.warn('Sheets API error:', data.error);
-            this.pendingWrites.push(payload);
-            this.savePendingWrites();
-            return false;
-          }
-        } catch (parseErr) {
-          // Response wasn't JSON but request may have succeeded
-          console.log('Response sent to sheets (no JSON response)');
-          return true;
-        }
-      } else {
-        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-      }
-    } catch (e) {
-      console.warn('Failed to save to sheets:', e.message);
-      this.pendingWrites.push(payload);
-      this.savePendingWrites();
-      this.showSyncError('Failed to sync response');
-      return false;
-    }
-  },
-
-  // Save progress summary
-  async saveProgress(progressData) {
-    const payload = {
-      type: 'progress',
-      apiKey: this.API_KEY,
-      payload: {
-        ...progressData,
-        userId: this.userId
-      }
-    };
-
-    if (!this.SHEETS_WEBHOOK_URL) return false;
-
-    try {
-      const res = await fetch(this.SHEETS_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        redirect: 'follow'
-      });
-
-      if (res.ok) {
-        const data = await res.json().catch(() => ({}));
-        return data.success !== false;
-      }
-      return false;
-    } catch (e) {
-      console.warn('Failed to save progress:', e.message);
-      return false;
-    }
-  },
-
-  // Show sync error indicator (non-blocking)
-  showSyncError(msg) {
-    const indicator = document.getElementById('saveIndicator');
-    if (indicator) {
-      indicator.textContent = 'Sync failed';
-      indicator.style.color = '#dc3545';
-      indicator.classList.add('show');
-      setTimeout(() => {
-        indicator.classList.remove('show');
-        indicator.style.color = '#28a745';
-        indicator.textContent = 'Saved';
-      }, 3000);
-    }
-  },
-
-  // Flush pending writes
+  // Flush pending writes to JSONbin
   async flushPendingWrites() {
-    if (!this.SHEETS_WEBHOOK_URL || this.pendingWrites.length === 0) return;
-
-    console.log(`Syncing ${this.pendingWrites.length} pending writes to sheets...`);
+    if (!this.isConfigured() || this.pendingWrites.length === 0) return;
 
     const toSend = [...this.pendingWrites];
     this.pendingWrites = [];
     this.savePendingWrites();
 
-    let successCount = 0;
-    for (const payload of toSend) {
-      try {
-        const res = await fetch(this.SHEETS_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          redirect: 'follow'
-        });
-
-        if (res.ok) {
-          successCount++;
-        } else {
-          this.pendingWrites.push(payload);
-        }
-        // Small delay to avoid rate limiting
-        await new Promise(r => setTimeout(r, 100));
-      } catch (e) {
-        // Re-queue failed writes
-        this.pendingWrites.push(payload);
+    try {
+      // Get or create bin
+      let binData = await this.getBinData();
+      if (!binData) {
+        binData = { users: {} };
       }
+
+      // Ensure user exists
+      if (!binData.users[this.userId]) {
+        binData.users[this.userId] = { responses: [], created: new Date().toISOString() };
+      }
+
+      // Add new responses
+      binData.users[this.userId].responses.push(...toSend);
+      binData.users[this.userId].lastSync = new Date().toISOString();
+
+      // Keep only last 500 responses per user to stay under size limits
+      if (binData.users[this.userId].responses.length > 500) {
+        binData.users[this.userId].responses =
+          binData.users[this.userId].responses.slice(-500);
+      }
+
+      // Save back to bin
+      await this.saveBinData(binData);
+      console.log(`Synced ${toSend.length} responses to cloud`);
+
+    } catch (e) {
+      console.warn('Cloud sync failed:', e.message);
+      // Re-queue failed items
+      this.pendingWrites = [...toSend, ...this.pendingWrites];
+      this.savePendingWrites();
+    }
+  },
+
+  // Get data from JSONbin
+  async getBinData() {
+    if (!this.JSONBIN_BIN_ID) return null;
+
+    const res = await fetch(`${this.JSONBIN_URL}/${this.JSONBIN_BIN_ID}/latest`, {
+      headers: {
+        'X-Access-Key': this.JSONBIN_API_KEY
+      }
+    });
+
+    if (!res.ok) {
+      if (res.status === 404) return null;
+      throw new Error(`JSONbin GET failed: ${res.status}`);
     }
 
-    this.savePendingWrites();
-    console.log(`Sync complete: ${successCount}/${toSend.length} succeeded, ${this.pendingWrites.length} pending`);
+    const data = await res.json();
+    return data.record;
+  },
+
+  // Save data to JSONbin
+  async saveBinData(data) {
+    if (this.JSONBIN_BIN_ID) {
+      // Update existing bin
+      const res = await fetch(`${this.JSONBIN_URL}/${this.JSONBIN_BIN_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Access-Key': this.JSONBIN_API_KEY
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!res.ok) throw new Error(`JSONbin PUT failed: ${res.status}`);
+    } else {
+      // Create new bin
+      const res = await fetch(this.JSONBIN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Access-Key': this.JSONBIN_API_KEY,
+          'X-Bin-Name': 'rhodes-french-data'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!res.ok) throw new Error(`JSONbin POST failed: ${res.status}`);
+
+      const result = await res.json();
+      this.JSONBIN_BIN_ID = result.metadata.id;
+      localStorage.setItem('fsi_jsonbin_id', this.JSONBIN_BIN_ID);
+      console.log('Created JSONbin:', this.JSONBIN_BIN_ID);
+    }
   },
 
   // Save pending writes to localStorage
@@ -218,49 +178,24 @@ const FSI_Auth = {
     try {
       localStorage.setItem('fsi_pending_writes', JSON.stringify(this.pendingWrites));
     } catch (e) {
-      console.error('Failed to save pending writes:', e.message);
-      // If localStorage is full, clear old pending writes to make room
-      if (e.name === 'QuotaExceededError') {
-        console.warn('Storage quota exceeded, clearing old pending writes');
-        this.pendingWrites = this.pendingWrites.slice(-50);  // Keep only last 50
-        try {
-          localStorage.setItem('fsi_pending_writes', JSON.stringify(this.pendingWrites));
-        } catch (e2) {
-          // Give up
-          this.pendingWrites = [];
-        }
-      }
+      console.warn('Failed to save pending writes');
     }
   },
 
-  // Get user ID
   getUserId() {
     return this.userId;
   },
 
-  // Update UI
-  updateUI() {
-    // Hide auth section - we use anonymous tracking
-    const authSection = document.getElementById('authSection');
-    if (authSection) authSection.style.display = 'none';
-
-    const authBtn = document.getElementById('authBtn');
-    if (authBtn) authBtn.style.display = 'none';
-
-    const userInfo = document.getElementById('userInfo');
-    if (userInfo) userInfo.style.display = 'none';
-  },
-
-  // Compatibility stubs
-  initFirestore() { return false; },
-  signInWithGoogle() { return null; },
-  signInWithEmail() { return null; },
-  createAccount() { return null; },
-  signOut() {},
+  // Stub methods for compatibility
   getUser() { return null; },
   isSignedIn() { return false; },
   getUserProfile() { return { uid: this.userId, email: null, displayName: 'Anonymous' }; }
 };
+
+// Auto-init
+if (typeof window !== 'undefined') {
+  FSI_Auth.init();
+}
 
 // Export
 if (typeof module !== 'undefined') {
