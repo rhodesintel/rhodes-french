@@ -2051,6 +2051,7 @@ const REVIEW_UNITS = [6, 12, 18, 24];
 
 // Check if user has completed Unit 1 (all Unit 1 drills reviewed at least once)
 function hasCompletedUnit1() {
+  if (!drillsData?.drills) return false;
   const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
   const cards = progress.cards || {};
   const unit1Drills = drillsData.drills.filter(d => d.unit === 1);
@@ -2415,12 +2416,14 @@ function checkAnswer() {
 
     Storage.reviewCard(drill.id, rating);  // Also update legacy storage
 
-    // Add wrong drill back to current session queue for immediate reinforcement
+    // Add wrong drill back to current session queue for immediate reinforcement (max 5 times)
     if (currentMode === 'srs' && rating === FSI_SRS?.Rating?.Again) {
       const wrongDrill = {...drill, wrongCount: (drill.wrongCount || 0) + 1};
-      // Insert it 3-5 drills later for immediate reinforcement
-      const insertAt = Math.min(currentDrillIndex + 3 + Math.floor(Math.random() * 3), currentDrills.length);
-      currentDrills.splice(insertAt, 0, wrongDrill);
+      if (wrongDrill.wrongCount <= 5) {
+        // Insert it 3-5 drills later for immediate reinforcement
+        const insertAt = Math.min(currentDrillIndex + 3 + Math.floor(Math.random() * 3), currentDrills.length);
+        currentDrills.splice(insertAt, 0, wrongDrill);
+      }
     }
 
     // Enable retry mode - user must type correct answer before continuing

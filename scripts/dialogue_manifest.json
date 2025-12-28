@@ -1,0 +1,1274 @@
+{
+  "description": "English dialogue audio - speaker labels on first 2 lines only",
+  "total_units": 24,
+  "total_lines": 141,
+  "total_chars": 5511,
+  "units": [
+    {
+      "unit": 1,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "M. Durand",
+          "original_english": "Hello, Sir.",
+          "text_to_speak": "M. Durand: Hello, Sir.",
+          "has_speaker_label": true,
+          "chars": 22
+        },
+        {
+          "index": 1,
+          "speaker": "M. Lelong",
+          "original_english": "Hello, Mr. Durand. How are you?",
+          "text_to_speak": "M. Lelong: Hello, Mr. Durand. How are you?",
+          "has_speaker_label": true,
+          "chars": 42
+        },
+        {
+          "index": 2,
+          "speaker": "M. Durand",
+          "original_english": "Very well, thank you. And you?",
+          "text_to_speak": "Very well, thank you. And you?",
+          "has_speaker_label": false,
+          "chars": 30
+        },
+        {
+          "index": 3,
+          "speaker": "M. Lelong",
+          "original_english": "Not bad, thank you.",
+          "text_to_speak": "Not bad, thank you.",
+          "has_speaker_label": false,
+          "chars": 19
+        },
+        {
+          "index": 4,
+          "speaker": "M. Durand",
+          "original_english": "And your brother, how is he?",
+          "text_to_speak": "And your brother, how is he?",
+          "has_speaker_label": false,
+          "chars": 28
+        },
+        {
+          "index": 5,
+          "speaker": "M. Lelong",
+          "original_english": "He is doing very well. He is on vacation.",
+          "text_to_speak": "He is doing very well. He is on vacation.",
+          "has_speaker_label": false,
+          "chars": 41
+        },
+        {
+          "index": 6,
+          "speaker": "M. Durand",
+          "original_english": "Where is he?",
+          "text_to_speak": "Where is he?",
+          "has_speaker_label": false,
+          "chars": 12
+        },
+        {
+          "index": 7,
+          "speaker": "M. Lelong",
+          "original_english": "He is in Lyon with my sister.",
+          "text_to_speak": "He is in Lyon with my sister.",
+          "has_speaker_label": false,
+          "chars": 29
+        }
+      ],
+      "total_chars": 223
+    },
+    {
+      "unit": 2,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "Hello, Madam. Do you have a room?",
+          "text_to_speak": "Client: Hello, Madam. Do you have a room?",
+          "has_speaker_label": true,
+          "chars": 41
+        },
+        {
+          "index": 1,
+          "speaker": "Réceptionniste",
+          "original_english": "Yes, Sir. For how many people?",
+          "text_to_speak": "Réceptionniste: Yes, Sir. For how many people?",
+          "has_speaker_label": true,
+          "chars": 46
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "For one person.",
+          "text_to_speak": "For one person.",
+          "has_speaker_label": false,
+          "chars": 15
+        },
+        {
+          "index": 3,
+          "speaker": "Réceptionniste",
+          "original_english": "For how many days?",
+          "text_to_speak": "For how many days?",
+          "has_speaker_label": false,
+          "chars": 18
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "For three days.",
+          "text_to_speak": "For three days.",
+          "has_speaker_label": false,
+          "chars": 15
+        },
+        {
+          "index": 5,
+          "speaker": "Réceptionniste",
+          "original_english": "Do you want a bathroom?",
+          "text_to_speak": "Do you want a bathroom?",
+          "has_speaker_label": false,
+          "chars": 23
+        },
+        {
+          "index": 6,
+          "speaker": "Client",
+          "original_english": "Yes, please.",
+          "text_to_speak": "Yes, please.",
+          "has_speaker_label": false,
+          "chars": 12
+        }
+      ],
+      "total_chars": 170
+    },
+    {
+      "unit": 3,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Voyageur",
+          "original_english": "A round-trip ticket to Lyon, please.",
+          "text_to_speak": "Voyageur: A round-trip ticket to Lyon, please.",
+          "has_speaker_label": true,
+          "chars": 46
+        },
+        {
+          "index": 1,
+          "speaker": "Employé",
+          "original_english": "First or second class?",
+          "text_to_speak": "Employé: First or second class?",
+          "has_speaker_label": true,
+          "chars": 31
+        },
+        {
+          "index": 2,
+          "speaker": "Voyageur",
+          "original_english": "Second class. How much is it?",
+          "text_to_speak": "Second class. How much is it?",
+          "has_speaker_label": false,
+          "chars": 29
+        },
+        {
+          "index": 3,
+          "speaker": "Employé",
+          "original_english": "Forty-two euros.",
+          "text_to_speak": "Forty-two euros.",
+          "has_speaker_label": false,
+          "chars": 16
+        },
+        {
+          "index": 4,
+          "speaker": "Voyageur",
+          "original_english": "What time does the next train leave?",
+          "text_to_speak": "What time does the next train leave?",
+          "has_speaker_label": false,
+          "chars": 36
+        },
+        {
+          "index": 5,
+          "speaker": "Employé",
+          "original_english": "At 10:20.",
+          "text_to_speak": "At 10:20.",
+          "has_speaker_label": false,
+          "chars": 9
+        }
+      ],
+      "total_chars": 167
+    },
+    {
+      "unit": 4,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "I'd like to buy some fruit, please.",
+          "text_to_speak": "Client: I'd like to buy some fruit, please.",
+          "has_speaker_label": true,
+          "chars": 43
+        },
+        {
+          "index": 1,
+          "speaker": "Vendeur",
+          "original_english": "What would you like? Apples? Oranges?",
+          "text_to_speak": "Vendeur: What would you like? Apples? Oranges?",
+          "has_speaker_label": true,
+          "chars": 46
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "A kilo of apples and a pound of oranges.",
+          "text_to_speak": "A kilo of apples and a pound of oranges.",
+          "has_speaker_label": false,
+          "chars": 40
+        },
+        {
+          "index": 3,
+          "speaker": "Vendeur",
+          "original_english": "Here you are. Is that all?",
+          "text_to_speak": "Here you are. Is that all?",
+          "has_speaker_label": false,
+          "chars": 26
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "Yes, that's all. How much is it?",
+          "text_to_speak": "Yes, that's all. How much is it?",
+          "has_speaker_label": false,
+          "chars": 32
+        },
+        {
+          "index": 5,
+          "speaker": "Vendeur",
+          "original_english": "That's five euros fifty.",
+          "text_to_speak": "That's five euros fifty.",
+          "has_speaker_label": false,
+          "chars": 24
+        }
+      ],
+      "total_chars": 211
+    },
+    {
+      "unit": 5,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "A",
+          "original_english": "What's the weather like today?",
+          "text_to_speak": "A: What's the weather like today?",
+          "has_speaker_label": true,
+          "chars": 33
+        },
+        {
+          "index": 1,
+          "speaker": "B",
+          "original_english": "It's nice, but it's a bit cold.",
+          "text_to_speak": "B: It's nice, but it's a bit cold.",
+          "has_speaker_label": true,
+          "chars": 34
+        },
+        {
+          "index": 2,
+          "speaker": "A",
+          "original_english": "Is it going to rain this afternoon?",
+          "text_to_speak": "Is it going to rain this afternoon?",
+          "has_speaker_label": false,
+          "chars": 35
+        },
+        {
+          "index": 3,
+          "speaker": "B",
+          "original_english": "According to the forecast, there will be clouds.",
+          "text_to_speak": "According to the forecast, there will be clouds.",
+          "has_speaker_label": false,
+          "chars": 48
+        },
+        {
+          "index": 4,
+          "speaker": "A",
+          "original_english": "Is winter always cold in Paris?",
+          "text_to_speak": "Is winter always cold in Paris?",
+          "has_speaker_label": false,
+          "chars": 31
+        },
+        {
+          "index": 5,
+          "speaker": "B",
+          "original_english": "Yes, but less cold than in New York.",
+          "text_to_speak": "Yes, but less cold than in New York.",
+          "has_speaker_label": false,
+          "chars": 36
+        }
+      ],
+      "total_chars": 217
+    },
+    {
+      "unit": 6,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Professeur",
+          "original_english": "Let's review the previous lessons.",
+          "text_to_speak": "Professeur: Let's review the previous lessons.",
+          "has_speaker_label": true,
+          "chars": 46
+        },
+        {
+          "index": 1,
+          "speaker": "Étudiant",
+          "original_english": "Okay. Where do we start?",
+          "text_to_speak": "Étudiant: Okay. Where do we start?",
+          "has_speaker_label": true,
+          "chars": 34
+        },
+        {
+          "index": 2,
+          "speaker": "Professeur",
+          "original_english": "With articles and prepositions.",
+          "text_to_speak": "With articles and prepositions.",
+          "has_speaker_label": false,
+          "chars": 31
+        },
+        {
+          "index": 3,
+          "speaker": "Étudiant",
+          "original_english": "I often confuse \"à\" and \"de\".",
+          "text_to_speak": "I often confuse \"à\" and \"de\".",
+          "has_speaker_label": false,
+          "chars": 29
+        },
+        {
+          "index": 4,
+          "speaker": "Professeur",
+          "original_english": "That's normal. Let's practice together.",
+          "text_to_speak": "That's normal. Let's practice together.",
+          "has_speaker_label": false,
+          "chars": 39
+        },
+        {
+          "index": 5,
+          "speaker": "Étudiant",
+          "original_english": "Thank you, it's very useful.",
+          "text_to_speak": "Thank you, it's very useful.",
+          "has_speaker_label": false,
+          "chars": 28
+        }
+      ],
+      "total_chars": 207
+    },
+    {
+      "unit": 7,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "I'd like to make an appointment. Can I book online?",
+          "text_to_speak": "Client: I'd like to make an appointment. Can I book online?",
+          "has_speaker_label": true,
+          "chars": 59
+        },
+        {
+          "index": 1,
+          "speaker": "Secrétaire",
+          "original_english": "Yes, on our website or with the Doctolib app.",
+          "text_to_speak": "Secrétaire: Yes, on our website or with the Doctolib app.",
+          "has_speaker_label": true,
+          "chars": 57
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "I prefer by phone. Is Wednesday morning possible?",
+          "text_to_speak": "I prefer by phone. Is Wednesday morning possible?",
+          "has_speaker_label": false,
+          "chars": 49
+        },
+        {
+          "index": 3,
+          "speaker": "Secrétaire",
+          "original_english": "Yes, at ten o'clock. I'll send you a confirmation text.",
+          "text_to_speak": "Yes, at ten o'clock. I'll send you a confirmation text.",
+          "has_speaker_label": false,
+          "chars": 55
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "Perfect. Will I receive a reminder?",
+          "text_to_speak": "Perfect. Will I receive a reminder?",
+          "has_speaker_label": false,
+          "chars": 35
+        },
+        {
+          "index": 5,
+          "speaker": "Secrétaire",
+          "original_english": "Yes, by email and text the day before the appointment.",
+          "text_to_speak": "Yes, by email and text the day before the appointment.",
+          "has_speaker_label": false,
+          "chars": 54
+        }
+      ],
+      "total_chars": 309
+    },
+    {
+      "unit": 8,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "I'd like a haircut, please.",
+          "text_to_speak": "Client: I'd like a haircut, please.",
+          "has_speaker_label": true,
+          "chars": 35
+        },
+        {
+          "index": 1,
+          "speaker": "Coiffeur",
+          "original_english": "How would you like them?",
+          "text_to_speak": "Coiffeur: How would you like them?",
+          "has_speaker_label": true,
+          "chars": 34
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "Short on the sides, a bit longer on top.",
+          "text_to_speak": "Short on the sides, a bit longer on top.",
+          "has_speaker_label": false,
+          "chars": 40
+        },
+        {
+          "index": 3,
+          "speaker": "Coiffeur",
+          "original_english": "Would you like a shampoo too?",
+          "text_to_speak": "Would you like a shampoo too?",
+          "has_speaker_label": false,
+          "chars": 29
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "Yes, please.",
+          "text_to_speak": "Yes, please.",
+          "has_speaker_label": false,
+          "chars": 12
+        },
+        {
+          "index": 5,
+          "speaker": "Coiffeur",
+          "original_english": "Have a seat, I'll be with you in a minute.",
+          "text_to_speak": "Have a seat, I'll be with you in a minute.",
+          "has_speaker_label": false,
+          "chars": 42
+        }
+      ],
+      "total_chars": 192
+    },
+    {
+      "unit": 9,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Serveur",
+          "original_english": "Good evening. A table for two?",
+          "text_to_speak": "Serveur: Good evening. A table for two?",
+          "has_speaker_label": true,
+          "chars": 39
+        },
+        {
+          "index": 1,
+          "speaker": "Client",
+          "original_english": "Yes, please. Near the window if possible.",
+          "text_to_speak": "Client: Yes, please. Near the window if possible.",
+          "has_speaker_label": true,
+          "chars": 49
+        },
+        {
+          "index": 2,
+          "speaker": "Serveur",
+          "original_english": "Here's the menu. Would you like an aperitif?",
+          "text_to_speak": "Here's the menu. Would you like an aperitif?",
+          "has_speaker_label": false,
+          "chars": 44
+        },
+        {
+          "index": 3,
+          "speaker": "Client",
+          "original_english": "No thank you. What do you recommend?",
+          "text_to_speak": "No thank you. What do you recommend?",
+          "has_speaker_label": false,
+          "chars": 36
+        },
+        {
+          "index": 4,
+          "speaker": "Serveur",
+          "original_english": "The beef bourguignon is excellent.",
+          "text_to_speak": "The beef bourguignon is excellent.",
+          "has_speaker_label": false,
+          "chars": 34
+        },
+        {
+          "index": 5,
+          "speaker": "Client",
+          "original_english": "Perfect, I'll have that with a salad.",
+          "text_to_speak": "Perfect, I'll have that with a salad.",
+          "has_speaker_label": false,
+          "chars": 37
+        }
+      ],
+      "total_chars": 239
+    },
+    {
+      "unit": 10,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Collègue",
+          "original_english": "Hello! Did you get my email this morning?",
+          "text_to_speak": "Collègue: Hello! Did you get my email this morning?",
+          "has_speaker_label": true,
+          "chars": 51
+        },
+        {
+          "index": 1,
+          "speaker": "Employé",
+          "original_english": "No, I haven't checked yet. My laptop was broken.",
+          "text_to_speak": "Employé: No, I haven't checked yet. My laptop was broken.",
+          "has_speaker_label": true,
+          "chars": 57
+        },
+        {
+          "index": 2,
+          "speaker": "Collègue",
+          "original_english": "Ah, that's annoying. I'll send it to your phone.",
+          "text_to_speak": "Ah, that's annoying. I'll send it to your phone.",
+          "has_speaker_label": false,
+          "chars": 48
+        },
+        {
+          "index": 3,
+          "speaker": "Employé",
+          "original_english": "Thanks. I can also use the computer in the meeting room.",
+          "text_to_speak": "Thanks. I can also use the computer in the meeting room.",
+          "has_speaker_label": false,
+          "chars": 56
+        },
+        {
+          "index": 4,
+          "speaker": "Collègue",
+          "original_english": "Good idea. We have a video call at two o'clock.",
+          "text_to_speak": "Good idea. We have a video call at two o'clock.",
+          "has_speaker_label": false,
+          "chars": 47
+        },
+        {
+          "index": 5,
+          "speaker": "Employé",
+          "original_english": "Okay, I'll be connected.",
+          "text_to_speak": "Okay, I'll be connected.",
+          "has_speaker_label": false,
+          "chars": 24
+        }
+      ],
+      "total_chars": 283
+    },
+    {
+      "unit": 11,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Locataire",
+          "original_english": "I'm looking for an apartment to rent.",
+          "text_to_speak": "Locataire: I'm looking for an apartment to rent.",
+          "has_speaker_label": true,
+          "chars": 48
+        },
+        {
+          "index": 1,
+          "speaker": "Agent",
+          "original_english": "How many rooms do you need?",
+          "text_to_speak": "Agent: How many rooms do you need?",
+          "has_speaker_label": true,
+          "chars": 34
+        },
+        {
+          "index": 2,
+          "speaker": "Locataire",
+          "original_english": "Three rooms: two bedrooms and a living room.",
+          "text_to_speak": "Three rooms: two bedrooms and a living room.",
+          "has_speaker_label": false,
+          "chars": 44
+        },
+        {
+          "index": 3,
+          "speaker": "Agent",
+          "original_english": "I have something in the seventh district.",
+          "text_to_speak": "I have something in the seventh district.",
+          "has_speaker_label": false,
+          "chars": 41
+        },
+        {
+          "index": 4,
+          "speaker": "Locataire",
+          "original_english": "How much is it per month?",
+          "text_to_speak": "How much is it per month?",
+          "has_speaker_label": false,
+          "chars": 25
+        },
+        {
+          "index": 5,
+          "speaker": "Agent",
+          "original_english": "Twelve hundred euros, utilities included.",
+          "text_to_speak": "Twelve hundred euros, utilities included.",
+          "has_speaker_label": false,
+          "chars": 41
+        }
+      ],
+      "total_chars": 233
+    },
+    {
+      "unit": 12,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Professeur",
+          "original_english": "Let's enrich our vocabulary.",
+          "text_to_speak": "Professeur: Let's enrich our vocabulary.",
+          "has_speaker_label": true,
+          "chars": 40
+        },
+        {
+          "index": 1,
+          "speaker": "Étudiant",
+          "original_english": "How do you say \"thank you\" in French?",
+          "text_to_speak": "Étudiant: How do you say \"thank you\" in French?",
+          "has_speaker_label": true,
+          "chars": 47
+        },
+        {
+          "index": 2,
+          "speaker": "Professeur",
+          "original_english": "You say \"merci\" or \"merci beaucoup\".",
+          "text_to_speak": "You say \"merci\" or \"merci beaucoup\".",
+          "has_speaker_label": false,
+          "chars": 36
+        },
+        {
+          "index": 3,
+          "speaker": "Étudiant",
+          "original_english": "And to ask politely?",
+          "text_to_speak": "And to ask politely?",
+          "has_speaker_label": false,
+          "chars": 20
+        },
+        {
+          "index": 4,
+          "speaker": "Professeur",
+          "original_english": "\"S'il vous plaît\" for formal, \"s'il te plaît\" for informal.",
+          "text_to_speak": "\"S'il vous plaît\" for formal, \"s'il te plaît\" for informal.",
+          "has_speaker_label": false,
+          "chars": 59
+        },
+        {
+          "index": 5,
+          "speaker": "Étudiant",
+          "original_english": "It's clearer now, thank you!",
+          "text_to_speak": "It's clearer now, thank you!",
+          "has_speaker_label": false,
+          "chars": 28
+        }
+      ],
+      "total_chars": 230
+    },
+    {
+      "unit": 13,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "I'd like a maid who likes to take care of children.",
+          "text_to_speak": "Client: I'd like a maid who likes to take care of children.",
+          "has_speaker_label": true,
+          "chars": 59
+        },
+        {
+          "index": 1,
+          "speaker": "Agent",
+          "original_english": "Is it for Paris or for the suburbs?",
+          "text_to_speak": "Agent: Is it for Paris or for the suburbs?",
+          "has_speaker_label": true,
+          "chars": 42
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "Neuilly exactly.",
+          "text_to_speak": "Neuilly exactly.",
+          "has_speaker_label": false,
+          "chars": 16
+        },
+        {
+          "index": 3,
+          "speaker": "Agent",
+          "original_english": "I think I have someone who will be suitable for you.",
+          "text_to_speak": "I think I have someone who will be suitable for you.",
+          "has_speaker_label": false,
+          "chars": 52
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "What's her name?",
+          "text_to_speak": "What's her name?",
+          "has_speaker_label": false,
+          "chars": 16
+        },
+        {
+          "index": 5,
+          "speaker": "Agent",
+          "original_english": "Her name is Marie Ledoux.",
+          "text_to_speak": "Her name is Marie Ledoux.",
+          "has_speaker_label": false,
+          "chars": 25
+        }
+      ],
+      "total_chars": 210
+    },
+    {
+      "unit": 14,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "A",
+          "original_english": "It's hardly two hours since we've been on the way.",
+          "text_to_speak": "A: It's hardly two hours since we've been on the way.",
+          "has_speaker_label": true,
+          "chars": 53
+        },
+        {
+          "index": 1,
+          "speaker": "B",
+          "original_english": "And we're getting near Belgium.",
+          "text_to_speak": "B: And we're getting near Belgium.",
+          "has_speaker_label": true,
+          "chars": 34
+        },
+        {
+          "index": 2,
+          "speaker": "A",
+          "original_english": "We really haven't been very long.",
+          "text_to_speak": "We really haven't been very long.",
+          "has_speaker_label": false,
+          "chars": 33
+        },
+        {
+          "index": 3,
+          "speaker": "B",
+          "original_english": "Yes, everything has gone well.",
+          "text_to_speak": "Yes, everything has gone well.",
+          "has_speaker_label": false,
+          "chars": 30
+        },
+        {
+          "index": 4,
+          "speaker": "A",
+          "original_english": "Do you already know this country?",
+          "text_to_speak": "Do you already know this country?",
+          "has_speaker_label": false,
+          "chars": 33
+        },
+        {
+          "index": 5,
+          "speaker": "B",
+          "original_english": "Yes, I had the chance to make a trip there when I was a student.",
+          "text_to_speak": "Yes, I had the chance to make a trip there when I was a student.",
+          "has_speaker_label": false,
+          "chars": 64
+        }
+      ],
+      "total_chars": 247
+    },
+    {
+      "unit": 15,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "A",
+          "original_english": "Where will you be sending your children?",
+          "text_to_speak": "A: Where will you be sending your children?",
+          "has_speaker_label": true,
+          "chars": 43
+        },
+        {
+          "index": 1,
+          "speaker": "B",
+          "original_english": "We might enroll them in the lycée.",
+          "text_to_speak": "B: We might enroll them in the lycée.",
+          "has_speaker_label": true,
+          "chars": 37
+        },
+        {
+          "index": 2,
+          "speaker": "A",
+          "original_english": "Why don't you send them to the American school?",
+          "text_to_speak": "Why don't you send them to the American school?",
+          "has_speaker_label": false,
+          "chars": 47
+        },
+        {
+          "index": 3,
+          "speaker": "B",
+          "original_english": "Because we prefer that they learn French well.",
+          "text_to_speak": "Because we prefer that they learn French well.",
+          "has_speaker_label": false,
+          "chars": 46
+        },
+        {
+          "index": 4,
+          "speaker": "A",
+          "original_english": "And yours?",
+          "text_to_speak": "And yours?",
+          "has_speaker_label": false,
+          "chars": 10
+        },
+        {
+          "index": 5,
+          "speaker": "B",
+          "original_english": "This year they are all going to school.",
+          "text_to_speak": "This year they are all going to school.",
+          "has_speaker_label": false,
+          "chars": 39
+        }
+      ],
+      "total_chars": 222
+    },
+    {
+      "unit": 16,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "Are they doing Faust at the matinee Tuesday?",
+          "text_to_speak": "Client: Are they doing Faust at the matinee Tuesday?",
+          "has_speaker_label": true,
+          "chars": 52
+        },
+        {
+          "index": 1,
+          "speaker": "Guichet",
+          "original_english": "No, Sir. Friday in the evening only.",
+          "text_to_speak": "Guichet: No, Sir. Friday in the evening only.",
+          "has_speaker_label": true,
+          "chars": 45
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "Do you have two orchestra seats for that day?",
+          "text_to_speak": "Do you have two orchestra seats for that day?",
+          "has_speaker_label": false,
+          "chars": 45
+        },
+        {
+          "index": 3,
+          "speaker": "Guichet",
+          "original_english": "Preferably in the first ten rows.",
+          "text_to_speak": "Preferably in the first ten rows.",
+          "has_speaker_label": false,
+          "chars": 33
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "We don't have anymore.",
+          "text_to_speak": "We don't have anymore.",
+          "has_speaker_label": false,
+          "chars": 22
+        },
+        {
+          "index": 5,
+          "speaker": "Guichet",
+          "original_english": "There are only separate seats left in the third balcony.",
+          "text_to_speak": "There are only separate seats left in the third balcony.",
+          "has_speaker_label": false,
+          "chars": 56
+        }
+      ],
+      "total_chars": 253
+    },
+    {
+      "unit": 17,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "A",
+          "original_english": "Have you confirmed your departure?",
+          "text_to_speak": "A: Have you confirmed your departure?",
+          "has_speaker_label": true,
+          "chars": 37
+        },
+        {
+          "index": 1,
+          "speaker": "B",
+          "original_english": "Yes, the day before yesterday.",
+          "text_to_speak": "B: Yes, the day before yesterday.",
+          "has_speaker_label": true,
+          "chars": 33
+        },
+        {
+          "index": 2,
+          "speaker": "A",
+          "original_english": "Are you sure you haven't forgotten anything?",
+          "text_to_speak": "Are you sure you haven't forgotten anything?",
+          "has_speaker_label": false,
+          "chars": 44
+        },
+        {
+          "index": 3,
+          "speaker": "B",
+          "original_english": "I checked before leaving and all of my papers are in my briefcase.",
+          "text_to_speak": "I checked before leaving and all of my papers are in my briefcase.",
+          "has_speaker_label": false,
+          "chars": 66
+        },
+        {
+          "index": 4,
+          "speaker": "A",
+          "original_english": "But I notice I won't have anything to read on the plane.",
+          "text_to_speak": "But I notice I won't have anything to read on the plane.",
+          "has_speaker_label": false,
+          "chars": 56
+        },
+        {
+          "index": 5,
+          "speaker": "B",
+          "original_english": "Don't bother to buy newspapers or magazines.",
+          "text_to_speak": "Don't bother to buy newspapers or magazines.",
+          "has_speaker_label": false,
+          "chars": 44
+        }
+      ],
+      "total_chars": 280
+    },
+    {
+      "unit": 19,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Patient",
+          "original_english": "Hello, doctor. I haven't been feeling well for a few days.",
+          "text_to_speak": "Patient: Hello, doctor. I haven't been feeling well for a few days.",
+          "has_speaker_label": true,
+          "chars": 67
+        },
+        {
+          "index": 1,
+          "speaker": "Médecin",
+          "original_english": "What exactly is wrong?",
+          "text_to_speak": "Médecin: What exactly is wrong?",
+          "has_speaker_label": true,
+          "chars": 31
+        },
+        {
+          "index": 2,
+          "speaker": "Patient",
+          "original_english": "I have a headache and I have a fever.",
+          "text_to_speak": "I have a headache and I have a fever.",
+          "has_speaker_label": false,
+          "chars": 37
+        },
+        {
+          "index": 3,
+          "speaker": "Médecin",
+          "original_english": "How long have you had these symptoms?",
+          "text_to_speak": "How long have you had these symptoms?",
+          "has_speaker_label": false,
+          "chars": 37
+        },
+        {
+          "index": 4,
+          "speaker": "Patient",
+          "original_english": "For about three days.",
+          "text_to_speak": "For about three days.",
+          "has_speaker_label": false,
+          "chars": 21
+        },
+        {
+          "index": 5,
+          "speaker": "Médecin",
+          "original_english": "I'm going to examine you. Open your mouth and say \"Ah\".",
+          "text_to_speak": "I'm going to examine you. Open your mouth and say \"Ah\".",
+          "has_speaker_label": false,
+          "chars": 55
+        }
+      ],
+      "total_chars": 248
+    },
+    {
+      "unit": 20,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Client",
+          "original_english": "I'd like to open an account with online access.",
+          "text_to_speak": "Client: I'd like to open an account with online access.",
+          "has_speaker_label": true,
+          "chars": 55
+        },
+        {
+          "index": 1,
+          "speaker": "Employé",
+          "original_english": "Of course. Our mobile app is very convenient.",
+          "text_to_speak": "Employé: Of course. Our mobile app is very convenient.",
+          "has_speaker_label": true,
+          "chars": 54
+        },
+        {
+          "index": 2,
+          "speaker": "Client",
+          "original_english": "Can I make transfers from my phone?",
+          "text_to_speak": "Can I make transfers from my phone?",
+          "has_speaker_label": false,
+          "chars": 35
+        },
+        {
+          "index": 3,
+          "speaker": "Employé",
+          "original_english": "Yes, and also pay contactlessly with Apple Pay or Google Pay.",
+          "text_to_speak": "Yes, and also pay contactlessly with Apple Pay or Google Pay.",
+          "has_speaker_label": false,
+          "chars": 61
+        },
+        {
+          "index": 4,
+          "speaker": "Client",
+          "original_english": "Perfect. And for security?",
+          "text_to_speak": "Perfect. And for security?",
+          "has_speaker_label": false,
+          "chars": 26
+        },
+        {
+          "index": 5,
+          "speaker": "Employé",
+          "original_english": "You'll have two-factor authentication and real-time notifications.",
+          "text_to_speak": "You'll have two-factor authentication and real-time notifications.",
+          "has_speaker_label": false,
+          "chars": 66
+        }
+      ],
+      "total_chars": 297
+    },
+    {
+      "unit": 21,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Voyageur",
+          "original_english": "I'm looking for the Eiffel Tower. My GPS isn't working anymore.",
+          "text_to_speak": "Voyageur: I'm looking for the Eiffel Tower. My GPS isn't working anymore.",
+          "has_speaker_label": true,
+          "chars": 73
+        },
+        {
+          "index": 1,
+          "speaker": "Passant",
+          "original_english": "No problem. You can take the metro or order an Uber.",
+          "text_to_speak": "Passant: No problem. You can take the metro or order an Uber.",
+          "has_speaker_label": true,
+          "chars": 61
+        },
+        {
+          "index": 2,
+          "speaker": "Voyageur",
+          "original_english": "The metro is cheaper. Which line?",
+          "text_to_speak": "The metro is cheaper. Which line?",
+          "has_speaker_label": false,
+          "chars": 33
+        },
+        {
+          "index": 3,
+          "speaker": "Passant",
+          "original_english": "Line 6, get off at Bir-Hakeim. You can buy a ticket on the app.",
+          "text_to_speak": "Line 6, get off at Bir-Hakeim. You can buy a ticket on the app.",
+          "has_speaker_label": false,
+          "chars": 63
+        },
+        {
+          "index": 4,
+          "speaker": "Voyageur",
+          "original_english": "Great, I'll download the app right now.",
+          "text_to_speak": "Great, I'll download the app right now.",
+          "has_speaker_label": false,
+          "chars": 39
+        },
+        {
+          "index": 5,
+          "speaker": "Passant",
+          "original_english": "Enjoy your visit! And charge your phone, the battery is low!",
+          "text_to_speak": "Enjoy your visit! And charge your phone, the battery is low!",
+          "has_speaker_label": false,
+          "chars": 60
+        }
+      ],
+      "total_chars": 329
+    },
+    {
+      "unit": 22,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "A",
+          "original_english": "Have you followed the elections?",
+          "text_to_speak": "A: Have you followed the elections?",
+          "has_speaker_label": true,
+          "chars": 35
+        },
+        {
+          "index": 1,
+          "speaker": "B",
+          "original_english": "Yes, the results were very close.",
+          "text_to_speak": "B: Yes, the results were very close.",
+          "has_speaker_label": true,
+          "chars": 36
+        },
+        {
+          "index": 2,
+          "speaker": "A",
+          "original_english": "What do you think of the new government?",
+          "text_to_speak": "What do you think of the new government?",
+          "has_speaker_label": false,
+          "chars": 40
+        },
+        {
+          "index": 3,
+          "speaker": "B",
+          "original_english": "It's too early to judge, but I hope they'll keep their promises.",
+          "text_to_speak": "It's too early to judge, but I hope they'll keep their promises.",
+          "has_speaker_label": false,
+          "chars": 64
+        },
+        {
+          "index": 4,
+          "speaker": "A",
+          "original_english": "Economic policy will be crucial.",
+          "text_to_speak": "Economic policy will be crucial.",
+          "has_speaker_label": false,
+          "chars": 32
+        },
+        {
+          "index": 5,
+          "speaker": "B",
+          "original_english": "I agree. Unemployment remains a major problem.",
+          "text_to_speak": "I agree. Unemployment remains a major problem.",
+          "has_speaker_label": false,
+          "chars": 46
+        }
+      ],
+      "total_chars": 253
+    },
+    {
+      "unit": 23,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "A",
+          "original_english": "How is the French economy doing at the moment?",
+          "text_to_speak": "A: How is the French economy doing at the moment?",
+          "has_speaker_label": true,
+          "chars": 49
+        },
+        {
+          "index": 1,
+          "speaker": "B",
+          "original_english": "Growth is moderate, about two percent.",
+          "text_to_speak": "B: Growth is moderate, about two percent.",
+          "has_speaker_label": true,
+          "chars": 41
+        },
+        {
+          "index": 2,
+          "speaker": "A",
+          "original_english": "And inflation?",
+          "text_to_speak": "And inflation?",
+          "has_speaker_label": false,
+          "chars": 14
+        },
+        {
+          "index": 3,
+          "speaker": "B",
+          "original_english": "It remains under control, fortunately.",
+          "text_to_speak": "It remains under control, fortunately.",
+          "has_speaker_label": false,
+          "chars": 38
+        },
+        {
+          "index": 4,
+          "speaker": "A",
+          "original_english": "Has foreign trade increased?",
+          "text_to_speak": "Has foreign trade increased?",
+          "has_speaker_label": false,
+          "chars": 28
+        },
+        {
+          "index": 5,
+          "speaker": "B",
+          "original_english": "Exports have slightly increased, especially to Germany.",
+          "text_to_speak": "Exports have slightly increased, especially to Germany.",
+          "has_speaker_label": false,
+          "chars": 55
+        }
+      ],
+      "total_chars": 225
+    },
+    {
+      "unit": 24,
+      "lines": [
+        {
+          "index": 0,
+          "speaker": "Professeur",
+          "original_english": "Congratulations! You have finished the French course.",
+          "text_to_speak": "Professeur: Congratulations! You have finished the French course.",
+          "has_speaker_label": true,
+          "chars": 65
+        },
+        {
+          "index": 1,
+          "speaker": "Étudiant",
+          "original_english": "Thank you very much. I've learned a lot.",
+          "text_to_speak": "Étudiant: Thank you very much. I've learned a lot.",
+          "has_speaker_label": true,
+          "chars": 50
+        },
+        {
+          "index": 2,
+          "speaker": "Professeur",
+          "original_english": "Don't forget to practice every day.",
+          "text_to_speak": "Don't forget to practice every day.",
+          "has_speaker_label": false,
+          "chars": 35
+        },
+        {
+          "index": 3,
+          "speaker": "Étudiant",
+          "original_english": "I will continue to read and listen to French.",
+          "text_to_speak": "I will continue to read and listen to French.",
+          "has_speaker_label": false,
+          "chars": 45
+        },
+        {
+          "index": 4,
+          "speaker": "Professeur",
+          "original_english": "That's the key to success. Good luck!",
+          "text_to_speak": "That's the key to success. Good luck!",
+          "has_speaker_label": false,
+          "chars": 37
+        },
+        {
+          "index": 5,
+          "speaker": "Étudiant",
+          "original_english": "Thank you for everything. Goodbye!",
+          "text_to_speak": "Thank you for everything. Goodbye!",
+          "has_speaker_label": false,
+          "chars": 34
+        }
+      ],
+      "total_chars": 266
+    }
+  ]
+}

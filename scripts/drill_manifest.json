@@ -1,0 +1,3028 @@
+{
+  "description": "Top 20 most common drills per unit (9-24), French + English",
+  "units": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "drills_per_unit": 20,
+  "total_drills": 300,
+  "total_chars_fr": 9752,
+  "total_chars_en": 8602,
+  "drills": [
+    {
+      "id": "unit09_4304",
+      "unit": 9,
+      "rank": 1,
+      "commonality": 0.603,
+      "french": "est en vacances.",
+      "english": "is on vacation.",
+      "chars_fr": 16,
+      "chars_en": 15
+    },
+    {
+      "id": "unit09_4267",
+      "unit": 9,
+      "rank": 2,
+      "commonality": 0.594,
+      "french": "Je ne vous écoute pas.",
+      "english": "I'm not listening to you.",
+      "chars_fr": 22,
+      "chars_en": 25
+    },
+    {
+      "id": "unit09_4087",
+      "unit": 9,
+      "rank": 3,
+      "commonality": 0.574,
+      "french": "Il ne sait pas encore.",
+      "english": "He doesn't know yet.",
+      "chars_fr": 22,
+      "chars_en": 20
+    },
+    {
+      "id": "unit09_4082",
+      "unit": 9,
+      "rank": 4,
+      "commonality": 0.55,
+      "french": "Nous ne savons pas encore.",
+      "english": "We don't know yet.",
+      "chars_fr": 26,
+      "chars_en": 18
+    },
+    {
+      "id": "unit09_4085",
+      "unit": 9,
+      "rank": 5,
+      "commonality": 0.54,
+      "french": "Vous ne savez pas encore.",
+      "english": "You don't know yet.",
+      "chars_fr": 25,
+      "chars_en": 19
+    },
+    {
+      "id": "unit09_4083",
+      "unit": 9,
+      "rank": 6,
+      "commonality": 0.534,
+      "french": "Elle ne sait pas encore.",
+      "english": "She doesn't know yet.",
+      "chars_fr": 24,
+      "chars_en": 21
+    },
+    {
+      "id": "unit09_3956",
+      "unit": 9,
+      "rank": 7,
+      "commonality": 0.53,
+      "french": "Avec qui part-il?",
+      "english": "Who is he leaving with?",
+      "chars_fr": 17,
+      "chars_en": 23
+    },
+    {
+      "id": "unit09_4111",
+      "unit": 9,
+      "rank": 8,
+      "commonality": 0.522,
+      "french": "Non, il ne le sait pas.",
+      "english": "No, he doesn't know it.",
+      "chars_fr": 23,
+      "chars_en": 23
+    },
+    {
+      "id": "unit09_4284",
+      "unit": 9,
+      "rank": 9,
+      "commonality": 0.506,
+      "french": "Il n'est pas content.",
+      "english": "He's not happy.",
+      "chars_fr": 21,
+      "chars_en": 15
+    },
+    {
+      "id": "unit09_4259",
+      "unit": 9,
+      "rank": 10,
+      "commonality": 0.484,
+      "french": "Pourquoi ne vous convient-elle pas?",
+      "english": "Why doesn't it suit you?",
+      "chars_fr": 35,
+      "chars_en": 24
+    },
+    {
+      "id": "unit09_4106",
+      "unit": 9,
+      "rank": 11,
+      "commonality": 0.482,
+      "french": "Non, elle ne le sait pas.",
+      "english": "No, she doesn't know it.",
+      "chars_fr": 25,
+      "chars_en": 24
+    },
+    {
+      "id": "unit09_4107",
+      "unit": 9,
+      "rank": 12,
+      "commonality": 0.482,
+      "french": "Non, elle ne l'a pas.",
+      "english": "No, she doesn't have it.",
+      "chars_fr": 21,
+      "chars_en": 24
+    },
+    {
+      "id": "unit09_4470",
+      "unit": 9,
+      "rank": 13,
+      "commonality": 0.477,
+      "french": "Vous ne voudriez pas avoir un accident.",
+      "english": "You wouldn't want to have an accident.",
+      "chars_fr": 39,
+      "chars_en": 38
+    },
+    {
+      "id": "unit09_4155",
+      "unit": 9,
+      "rank": 14,
+      "commonality": 0.463,
+      "french": "Non, elle ne peut pas travailler.",
+      "english": "No, she can't work.",
+      "chars_fr": 33,
+      "chars_en": 19
+    },
+    {
+      "id": "unit09_4273",
+      "unit": 9,
+      "rank": 15,
+      "commonality": 0.462,
+      "french": "Je ne compte pas la monnaie.",
+      "english": "I'm not counting the change.",
+      "chars_fr": 28,
+      "chars_en": 28
+    },
+    {
+      "id": "unit09_4069",
+      "unit": 9,
+      "rank": 16,
+      "commonality": 0.45,
+      "french": "Il peut les faire assurer en face.",
+      "english": "He can have them insured across the street.",
+      "chars_fr": 34,
+      "chars_en": 43
+    },
+    {
+      "id": "unit09_4473",
+      "unit": 9,
+      "rank": 17,
+      "commonality": 0.449,
+      "french": "Nous ne pouvons pas partir plus tôt.",
+      "english": "We can't leave earlier.",
+      "chars_fr": 36,
+      "chars_en": 23
+    },
+    {
+      "id": "unit09_4303",
+      "unit": 9,
+      "rank": 18,
+      "commonality": 0.448,
+      "french": "est exactement ce qu'il dit.",
+      "english": "is exactly what he says.",
+      "chars_fr": 28,
+      "chars_en": 24
+    },
+    {
+      "id": "unit09_4262",
+      "unit": 9,
+      "rank": 19,
+      "commonality": 0.44,
+      "french": "Pourquoi ne la savez-vous pas?",
+      "english": "Why don't you know it?",
+      "chars_fr": 30,
+      "chars_en": 22
+    },
+    {
+      "id": "unit09_4265",
+      "unit": 9,
+      "rank": 20,
+      "commonality": 0.44,
+      "french": "Pourquoi ne la voulez-vous pas?",
+      "english": "Why don't you want it?",
+      "chars_fr": 31,
+      "chars_en": 22
+    },
+    {
+      "id": "unit10_4721",
+      "unit": 10,
+      "rank": 1,
+      "commonality": 0.596,
+      "french": "Nous ne lui téléphonons pas.",
+      "english": "We don't call him/her.",
+      "chars_fr": 28,
+      "chars_en": 22
+    },
+    {
+      "id": "unit10_4718",
+      "unit": 10,
+      "rank": 2,
+      "commonality": 0.578,
+      "french": "Je ne les entends pas.",
+      "english": "I don't hear them.",
+      "chars_fr": 22,
+      "chars_en": 18
+    },
+    {
+      "id": "unit10_4720",
+      "unit": 10,
+      "rank": 3,
+      "commonality": 0.578,
+      "french": "Je ne leur parle pas.",
+      "english": "I don't speak to them.",
+      "chars_fr": 21,
+      "chars_en": 22
+    },
+    {
+      "id": "unit10_4595",
+      "unit": 10,
+      "rank": 4,
+      "commonality": 0.57,
+      "french": "Il est sportif .",
+      "english": "He is athletic.",
+      "chars_fr": 16,
+      "chars_en": 15
+    },
+    {
+      "id": "unit10_4710",
+      "unit": 10,
+      "rank": 5,
+      "commonality": 0.562,
+      "french": "Elle ne l'aime pas.",
+      "english": "She doesn't like it/him/her.",
+      "chars_fr": 19,
+      "chars_en": 28
+    },
+    {
+      "id": "unit10_5020",
+      "unit": 10,
+      "rank": 6,
+      "commonality": 0.554,
+      "french": "Non, je ne les ai pas.",
+      "english": "No, I don't have them.",
+      "chars_fr": 22,
+      "chars_en": 22
+    },
+    {
+      "id": "unit10_4492",
+      "unit": 10,
+      "rank": 7,
+      "commonality": 0.553,
+      "french": "Non, elle n'est pas avec lui.",
+      "english": "No, she is not with him.",
+      "chars_fr": 29,
+      "chars_en": 24
+    },
+    {
+      "id": "unit10_4781",
+      "unit": 10,
+      "rank": 8,
+      "commonality": 0.547,
+      "french": "Nous en apportons.",
+      "english": "We bring some.",
+      "chars_fr": 18,
+      "chars_en": 14
+    },
+    {
+      "id": "unit10_4782",
+      "unit": 10,
+      "rank": 9,
+      "commonality": 0.547,
+      "french": "Nous en cherchons.",
+      "english": "We are looking for some.",
+      "chars_fr": 18,
+      "chars_en": 24
+    },
+    {
+      "id": "unit10_4783",
+      "unit": 10,
+      "rank": 10,
+      "commonality": 0.547,
+      "french": "Nous en envoyons.",
+      "english": "We send some.",
+      "chars_fr": 17,
+      "chars_en": 13
+    },
+    {
+      "id": "unit10_4784",
+      "unit": 10,
+      "rank": 11,
+      "commonality": 0.547,
+      "french": "Nous en trouvons.",
+      "english": "We find some.",
+      "chars_fr": 17,
+      "chars_en": 13
+    },
+    {
+      "id": "unit10_4785",
+      "unit": 10,
+      "rank": 12,
+      "commonality": 0.547,
+      "french": "Nous en achetons.",
+      "english": "We buy some.",
+      "chars_fr": 17,
+      "chars_en": 12
+    },
+    {
+      "id": "unit10_4786",
+      "unit": 10,
+      "rank": 13,
+      "commonality": 0.547,
+      "french": "Nous en voulons.",
+      "english": "We want some.",
+      "chars_fr": 16,
+      "chars_en": 13
+    },
+    {
+      "id": "unit10_4787",
+      "unit": 10,
+      "rank": 14,
+      "commonality": 0.547,
+      "french": "Nous en essayons.",
+      "english": "We try some.",
+      "chars_fr": 17,
+      "chars_en": 12
+    },
+    {
+      "id": "unit10_4788",
+      "unit": 10,
+      "rank": 15,
+      "commonality": 0.547,
+      "french": "Nous en demandons.",
+      "english": "We ask for some.",
+      "chars_fr": 18,
+      "chars_en": 16
+    },
+    {
+      "id": "unit10_4790",
+      "unit": 10,
+      "rank": 16,
+      "commonality": 0.512,
+      "french": "Nous en achetons parce que nous n'en avons pas.",
+      "english": "We buy some because we don't have any.",
+      "chars_fr": 47,
+      "chars_en": 38
+    },
+    {
+      "id": "unit10_4585",
+      "unit": 10,
+      "rank": 17,
+      "commonality": 0.503,
+      "french": "Elle est parfaite.",
+      "english": "She is perfect.",
+      "chars_fr": 18,
+      "chars_en": 15
+    },
+    {
+      "id": "unit10_4586",
+      "unit": 10,
+      "rank": 18,
+      "commonality": 0.503,
+      "french": "Elle est grande.",
+      "english": "She is tall.",
+      "chars_fr": 16,
+      "chars_en": 12
+    },
+    {
+      "id": "unit10_4587",
+      "unit": 10,
+      "rank": 19,
+      "commonality": 0.503,
+      "french": "Elle est courte.",
+      "english": "She is short.",
+      "chars_fr": 16,
+      "chars_en": 13
+    },
+    {
+      "id": "unit10_4589",
+      "unit": 10,
+      "rank": 20,
+      "commonality": 0.503,
+      "french": "Elle est petite.",
+      "english": "She is small.",
+      "chars_fr": 16,
+      "chars_en": 13
+    },
+    {
+      "id": "unit11_5391",
+      "unit": 11,
+      "rank": 1,
+      "commonality": 0.613,
+      "french": "Il ne les veut pas.",
+      "english": "He doesn't want them.",
+      "chars_fr": 19,
+      "chars_en": 21
+    },
+    {
+      "id": "unit11_5408",
+      "unit": 11,
+      "rank": 2,
+      "commonality": 0.595,
+      "french": "Il est si pressé!",
+      "english": "He is so rushed!",
+      "chars_fr": 17,
+      "chars_en": 16
+    },
+    {
+      "id": "unit11_5394",
+      "unit": 11,
+      "rank": 3,
+      "commonality": 0.583,
+      "french": "Nous ne les réparons pas.",
+      "english": "We are not repairing them.",
+      "chars_fr": 25,
+      "chars_en": 26
+    },
+    {
+      "id": "unit11_5397",
+      "unit": 11,
+      "rank": 4,
+      "commonality": 0.578,
+      "french": "Je ne les essaie pas.",
+      "english": "I am not trying them.",
+      "chars_fr": 21,
+      "chars_en": 21
+    },
+    {
+      "id": "unit11_5392",
+      "unit": 11,
+      "rank": 5,
+      "commonality": 0.562,
+      "french": "Elle ne les accepte pas.",
+      "english": "She doesn't accept them.",
+      "chars_fr": 24,
+      "chars_en": 24
+    },
+    {
+      "id": "unit11_5321",
+      "unit": 11,
+      "rank": 6,
+      "commonality": 0.551,
+      "french": "Dites-moi que je ne vous dérange pas.",
+      "english": "Tell me that I'm not bothering you.",
+      "chars_fr": 37,
+      "chars_en": 35
+    },
+    {
+      "id": "unit11_5174",
+      "unit": 11,
+      "rank": 7,
+      "commonality": 0.55,
+      "french": "de ne pas avoir peur.",
+      "english": "not to be afraid.",
+      "chars_fr": 21,
+      "chars_en": 17
+    },
+    {
+      "id": "unit11_5389",
+      "unit": 11,
+      "rank": 8,
+      "commonality": 0.547,
+      "french": "Nous en vendons.",
+      "english": "We sell some.",
+      "chars_fr": 16,
+      "chars_en": 13
+    },
+    {
+      "id": "unit11_5155",
+      "unit": 11,
+      "rank": 9,
+      "commonality": 0.54,
+      "french": "ne les envoyez pas.",
+      "english": "don't send them.",
+      "chars_fr": 19,
+      "chars_en": 16
+    },
+    {
+      "id": "unit11_5156",
+      "unit": 11,
+      "rank": 10,
+      "commonality": 0.54,
+      "french": "ne la fermez pas.",
+      "english": "don't close it.",
+      "chars_fr": 17,
+      "chars_en": 15
+    },
+    {
+      "id": "unit11_5339",
+      "unit": 11,
+      "rank": 11,
+      "commonality": 0.52,
+      "french": "Non, je ne lui téléphone pas.",
+      "english": "No, I'm not calling him/her.",
+      "chars_fr": 29,
+      "chars_en": 28
+    },
+    {
+      "id": "unit11_5176",
+      "unit": 11,
+      "rank": 12,
+      "commonality": 0.51,
+      "french": "de ne pas être en retard.",
+      "english": "not to be late.",
+      "chars_fr": 25,
+      "chars_en": 15
+    },
+    {
+      "id": "unit11_5340",
+      "unit": 11,
+      "rank": 13,
+      "commonality": 0.494,
+      "french": "Non, je ne le ferme pas.",
+      "english": "No, I'm not closing it.",
+      "chars_fr": 24,
+      "chars_en": 23
+    },
+    {
+      "id": "unit11_5395",
+      "unit": 11,
+      "rank": 14,
+      "commonality": 0.492,
+      "french": "Nous n'en vendons pas.",
+      "english": "We don't sell any.",
+      "chars_fr": 22,
+      "chars_en": 18
+    },
+    {
+      "id": "unit11_5331",
+      "unit": 11,
+      "rank": 15,
+      "commonality": 0.469,
+      "french": "Elle ne sait pas si elle grossit ou maigrit en été.",
+      "english": "She doesn't know if she gains or loses weight in summer.",
+      "chars_fr": 51,
+      "chars_en": 56
+    },
+    {
+      "id": "unit11_5525",
+      "unit": 11,
+      "rank": 16,
+      "commonality": 0.46,
+      "french": "Pas encore, nous verrons plus tard.",
+      "english": "Not yet, we'll see later.",
+      "chars_fr": 35,
+      "chars_en": 25
+    },
+    {
+      "id": "unit11_5144",
+      "unit": 11,
+      "rank": 17,
+      "commonality": 0.457,
+      "french": "Si vous ne voulez pas acheter l'auto, ne l'achetez pas.",
+      "english": "If you don't want to buy the car, don't buy it.",
+      "chars_fr": 55,
+      "chars_en": 47
+    },
+    {
+      "id": "unit11_5145",
+      "unit": 11,
+      "rank": 18,
+      "commonality": 0.457,
+      "french": "Si vous ne voulez pas êcouter les nouvelles, ne les écoutez pas.",
+      "english": "If you don't want to listen to the news, don't listen to it.",
+      "chars_fr": 64,
+      "chars_en": 60
+    },
+    {
+      "id": "unit11_5148",
+      "unit": 11,
+      "rank": 19,
+      "commonality": 0.457,
+      "french": "Si vous ne voulez pas louer vos places, ne les louez pas.",
+      "english": "If you don't want to rent your seats, don't rent them.",
+      "chars_fr": 57,
+      "chars_en": 54
+    },
+    {
+      "id": "unit11_5260",
+      "unit": 11,
+      "rank": 20,
+      "commonality": 0.457,
+      "french": "Nous vous remercions.",
+      "english": "We thank you.",
+      "chars_fr": 21,
+      "chars_en": 13
+    },
+    {
+      "id": "unit12_6031",
+      "unit": 12,
+      "rank": 1,
+      "commonality": 0.578,
+      "french": "Je ne déjeune pas.",
+      "english": "I don't have lunch.",
+      "chars_fr": 18,
+      "chars_en": 19
+    },
+    {
+      "id": "unit12_5691",
+      "unit": 12,
+      "rank": 2,
+      "commonality": 0.569,
+      "french": "Non, il n'est pas aussi bien que l'autre.",
+      "english": "No, it's not as good as the other one.",
+      "chars_fr": 41,
+      "chars_en": 38
+    },
+    {
+      "id": "unit12_6192",
+      "unit": 12,
+      "rank": 3,
+      "commonality": 0.55,
+      "french": "Oui, je vous en ai fait.",
+      "english": "Yes, I made you some.",
+      "chars_fr": 24,
+      "chars_en": 21
+    },
+    {
+      "id": "unit12_5708",
+      "unit": 12,
+      "rank": 4,
+      "commonality": 0.547,
+      "french": "Quel est le plus fort?",
+      "english": "Which one is the strongest?",
+      "chars_fr": 22,
+      "chars_en": 27
+    },
+    {
+      "id": "unit12_5711",
+      "unit": 12,
+      "rank": 5,
+      "commonality": 0.547,
+      "french": "Quel est le plus grand?",
+      "english": "Which one is the biggest?",
+      "chars_fr": 23,
+      "chars_en": 25
+    },
+    {
+      "id": "unit12_5712",
+      "unit": 12,
+      "rank": 6,
+      "commonality": 0.547,
+      "french": "Quel est le plus beau?",
+      "english": "Which one is the most beautiful?",
+      "chars_fr": 22,
+      "chars_en": 32
+    },
+    {
+      "id": "unit12_5791",
+      "unit": 12,
+      "rank": 7,
+      "commonality": 0.545,
+      "french": "Je ne vous ai pas trouvé.",
+      "english": "I didn't find you.",
+      "chars_fr": 25,
+      "chars_en": 18
+    },
+    {
+      "id": "unit12_5995",
+      "unit": 12,
+      "rank": 8,
+      "commonality": 0.545,
+      "french": "Je ne vous ai pas attendu.",
+      "english": "I didn't wait for you.",
+      "chars_fr": 26,
+      "chars_en": 22
+    },
+    {
+      "id": "unit12_6052",
+      "unit": 12,
+      "rank": 9,
+      "commonality": 0.545,
+      "french": "Je vous l'ai dit.",
+      "english": "I told you.",
+      "chars_fr": 17,
+      "chars_en": 11
+    },
+    {
+      "id": "unit12_5793",
+      "unit": 12,
+      "rank": 10,
+      "commonality": 0.527,
+      "french": "Il ne nous a pas trouvés.",
+      "english": "He didn't find us.",
+      "chars_fr": 25,
+      "chars_en": 18
+    },
+    {
+      "id": "unit12_5788",
+      "unit": 12,
+      "rank": 11,
+      "commonality": 0.522,
+      "french": "Je ne les ai pas trouvés.",
+      "english": "I didn't find them.",
+      "chars_fr": 25,
+      "chars_en": 19
+    },
+    {
+      "id": "unit12_5790",
+      "unit": 12,
+      "rank": 12,
+      "commonality": 0.522,
+      "french": "Je ne l'ai pas trouvé.",
+      "english": "I didn't find him.",
+      "chars_fr": 22,
+      "chars_en": 18
+    },
+    {
+      "id": "unit12_5797",
+      "unit": 12,
+      "rank": 13,
+      "commonality": 0.518,
+      "french": "Il ne vous a pas trouvé.",
+      "english": "He didn't find you.",
+      "chars_fr": 24,
+      "chars_en": 19
+    },
+    {
+      "id": "unit12_6074",
+      "unit": 12,
+      "rank": 14,
+      "commonality": 0.516,
+      "french": "Je vous en ai apporté.",
+      "english": "I brought you some.",
+      "chars_fr": 22,
+      "chars_en": 19
+    },
+    {
+      "id": "unit12_6078",
+      "unit": 12,
+      "rank": 15,
+      "commonality": 0.516,
+      "french": "Je vous en ai acheté.",
+      "english": "I bought you some.",
+      "chars_fr": 21,
+      "chars_en": 18
+    },
+    {
+      "id": "unit12_6082",
+      "unit": 12,
+      "rank": 16,
+      "commonality": 0.516,
+      "french": "Je vous en ai monté.",
+      "english": "I brought you some upstairs.",
+      "chars_fr": 20,
+      "chars_en": 28
+    },
+    {
+      "id": "unit12_6084",
+      "unit": 12,
+      "rank": 17,
+      "commonality": 0.516,
+      "french": "Je vous en ai donné.",
+      "english": "I gave you some.",
+      "chars_fr": 20,
+      "chars_en": 16
+    },
+    {
+      "id": "unit12_6085",
+      "unit": 12,
+      "rank": 18,
+      "commonality": 0.516,
+      "french": "Je vous en ai demandé.",
+      "english": "I asked you for some.",
+      "chars_fr": 22,
+      "chars_en": 21
+    },
+    {
+      "id": "unit12_5618",
+      "unit": 12,
+      "rank": 19,
+      "commonality": 0.495,
+      "french": "Cette auto est plus chère que l'autre.",
+      "english": "This car is more expensive than the other one.",
+      "chars_fr": 38,
+      "chars_en": 46
+    },
+    {
+      "id": "unit12_5620",
+      "unit": 12,
+      "rank": 20,
+      "commonality": 0.495,
+      "french": "Cette auto est plus petite que l'autre.",
+      "english": "This car is smaller than the other one.",
+      "chars_fr": 39,
+      "chars_en": 39
+    },
+    {
+      "id": "unit13_0141",
+      "unit": 13,
+      "rank": 1,
+      "commonality": 0.87,
+      "french": "Pour le",
+      "english": "For the",
+      "chars_fr": 7,
+      "chars_en": 7
+    },
+    {
+      "id": "unit13_0741",
+      "unit": 13,
+      "rank": 2,
+      "commonality": 0.715,
+      "french": "Elle ne les",
+      "english": "She doesn't",
+      "chars_fr": 11,
+      "chars_en": 11
+    },
+    {
+      "id": "unit13_0259",
+      "unit": 13,
+      "rank": 3,
+      "commonality": 0.64,
+      "french": "Je ne savais pas que",
+      "english": "I didn't know that",
+      "chars_fr": 20,
+      "chars_en": 18
+    },
+    {
+      "id": "unit13_0342",
+      "unit": 13,
+      "rank": 4,
+      "commonality": 0.551,
+      "french": "Je ne savais pas que vous quittiez les",
+      "english": "I didn't know you were leaving the",
+      "chars_fr": 38,
+      "chars_en": 34
+    },
+    {
+      "id": "unit13_0352",
+      "unit": 13,
+      "rank": 5,
+      "commonality": 0.551,
+      "french": "Je ne savais pas que vous etudiiez le",
+      "english": "Exercice A-8",
+      "chars_fr": 37,
+      "chars_en": 12
+    },
+    {
+      "id": "unit13_0831",
+      "unit": 13,
+      "rank": 6,
+      "commonality": 0.551,
+      "french": "Je croyais que vous ne vouliez pas la",
+      "english": "I thought you didn't want to",
+      "chars_fr": 37,
+      "chars_en": 28
+    },
+    {
+      "id": "unit13_0264",
+      "unit": 13,
+      "rank": 7,
+      "commonality": 0.533,
+      "french": "Je ne me doutais pas que",
+      "english": "Notice that the ! Imparfait' expresses facts that existed or happened in the",
+      "chars_fr": 24,
+      "chars_en": 76
+    },
+    {
+      "id": "unit13_0341",
+      "unit": 13,
+      "rank": 8,
+      "commonality": 0.533,
+      "french": "Je ne savais pas que les magasins",
+      "english": "I didn't know the stores",
+      "chars_fr": 33,
+      "chars_en": 24
+    },
+    {
+      "id": "unit13_0338",
+      "unit": 13,
+      "rank": 9,
+      "commonality": 0.532,
+      "french": "Je ne savais pas que vous etiez nomme en",
+      "english": "a 6 heures.",
+      "chars_fr": 40,
+      "chars_en": 11
+    },
+    {
+      "id": "unit13_0005",
+      "unit": 13,
+      "rank": 10,
+      "commonality": 0.527,
+      "french": "Je crois que",
+      "english": "I think that",
+      "chars_fr": 12,
+      "chars_en": 12
+    },
+    {
+      "id": "unit13_0346",
+      "unit": 13,
+      "rank": 11,
+      "commonality": 0.52,
+      "french": "Je ne savais pas que vous n'aimiez pas",
+      "english": "I didn't know you didn't like",
+      "chars_fr": 38,
+      "chars_en": 29
+    },
+    {
+      "id": "unit13_0811",
+      "unit": 13,
+      "rank": 12,
+      "commonality": 0.508,
+      "french": "Nous ne prevenons que lui.",
+      "english": "We only notify him.",
+      "chars_fr": 26,
+      "chars_en": 19
+    },
+    {
+      "id": "unit13_0699",
+      "unit": 13,
+      "rank": 13,
+      "commonality": 0.495,
+      "french": "Je ne vous entends pas.",
+      "english": "II a presque termine et vous prie de l'attendre.",
+      "chars_fr": 23,
+      "chars_en": 48
+    },
+    {
+      "id": "unit13_0390",
+      "unit": 13,
+      "rank": 14,
+      "commonality": 0.482,
+      "french": "Je ne savais pas que vous vouliez partir",
+      "english": "I didn't know you wanted to leave",
+      "chars_fr": 40,
+      "chars_en": 33
+    },
+    {
+      "id": "unit13_0825",
+      "unit": 13,
+      "rank": 15,
+      "commonality": 0.482,
+      "french": "Je croyais que vous ne les aviez pas.",
+      "english": "I thought you didn't have them.",
+      "chars_fr": 37,
+      "chars_en": 31
+    },
+    {
+      "id": "unit13_0491",
+      "unit": 13,
+      "rank": 16,
+      "commonality": 0.464,
+      "french": "Elle ne veut que du vin",
+      "english": "She only wants wine.",
+      "chars_fr": 23,
+      "chars_en": 20
+    },
+    {
+      "id": "unit13_0344",
+      "unit": 13,
+      "rank": 17,
+      "commonality": 0.457,
+      "french": "Je ne savais pas que vos amis venaient",
+      "english": "I didn't know your friends were coming",
+      "chars_fr": 38,
+      "chars_en": 38
+    },
+    {
+      "id": "unit13_0349",
+      "unit": 13,
+      "rank": 18,
+      "commonality": 0.457,
+      "french": "Je ne savais pas que le train venait",
+      "english": "I didn't know the train was coming",
+      "chars_fr": 36,
+      "chars_en": 34
+    },
+    {
+      "id": "unit13_0351",
+      "unit": 13,
+      "rank": 19,
+      "commonality": 0.457,
+      "french": "Je ne savais pas que les magasins etaient",
+      "english": "Exercice A-8",
+      "chars_fr": 41,
+      "chars_en": 12
+    },
+    {
+      "id": "unit13_0499",
+      "unit": 13,
+      "rank": 20,
+      "commonality": 0.449,
+      "french": "Elle ne lit pas que son courrier .",
+      "english": "She doesn't only read her mail.",
+      "chars_fr": 34,
+      "chars_en": 31
+    },
+    {
+      "id": "unit14_0322",
+      "unit": 14,
+      "rank": 1,
+      "commonality": 0.562,
+      "french": "Nous ne vous l'avons pas dit parce que nous ne le savions pas",
+      "english": "We didn't tell you because we didn't know.",
+      "chars_fr": 61,
+      "chars_en": 42
+    },
+    {
+      "id": "unit14_0885",
+      "unit": 14,
+      "rank": 2,
+      "commonality": 0.477,
+      "french": "Est-ce que ce sont leurs",
+      "english": "Are these theirs",
+      "chars_fr": 24,
+      "chars_en": 16
+    },
+    {
+      "id": "unit14_0889",
+      "unit": 14,
+      "rank": 3,
+      "commonality": 0.477,
+      "french": "Est-ce que ce sont mes",
+      "english": "Are these mine",
+      "chars_fr": 22,
+      "chars_en": 14
+    },
+    {
+      "id": "unit14_0001",
+      "unit": 14,
+      "rank": 4,
+      "commonality": 0.471,
+      "french": "Paul et Jean sont en route pour la",
+      "english": "Paul et Jean are on their way to Belgium",
+      "chars_fr": 34,
+      "chars_en": 40
+    },
+    {
+      "id": "unit14_0323",
+      "unit": 14,
+      "rank": 5,
+      "commonality": 0.437,
+      "french": "Elle ne le lui a pas dit parce qu'elle ne le savait pas.",
+      "english": "She didn't tell him because she didn't know.",
+      "chars_fr": 56,
+      "chars_en": 44
+    },
+    {
+      "id": "unit14_0381",
+      "unit": 14,
+      "rank": 6,
+      "commonality": 0.432,
+      "french": "La votre est dans le journal.",
+      "english": "Yours is in the newspaper.",
+      "chars_fr": 29,
+      "chars_en": 26
+    },
+    {
+      "id": "unit14_0803",
+      "unit": 14,
+      "rank": 7,
+      "commonality": 0.427,
+      "french": "Vous ne nous ecrivez pas souvent.",
+      "english": "On decrit bien le paysage.",
+      "chars_fr": 33,
+      "chars_en": 26
+    },
+    {
+      "id": "unit14_0469",
+      "unit": 14,
+      "rank": 8,
+      "commonality": 0.424,
+      "french": "Elle ne pense pas a tout.",
+      "english": "She doesn't think about everything.",
+      "chars_fr": 25,
+      "chars_en": 35
+    },
+    {
+      "id": "unit14_0802",
+      "unit": 14,
+      "rank": 9,
+      "commonality": 0.423,
+      "french": "Je ne lui ecris pas souvent.",
+      "english": "On decrit bien le paysage.",
+      "chars_fr": 28,
+      "chars_en": 26
+    },
+    {
+      "id": "unit14_0829",
+      "unit": 14,
+      "rank": 10,
+      "commonality": 0.418,
+      "french": "Elle n'ecrivent pas bien",
+      "english": "II ecrit a tout le monde.",
+      "chars_fr": 24,
+      "chars_en": 25
+    },
+    {
+      "id": "unit14_0707",
+      "unit": 14,
+      "rank": 11,
+      "commonality": 0.413,
+      "french": "Ce n r est pas bien fait.",
+      "english": "It's not well made.",
+      "chars_fr": 25,
+      "chars_en": 19
+    },
+    {
+      "id": "unit14_0206",
+      "unit": 14,
+      "rank": 12,
+      "commonality": 0.402,
+      "french": "Est-ce que le voyage s'est bien",
+      "english": "Quand Paul a-t-il eu l 1 occasion",
+      "chars_fr": 31,
+      "chars_en": 33
+    },
+    {
+      "id": "unit14_0853",
+      "unit": 14,
+      "rank": 13,
+      "commonality": 0.393,
+      "french": "Tiens! Je ne savais pas qu'il",
+      "english": "Tres. II a vu tout ce qu'il",
+      "chars_fr": 29,
+      "chars_en": 27
+    },
+    {
+      "id": "unit14_0979",
+      "unit": 14,
+      "rank": 14,
+      "commonality": 0.391,
+      "french": "Nous restions un moment dans le jardin ou nous parlions de choses et",
+      "english": "We spent some time in the garden where we talked about things and",
+      "chars_fr": 68,
+      "chars_en": 65
+    },
+    {
+      "id": "unit14_0717",
+      "unit": 14,
+      "rank": 15,
+      "commonality": 0.388,
+      "french": "Nous ne sommes pas encore partis",
+      "english": "Ch n'a pas encore ferme.",
+      "chars_fr": 32,
+      "chars_en": 24
+    },
+    {
+      "id": "unit14_0235",
+      "unit": 14,
+      "rank": 16,
+      "commonality": 0.384,
+      "french": "Non, il ne fait ouvrir que la valise de",
+      "english": "II la trouve facile a passer.",
+      "chars_fr": 39,
+      "chars_en": 29
+    },
+    {
+      "id": "unit14_0718",
+      "unit": 14,
+      "rank": 17,
+      "commonality": 0.376,
+      "french": "Nous n'en avons pas encore fait.",
+      "english": "Ch n'a pas encore ferme.",
+      "chars_fr": 32,
+      "chars_en": 24
+    },
+    {
+      "id": "unit14_0634",
+      "unit": 14,
+      "rank": 18,
+      "commonality": 0.375,
+      "french": "Elle ne les a pas toutes repassees",
+      "english": "II les a tous jetes.",
+      "chars_fr": 34,
+      "chars_en": 20
+    },
+    {
+      "id": "unit14_0057",
+      "unit": 14,
+      "rank": 19,
+      "commonality": 0.374,
+      "french": "Je ne sais pas ou j'ai mis mon",
+      "english": "I don't know where I put my",
+      "chars_fr": 30,
+      "chars_en": 27
+    },
+    {
+      "id": "unit14_0058",
+      "unit": 14,
+      "rank": 20,
+      "commonality": 0.374,
+      "french": "Je ne sais pas ou j'ai mis ma",
+      "english": "I don't know where I put my",
+      "chars_fr": 29,
+      "chars_en": 27
+    },
+    {
+      "id": "unit15_0776",
+      "unit": 15,
+      "rank": 1,
+      "commonality": 0.577,
+      "french": "Je ne connais pas la personne pour qui",
+      "english": "I don't know the person for whom...",
+      "chars_fr": 38,
+      "chars_en": 35
+    },
+    {
+      "id": "unit15_0779",
+      "unit": 15,
+      "rank": 2,
+      "commonality": 0.557,
+      "french": "Je ne connais pas la personne avec qui",
+      "english": "I don't know the person with whom...",
+      "chars_fr": 38,
+      "chars_en": 36
+    },
+    {
+      "id": "unit15_0964",
+      "unit": 15,
+      "rank": 3,
+      "commonality": 0.529,
+      "french": "Savez-vous avec qui il est en conference?",
+      "english": "Do you know with whom he is in a meeting?",
+      "chars_fr": 41,
+      "chars_en": 41
+    },
+    {
+      "id": "unit15_0338",
+      "unit": 15,
+      "rank": 4,
+      "commonality": 0.502,
+      "french": "Nous en avons pour cinq",
+      "english": "We have about five...",
+      "chars_fr": 23,
+      "chars_en": 21
+    },
+    {
+      "id": "unit15_0438",
+      "unit": 15,
+      "rank": 5,
+      "commonality": 0.502,
+      "french": "Nous n'envoyons pas tout par",
+      "english": "We don't send everything by...",
+      "chars_fr": 28,
+      "chars_en": 30
+    },
+    {
+      "id": "unit15_0604",
+      "unit": 15,
+      "rank": 6,
+      "commonality": 0.497,
+      "french": "Ou sont les textes que nous vous avons",
+      "english": "Where are the texts which we gave you?",
+      "chars_fr": 38,
+      "chars_en": 38
+    },
+    {
+      "id": "unit15_0323",
+      "unit": 15,
+      "rank": 7,
+      "commonality": 0.495,
+      "french": "Elle ne saura pas tout.",
+      "english": "She won't know everything.",
+      "chars_fr": 23,
+      "chars_en": 26
+    },
+    {
+      "id": "unit15_0619",
+      "unit": 15,
+      "rank": 8,
+      "commonality": 0.492,
+      "french": "La route que je connais est",
+      "english": "The road which I know is...",
+      "chars_fr": 27,
+      "chars_en": 27
+    },
+    {
+      "id": "unit15_0778",
+      "unit": 15,
+      "rank": 9,
+      "commonality": 0.485,
+      "french": "Je ne connais pas la personne a qui nous",
+      "english": "I don't know the person to whom we...",
+      "chars_fr": 40,
+      "chars_en": 37
+    },
+    {
+      "id": "unit15_0328",
+      "unit": 15,
+      "rank": 10,
+      "commonality": 0.484,
+      "french": "Je le saurai aussi bien que vous.",
+      "english": "I will know it as well as you.",
+      "chars_fr": 33,
+      "chars_en": 30
+    },
+    {
+      "id": "unit15_0774",
+      "unit": 15,
+      "rank": 11,
+      "commonality": 0.479,
+      "french": "Je ne connais pas la personne a qui vous",
+      "english": "I don't know the person to whom you...",
+      "chars_fr": 40,
+      "chars_en": 38
+    },
+    {
+      "id": "unit15_0702",
+      "unit": 15,
+      "rank": 12,
+      "commonality": 0.478,
+      "french": "Je sais ce qui ne lui convient pas.",
+      "english": "I know what doesn't suit him.",
+      "chars_fr": 35,
+      "chars_en": 29
+    },
+    {
+      "id": "unit15_1042",
+      "unit": 15,
+      "rank": 13,
+      "commonality": 0.462,
+      "french": "Est-ce que je vous ai dit",
+      "english": "Did I tell you...",
+      "chars_fr": 25,
+      "chars_en": 17
+    },
+    {
+      "id": "unit15_0611",
+      "unit": 15,
+      "rank": 14,
+      "commonality": 0.457,
+      "french": "Je ne trouve pas la carte postale que",
+      "english": "Exercice A-U",
+      "chars_fr": 37,
+      "chars_en": 12
+    },
+    {
+      "id": "unit15_0775",
+      "unit": 15,
+      "rank": 15,
+      "commonality": 0.453,
+      "french": "Je ne connais pas la personne chez qui",
+      "english": "I don't know the person at whose place...",
+      "chars_fr": 38,
+      "chars_en": 41
+    },
+    {
+      "id": "unit15_0055",
+      "unit": 15,
+      "rank": 16,
+      "commonality": 0.45,
+      "french": "Je vous remercie",
+      "english": "I thank you",
+      "chars_fr": 16,
+      "chars_en": 11
+    },
+    {
+      "id": "unit15_0326",
+      "unit": 15,
+      "rank": 17,
+      "commonality": 0.45,
+      "french": "Elle ne le saura pas.",
+      "english": "She won't know it.",
+      "chars_fr": 21,
+      "chars_en": 18
+    },
+    {
+      "id": "unit15_0697",
+      "unit": 15,
+      "rank": 18,
+      "commonality": 0.45,
+      "french": "Dites-moi ce qui ne fait pas l'af faire.",
+      "english": "On veut savoir ce qui ne marche pas.",
+      "chars_fr": 40,
+      "chars_en": 36
+    },
+    {
+      "id": "unit15_0739",
+      "unit": 15,
+      "rank": 19,
+      "commonality": 0.45,
+      "french": "Tout ce que vous remplissez, c'est une",
+      "english": "All you fill in is a...",
+      "chars_fr": 38,
+      "chars_en": 23
+    },
+    {
+      "id": "unit15_0710",
+      "unit": 15,
+      "rank": 20,
+      "commonality": 0.449,
+      "french": "Dites-moi ce qui ne vous convient pas.",
+      "english": "Exercice A-5",
+      "chars_fr": 38,
+      "chars_en": 12
+    },
+    {
+      "id": "unit16_0007",
+      "unit": 16,
+      "rank": 1,
+      "commonality": 0.85,
+      "french": "Dans les",
+      "english": "In the",
+      "chars_fr": 8,
+      "chars_en": 6
+    },
+    {
+      "id": "unit16_0037",
+      "unit": 16,
+      "rank": 2,
+      "commonality": 0.675,
+      "french": "Je vous",
+      "english": "I you",
+      "chars_fr": 7,
+      "chars_en": 5
+    },
+    {
+      "id": "unit16_0773",
+      "unit": 16,
+      "rank": 3,
+      "commonality": 0.6,
+      "french": "Heureusement que nous ne",
+      "english": "A chaque fois qu'on joue une",
+      "chars_fr": 24,
+      "chars_en": 28
+    },
+    {
+      "id": "unit16_0355",
+      "unit": 16,
+      "rank": 4,
+      "commonality": 0.571,
+      "french": "Vous en recevrez plus que nous.",
+      "english": "You will receive more than we do.",
+      "chars_fr": 31,
+      "chars_en": 33
+    },
+    {
+      "id": "unit16_0365",
+      "unit": 16,
+      "rank": 5,
+      "commonality": 0.571,
+      "french": "Vous en recevriez plus que nous.",
+      "english": "Exercice A-6",
+      "chars_fr": 32,
+      "chars_en": 12
+    },
+    {
+      "id": "unit16_0501",
+      "unit": 16,
+      "rank": 6,
+      "commonality": 0.518,
+      "french": "Ce n'est pas exactement ce que",
+      "english": "Yes, I left them.",
+      "chars_fr": 30,
+      "chars_en": 17
+    },
+    {
+      "id": "unit16_0825",
+      "unit": 16,
+      "rank": 7,
+      "commonality": 0.468,
+      "french": "Je ne suis pas tres sportif et je prefere etre dans un fauteuil que dans",
+      "english": "Yes, I'm going to buy them.",
+      "chars_fr": 72,
+      "chars_en": 27
+    },
+    {
+      "id": "unit16_0395",
+      "unit": 16,
+      "rank": 8,
+      "commonality": 0.464,
+      "french": "Si nous n'en avions pas beaucoup, nous ne",
+      "english": "If we didn't have a lot of them, we wouldn't",
+      "chars_fr": 41,
+      "chars_en": 44
+    },
+    {
+      "id": "unit16_0268",
+      "unit": 16,
+      "rank": 9,
+      "commonality": 0.459,
+      "french": "Je ne sais pas si elle aimerait venir avec nous.",
+      "english": "'I don't know if she'd like to come with us.'",
+      "chars_fr": 48,
+      "chars_en": 45
+    },
+    {
+      "id": "unit16_0498",
+      "unit": 16,
+      "rank": 10,
+      "commonality": 0.454,
+      "french": "Je sais exactement ce que je",
+      "english": "Yes, I bought them.",
+      "chars_fr": 28,
+      "chars_en": 19
+    },
+    {
+      "id": "unit16_0558",
+      "unit": 16,
+      "rank": 11,
+      "commonality": 0.449,
+      "french": "Avec qui est-ce que vous voyagez?",
+      "english": "Yes, I fixed them.",
+      "chars_fr": 33,
+      "chars_en": 18
+    },
+    {
+      "id": "unit16_0494",
+      "unit": 16,
+      "rank": 12,
+      "commonality": 0.441,
+      "french": "Qui est-ce qui est en train de le revoir?",
+      "english": "Exercice A-U",
+      "chars_fr": 41,
+      "chars_en": 12
+    },
+    {
+      "id": "unit16_0858",
+      "unit": 16,
+      "rank": 13,
+      "commonality": 0.432,
+      "french": "Ce n T est pas la peine que",
+      "english": "Quand vous serez a bord,",
+      "chars_fr": 27,
+      "chars_en": 24
+    },
+    {
+      "id": "unit16_0454",
+      "unit": 16,
+      "rank": 14,
+      "commonality": 0.416,
+      "french": "Qui est-ce qui vous l'a dit?",
+      "english": "Who told you?",
+      "chars_fr": 28,
+      "chars_en": 13
+    },
+    {
+      "id": "unit16_0605",
+      "unit": 16,
+      "rank": 15,
+      "commonality": 0.416,
+      "french": "Que vous a-t-on dit?",
+      "english": "Que leur a-t-on servi?",
+      "chars_fr": 20,
+      "chars_en": 22
+    },
+    {
+      "id": "unit16_0682",
+      "unit": 16,
+      "rank": 16,
+      "commonality": 0.407,
+      "french": "Qui est la personne a qui on vous a",
+      "english": "I didn't know the stores were closed.",
+      "chars_fr": 35,
+      "chars_en": 37
+    },
+    {
+      "id": "unit16_0783",
+      "unit": 16,
+      "rank": 17,
+      "commonality": 0.407,
+      "french": "Que faut-il faire pour ne pas arriver en retard le matin au bureau?",
+      "english": "I've only been here for a week.",
+      "chars_fr": 67,
+      "chars_en": 31
+    },
+    {
+      "id": "unit16_0504",
+      "unit": 16,
+      "rank": 18,
+      "commonality": 0.406,
+      "french": "Je sais ce que je vais faire.",
+      "english": "Yes, I shipped them.",
+      "chars_fr": 29,
+      "chars_en": 20
+    },
+    {
+      "id": "unit16_0516",
+      "unit": 16,
+      "rank": 19,
+      "commonality": 0.402,
+      "french": "Qui est-ce que vous connaissez?",
+      "english": "Yes, I cut them.",
+      "chars_fr": 31,
+      "chars_en": 16
+    },
+    {
+      "id": "unit16_0388",
+      "unit": 16,
+      "rank": 20,
+      "commonality": 0.401,
+      "french": "Si vous n'etiez pas presse, vous ne",
+      "english": "If you weren't in a hurry, you wouldn't",
+      "chars_fr": 35,
+      "chars_en": 39
+    },
+    {
+      "id": "unit17_0011",
+      "unit": 17,
+      "rank": 1,
+      "commonality": 0.58,
+      "french": "Celui qui est",
+      "english": "on vient d'annoncer",
+      "chars_fr": 13,
+      "chars_en": 19
+    },
+    {
+      "id": "unit17_0400",
+      "unit": 17,
+      "rank": 2,
+      "commonality": 0.526,
+      "french": "Nous ne nous sentons pas bien.",
+      "english": "On ne se sent pas bien.",
+      "chars_fr": 30,
+      "chars_en": 23
+    },
+    {
+      "id": "unit17_0402",
+      "unit": 17,
+      "rank": 3,
+      "commonality": 0.524,
+      "french": "Elle ne se sent pas bien.",
+      "english": "On ne se sent pas bien.",
+      "chars_fr": 25,
+      "chars_en": 23
+    },
+    {
+      "id": "unit17_1149",
+      "unit": 17,
+      "rank": 4,
+      "commonality": 0.523,
+      "french": "Quand voudrait-on que vous vous en",
+      "english": "When would someone want you to leave?",
+      "chars_fr": 34,
+      "chars_en": 37
+    },
+    {
+      "id": "unit17_0404",
+      "unit": 17,
+      "rank": 5,
+      "commonality": 0.511,
+      "french": "Vous ne vous sentez pas bien.",
+      "english": "On ne se sent pas bien.",
+      "chars_fr": 29,
+      "chars_en": 23
+    },
+    {
+      "id": "unit17_0237",
+      "unit": 17,
+      "rank": 6,
+      "commonality": 0.495,
+      "french": "Je ne vous comprends pas.",
+      "english": "on prend",
+      "chars_fr": 25,
+      "chars_en": 8
+    },
+    {
+      "id": "unit17_0877",
+      "unit": 17,
+      "rank": 7,
+      "commonality": 0.494,
+      "french": "Je suis sur que personne ne se souvient",
+      "english": "I'm sure no one remembers.",
+      "chars_fr": 39,
+      "chars_en": 26
+    },
+    {
+      "id": "unit17_0506",
+      "unit": 17,
+      "rank": 8,
+      "commonality": 0.493,
+      "french": "Nous ne nous en irons que si nous sommes prets .",
+      "english": "Wait for me, I'll be ready in ten minutes.",
+      "chars_fr": 48,
+      "chars_en": 42
+    },
+    {
+      "id": "unit17_0468",
+      "unit": 17,
+      "rank": 9,
+      "commonality": 0.485,
+      "french": "Qa ne se fait pas en un jour.",
+      "english": "Exercice A-12",
+      "chars_fr": 29,
+      "chars_en": 13
+    },
+    {
+      "id": "unit17_0320",
+      "unit": 17,
+      "rank": 10,
+      "commonality": 0.482,
+      "french": "Non, je ne comprends pas ce que vous",
+      "english": "I knew you were looking for me.",
+      "chars_fr": 36,
+      "chars_en": 31
+    },
+    {
+      "id": "unit17_1184",
+      "unit": 17,
+      "rank": 11,
+      "commonality": 0.479,
+      "french": "Si tout va bien, ou voulez-vous que nous",
+      "english": "If all goes well, where would you like us to meet?",
+      "chars_fr": 40,
+      "chars_en": 50
+    },
+    {
+      "id": "unit17_0504",
+      "unit": 17,
+      "rank": 12,
+      "commonality": 0.475,
+      "french": "Nous ne nous en irons que lorsque nous serons prets",
+      "english": "I read it in an hour.",
+      "chars_fr": 51,
+      "chars_en": 21
+    },
+    {
+      "id": "unit17_0268",
+      "unit": 17,
+      "rank": 13,
+      "commonality": 0.466,
+      "french": "Nous ne les avons pas compris",
+      "english": "Who is this man who just left?",
+      "chars_fr": 29,
+      "chars_en": 30
+    },
+    {
+      "id": "unit17_0270",
+      "unit": 17,
+      "rank": 14,
+      "commonality": 0.466,
+      "french": "Nous ne les avons pas surpris",
+      "english": "What is this game you're playing?",
+      "chars_fr": 29,
+      "chars_en": 33
+    },
+    {
+      "id": "unit17_0341",
+      "unit": 17,
+      "rank": 15,
+      "commonality": 0.466,
+      "french": "Us ne nous comprennent pas",
+      "english": "She will only need her.",
+      "chars_fr": 26,
+      "chars_en": 23
+    },
+    {
+      "id": "unit17_0952",
+      "unit": 17,
+      "rank": 16,
+      "commonality": 0.464,
+      "french": "Je ne suis pas contre ceux qui sont",
+      "english": "necessaires a la bonne marche de l'ent re-",
+      "chars_fr": 35,
+      "chars_en": 42
+    },
+    {
+      "id": "unit17_0291",
+      "unit": 17,
+      "rank": 17,
+      "commonality": 0.462,
+      "french": "Je ne les comprends pas.",
+      "english": "Let me show you the window through which you can see the city.",
+      "chars_fr": 24,
+      "chars_en": 62
+    },
+    {
+      "id": "unit17_1255",
+      "unit": 17,
+      "rank": 18,
+      "commonality": 0.457,
+      "french": "Non, il n'est pas necessaire que je les",
+      "english": "preniez a 1'avance.",
+      "chars_fr": 39,
+      "chars_en": 19
+    },
+    {
+      "id": "unit17_1182",
+      "unit": 17,
+      "rank": 19,
+      "commonality": 0.453,
+      "french": "Si vous voulez que je m'en occupe, je",
+      "english": "If you want me to take care of it, I will.",
+      "chars_fr": 37,
+      "chars_en": 42
+    },
+    {
+      "id": "unit17_1145",
+      "unit": 17,
+      "rank": 20,
+      "commonality": 0.449,
+      "french": "Pourquoi faut-il que vous vous mettiez en",
+      "english": "Why do I have to get going?",
+      "chars_fr": 41,
+      "chars_en": 27
+    },
+    {
+      "id": "unit18_0352",
+      "unit": 18,
+      "rank": 1,
+      "commonality": 0.574,
+      "french": "Pourquoi ne vous en servez-vous pas plus",
+      "english": "Why don't you use it more often?",
+      "chars_fr": 40,
+      "chars_en": 32
+    },
+    {
+      "id": "unit18_0428",
+      "unit": 18,
+      "rank": 2,
+      "commonality": 0.571,
+      "french": "Vous en recevrez plus que nous.",
+      "english": "You will receive more than we will.",
+      "chars_fr": 31,
+      "chars_en": 35
+    },
+    {
+      "id": "unit18_0953",
+      "unit": 18,
+      "rank": 3,
+      "commonality": 0.536,
+      "french": "Je crois que c'est plus difficile que vous",
+      "english": "Bsut-etre qu'elle a oublie.",
+      "chars_fr": 42,
+      "chars_en": 27
+    },
+    {
+      "id": "unit18_0800",
+      "unit": 18,
+      "rank": 4,
+      "commonality": 0.533,
+      "french": "Je ne savais pas que les magasins",
+      "english": "I didn't know the stores were closed.",
+      "chars_fr": 33,
+      "chars_en": 37
+    },
+    {
+      "id": "unit18_0527",
+      "unit": 18,
+      "rank": 5,
+      "commonality": 0.506,
+      "french": "Je ne sais pas ce qui est mieux,",
+      "english": "I don't know what's better.",
+      "chars_fr": 32,
+      "chars_en": 27
+    },
+    {
+      "id": "unit18_0528",
+      "unit": 18,
+      "rank": 6,
+      "commonality": 0.506,
+      "french": "Je ne me souviens pas de ce qui s'est",
+      "english": "I don't remember what happened.",
+      "chars_fr": 37,
+      "chars_en": 31
+    },
+    {
+      "id": "unit18_0182",
+      "unit": 18,
+      "rank": 7,
+      "commonality": 0.482,
+      "french": "Je ne travaille pas autant que vous.",
+      "english": "Nous y avons habite pendant plus d'un an.",
+      "chars_fr": 36,
+      "chars_en": 41
+    },
+    {
+      "id": "unit18_0558",
+      "unit": 18,
+      "rank": 8,
+      "commonality": 0.482,
+      "french": "Je ne savais pas que vous vouliez partir",
+      "english": "I didn't know you wanted to leave.",
+      "chars_fr": 40,
+      "chars_en": 34
+    },
+    {
+      "id": "unit18_0949",
+      "unit": 18,
+      "rank": 9,
+      "commonality": 0.482,
+      "french": "Je ne savais pas que vous partiez.",
+      "english": "I didn't know you were leaving.",
+      "chars_fr": 34,
+      "chars_en": 31
+    },
+    {
+      "id": "unit18_0451",
+      "unit": 18,
+      "rank": 10,
+      "commonality": 0.472,
+      "french": "Puisque vous ne voulez pas vous en occuper , ne vous en occupez pas.",
+      "english": "Si on ne veut pas dormer d ! explications officielles s on n'en donnera pas.",
+      "chars_fr": 68,
+      "chars_en": 76
+    },
+    {
+      "id": "unit18_0594",
+      "unit": 18,
+      "rank": 11,
+      "commonality": 0.454,
+      "french": "Je lui en ai apporte une",
+      "english": "(h m'en a envoye trois.",
+      "chars_fr": 24,
+      "chars_en": 23
+    },
+    {
+      "id": "unit18_0957",
+      "unit": 18,
+      "rank": 12,
+      "commonality": 0.453,
+      "french": "Je ne sais pas ce que c'est exactement.",
+      "english": "On dirait qu'il va neiger.",
+      "chars_fr": 39,
+      "chars_en": 26
+    },
+    {
+      "id": "unit18_0113",
+      "unit": 18,
+      "rank": 13,
+      "commonality": 0.45,
+      "french": "Elle ne veut pas se faire inscrire a",
+      "english": "She doesn't want to sign up for it.",
+      "chars_fr": 36,
+      "chars_en": 35
+    },
+    {
+      "id": "unit18_0532",
+      "unit": 18,
+      "rank": 14,
+      "commonality": 0.449,
+      "french": "Je crois que c'est tout ce qui reste.",
+      "english": "I think that's all that's left.",
+      "chars_fr": 37,
+      "chars_en": 31
+    },
+    {
+      "id": "unit18_0603",
+      "unit": 18,
+      "rank": 15,
+      "commonality": 0.446,
+      "french": "Les magasins ne sont fermes que le",
+      "english": "Demandez a ... ce qu'il va faire les deux dernieres semaines avant son",
+      "chars_fr": 34,
+      "chars_en": 70
+    },
+    {
+      "id": "unit18_0958",
+      "unit": 18,
+      "rank": 16,
+      "commonality": 0.444,
+      "french": "Je parie que c'est lui.",
+      "english": "On dirait qu'il va neiger.",
+      "chars_fr": 23,
+      "chars_en": 26
+    },
+    {
+      "id": "unit18_0184",
+      "unit": 18,
+      "rank": 17,
+      "commonality": 0.44,
+      "french": "Cette auto n'est pas en meilleur etat que",
+      "english": "This car is not in better condition than the others.",
+      "chars_fr": 41,
+      "chars_en": 52
+    },
+    {
+      "id": "unit18_0560",
+      "unit": 18,
+      "rank": 18,
+      "commonality": 0.429,
+      "french": "Je ne savais pas que vous me cherchiez.",
+      "english": "I didn't know you were looking for me.",
+      "chars_fr": 39,
+      "chars_en": 38
+    },
+    {
+      "id": "unit18_0806",
+      "unit": 18,
+      "rank": 19,
+      "commonality": 0.429,
+      "french": "Je ne savais pas que vous etiez malade.",
+      "english": "I didn't know you were sick.",
+      "chars_fr": 39,
+      "chars_en": 28
+    },
+    {
+      "id": "unit18_0947",
+      "unit": 18,
+      "rank": 20,
+      "commonality": 0.419,
+      "french": "Je sais que ce n'est que le commencement.",
+      "english": "II a dit qu'il ne voulait rien.",
+      "chars_fr": 41,
+      "chars_en": 31
+    },
+    {
+      "id": "unit19_0061",
+      "unit": 19,
+      "rank": 1,
+      "commonality": 0.55,
+      "french": "Nous ne nous sentons pas bien du tout.",
+      "english": "We don't feel well at all.",
+      "chars_fr": 38,
+      "chars_en": 26
+    },
+    {
+      "id": "unit19_0065",
+      "unit": 19,
+      "rank": 2,
+      "commonality": 0.549,
+      "french": "Elle ne se porte pas bien du tout.",
+      "english": "She is not well at all.",
+      "chars_fr": 34,
+      "chars_en": 23
+    },
+    {
+      "id": "unit19_0158",
+      "unit": 19,
+      "rank": 3,
+      "commonality": 0.549,
+      "french": "Elle ne se sent pas bien du tout.",
+      "english": "She doesn't feel well at all.",
+      "chars_fr": 33,
+      "chars_en": 29
+    },
+    {
+      "id": "unit19_0064",
+      "unit": 19,
+      "rank": 4,
+      "commonality": 0.524,
+      "french": "Je ne vais pas bien du tout.",
+      "english": "I don't feel well at all.",
+      "chars_fr": 28,
+      "chars_en": 25
+    },
+    {
+      "id": "unit19_0059",
+      "unit": 19,
+      "rank": 5,
+      "commonality": 0.459,
+      "french": "Je ne me sens pas bien du tout.",
+      "english": "I don't feel well at all.",
+      "chars_fr": 31,
+      "chars_en": 25
+    },
+    {
+      "id": "unit19_0062",
+      "unit": 19,
+      "rank": 6,
+      "commonality": 0.459,
+      "french": "Je ne me porte pas bien du tout.",
+      "english": "I am not well at all.",
+      "chars_fr": 32,
+      "chars_en": 21
+    },
+    {
+      "id": "unit19_0102",
+      "unit": 19,
+      "rank": 7,
+      "commonality": 0.44,
+      "french": "Je ne pense pas que ce soit par hasard.",
+      "english": "I don't think it's by chance.",
+      "chars_fr": 39,
+      "chars_en": 29
+    },
+    {
+      "id": "unit19_0174",
+      "unit": 19,
+      "rank": 8,
+      "commonality": 0.429,
+      "french": "Je ne pense pas que vous ayez raison.",
+      "english": "I don't think you're right.",
+      "chars_fr": 37,
+      "chars_en": 27
+    },
+    {
+      "id": "unit19_0192",
+      "unit": 19,
+      "rank": 9,
+      "commonality": 0.424,
+      "french": "Nous ne peignons pas tres bien.",
+      "english": "We don't paint very well.",
+      "chars_fr": 31,
+      "chars_en": 25
+    },
+    {
+      "id": "unit19_0188",
+      "unit": 19,
+      "rank": 10,
+      "commonality": 0.421,
+      "french": "Je ne peins pas tres bien.",
+      "english": "I don't paint very well.",
+      "chars_fr": 26,
+      "chars_en": 24
+    },
+    {
+      "id": "unit19_0194",
+      "unit": 19,
+      "rank": 11,
+      "commonality": 0.417,
+      "french": "Vous ne peignez pas tres bien.",
+      "english": "You don't paint very well.",
+      "chars_fr": 30,
+      "chars_en": 26
+    },
+    {
+      "id": "unit19_0190",
+      "unit": 19,
+      "rank": 12,
+      "commonality": 0.413,
+      "french": "Elle ne peint pas tres bien.",
+      "english": "She doesn't paint very well.",
+      "chars_fr": 28,
+      "chars_en": 28
+    },
+    {
+      "id": "unit19_0265",
+      "unit": 19,
+      "rank": 13,
+      "commonality": 0.404,
+      "french": "Si je vous avais dit ce qui se passait, vous ne m'auriez pas cru.",
+      "english": "If I had told you what was happening, you wouldn't have believed me.",
+      "chars_fr": 65,
+      "chars_en": 68
+    },
+    {
+      "id": "unit19_0095",
+      "unit": 19,
+      "rank": 14,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit une angine.",
+      "english": "I don't think it's a strep throat.",
+      "chars_fr": 39,
+      "chars_en": 34
+    },
+    {
+      "id": "unit19_0096",
+      "unit": 19,
+      "rank": 15,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit efficace.",
+      "english": "I don't think it's effective.",
+      "chars_fr": 37,
+      "chars_en": 29
+    },
+    {
+      "id": "unit19_0097",
+      "unit": 19,
+      "rank": 16,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit contagieux.",
+      "english": "I don't think it's contagious.",
+      "chars_fr": 39,
+      "chars_en": 30
+    },
+    {
+      "id": "unit19_0098",
+      "unit": 19,
+      "rank": 17,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit incurable.",
+      "english": "I don't think it's incurable.",
+      "chars_fr": 38,
+      "chars_en": 29
+    },
+    {
+      "id": "unit19_0099",
+      "unit": 19,
+      "rank": 18,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit dangereux.",
+      "english": "I don't think it's dangerous.",
+      "chars_fr": 38,
+      "chars_en": 29
+    },
+    {
+      "id": "unit19_0100",
+      "unit": 19,
+      "rank": 19,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit grave.",
+      "english": "I don't think it's serious.",
+      "chars_fr": 34,
+      "chars_en": 27
+    },
+    {
+      "id": "unit19_0101",
+      "unit": 19,
+      "rank": 20,
+      "commonality": 0.4,
+      "french": "Je ne pense pas que ce soit urgent.",
+      "english": "I don't think it's urgent.",
+      "chars_fr": 35,
+      "chars_en": 26
+    },
+    {
+      "id": "unit20_0164",
+      "unit": 20,
+      "rank": 1,
+      "commonality": 0.644,
+      "french": "Que faudrait-il faire pour que",
+      "english": "What would need to be done for",
+      "chars_fr": 30,
+      "chars_en": 30
+    },
+    {
+      "id": "unit20_0030",
+      "unit": 20,
+      "rank": 2,
+      "commonality": 0.593,
+      "french": "Je suis sur que",
+      "english": "I am sure that",
+      "chars_fr": 15,
+      "chars_en": 14
+    },
+    {
+      "id": "unit20_0334",
+      "unit": 20,
+      "rank": 3,
+      "commonality": 0.563,
+      "french": "Que peut-on faire pour que tout le monde",
+      "english": "What can be done so that everyone",
+      "chars_fr": 40,
+      "chars_en": 33
+    },
+    {
+      "id": "unit20_0462",
+      "unit": 20,
+      "rank": 4,
+      "commonality": 0.549,
+      "french": "Nous ne nous entendons plus avec elle,",
+      "english": "We no longer get along with her.",
+      "chars_fr": 38,
+      "chars_en": 32
+    },
+    {
+      "id": "unit20_0315",
+      "unit": 20,
+      "rank": 5,
+      "commonality": 0.535,
+      "french": "Bien que je sache ce qui se passe, je ne",
+      "english": "1. Wherever you are.",
+      "chars_fr": 40,
+      "chars_en": 20
+    },
+    {
+      "id": "unit20_0609",
+      "unit": 20,
+      "rank": 6,
+      "commonality": 0.525,
+      "french": "Je ne retournerai plus jamais dans ce",
+      "english": "</thinking>",
+      "chars_fr": 37,
+      "chars_en": 11
+    },
+    {
+      "id": "unit20_0422",
+      "unit": 20,
+      "rank": 7,
+      "commonality": 0.506,
+      "french": "Elle ne s'en est plus servie.",
+      "english": "(Ja ne se trouvait plus a la meme adresse.",
+      "chars_fr": 29,
+      "chars_en": 42
+    },
+    {
+      "id": "unit20_0339",
+      "unit": 20,
+      "rank": 8,
+      "commonality": 0.484,
+      "french": "Elle a peur que je ne leur dise ce qui",
+      "english": "In Unit 2 we studied the negative adverb 'ne ... pas' and in Unit 17,",
+      "chars_fr": 38,
+      "chars_en": 69
+    },
+    {
+      "id": "unit20_0319",
+      "unit": 20,
+      "rank": 9,
+      "commonality": 0.482,
+      "french": "Qui que vous soyez.",
+      "english": "Jusqu'a la fin.",
+      "chars_fr": 19,
+      "chars_en": 15
+    },
+    {
+      "id": "unit20_0287",
+      "unit": 20,
+      "rank": 10,
+      "commonality": 0.477,
+      "french": "Nous nous arreterons a moins que nous ne",
+      "english": "We will stop unless we",
+      "chars_fr": 40,
+      "chars_en": 22
+    },
+    {
+      "id": "unit20_0423",
+      "unit": 20,
+      "rank": 11,
+      "commonality": 0.461,
+      "french": "Je ne leur en ai plus voulu.",
+      "english": "I no longer held it against them.",
+      "chars_fr": 28,
+      "chars_en": 33
+    },
+    {
+      "id": "unit20_0045",
+      "unit": 20,
+      "rank": 12,
+      "commonality": 0.45,
+      "french": "Je vous aouhaite",
+      "english": "I'm in hurry too since I have to go to",
+      "chars_fr": 16,
+      "chars_en": 38
+    },
+    {
+      "id": "unit20_0318",
+      "unit": 20,
+      "rank": 13,
+      "commonality": 0.446,
+      "french": "Ou que vous soyez.",
+      "english": "Jusqu'a la fin.",
+      "chars_fr": 18,
+      "chars_en": 15
+    },
+    {
+      "id": "unit20_0311",
+      "unit": 20,
+      "rank": 14,
+      "commonality": 0.438,
+      "french": "Vous serez en retard a moins que vous ne",
+      "english": "1' avion n'atterrisse a P&ris.",
+      "chars_fr": 40,
+      "chars_en": 30
+    },
+    {
+      "id": "unit20_0638",
+      "unit": 20,
+      "rank": 15,
+      "commonality": 0.434,
+      "french": "Si vous arriviez en France au mois de juillet et que vous lisiez les",
+      "english": "We never work on Tuesdays anymore.",
+      "chars_fr": 68,
+      "chars_en": 34
+    },
+    {
+      "id": "unit20_0124",
+      "unit": 20,
+      "rank": 16,
+      "commonality": 0.433,
+      "french": "Je suis sur que vous l'aimerez.",
+      "english": "I am sure that you will like it/him/her.",
+      "chars_fr": 31,
+      "chars_en": 40
+    },
+    {
+      "id": "unit20_0104",
+      "unit": 20,
+      "rank": 17,
+      "commonality": 0.429,
+      "french": "Je ne savais pas que vous m'attendiez .",
+      "english": "I didn't know that you were waiting for me.",
+      "chars_fr": 39,
+      "chars_en": 43
+    },
+    {
+      "id": "unit20_0623",
+      "unit": 20,
+      "rank": 18,
+      "commonality": 0.429,
+      "french": "Je ne comp rends tou jours pas ce que vous",
+      "english": "H n'y a qu'un employe de moins que",
+      "chars_fr": 42,
+      "chars_en": 34
+    },
+    {
+      "id": "unit20_0136",
+      "unit": 20,
+      "rank": 19,
+      "commonality": 0.405,
+      "french": "Pourquoi ne les ont-ils pas",
+      "english": "Why didn't they have them",
+      "chars_fr": 27,
+      "chars_en": 25
+    },
+    {
+      "id": "unit20_0552",
+      "unit": 20,
+      "rank": 20,
+      "commonality": 0.405,
+      "french": "Elle ne s'en est jamais souvenue.",
+      "english": "Exercice A-3",
+      "chars_fr": 33,
+      "chars_en": 12
+    },
+    {
+      "id": "unit21_0599",
+      "unit": 21,
+      "rank": 1,
+      "commonality": 0.598,
+      "french": "Etes-vous sur de ne pas les avoir",
+      "english": "Are you sure you didn't have them",
+      "chars_fr": 33,
+      "chars_en": 33
+    },
+    {
+      "id": "unit21_0640",
+      "unit": 21,
+      "rank": 2,
+      "commonality": 0.588,
+      "french": "Vous ne vous souvenez pas",
+      "english": "You don't remember",
+      "chars_fr": 25,
+      "chars_en": 18
+    },
+    {
+      "id": "unit21_0600",
+      "unit": 21,
+      "rank": 3,
+      "commonality": 0.578,
+      "french": "Je ne crois pas les avoir",
+      "english": "I don't think I had them",
+      "chars_fr": 25,
+      "chars_en": 24
+    },
+    {
+      "id": "unit21_0626",
+      "unit": 21,
+      "rank": 4,
+      "commonality": 0.548,
+      "french": "Cette valise est la plus legere que nous",
+      "english": "This suitcase is the lightest that we",
+      "chars_fr": 40,
+      "chars_en": 37
+    },
+    {
+      "id": "unit21_0120",
+      "unit": 21,
+      "rank": 5,
+      "commonality": 0.544,
+      "french": "Si vous en avez quelques-uns que vous",
+      "english": "You only have to show an ID.",
+      "chars_fr": 37,
+      "chars_en": 28
+    },
+    {
+      "id": "unit21_0634",
+      "unit": 21,
+      "rank": 6,
+      "commonality": 0.528,
+      "french": "Ne faut-il pas que vous fassiez",
+      "english": "Don't you need to do",
+      "chars_fr": 31,
+      "chars_en": 20
+    },
+    {
+      "id": "unit21_0323",
+      "unit": 21,
+      "rank": 7,
+      "commonality": 0.52,
+      "french": "Je ne connais pas de gens plus",
+      "english": "Student: It's the best I know.",
+      "chars_fr": 30,
+      "chars_en": 30
+    },
+    {
+      "id": "unit21_0660",
+      "unit": 21,
+      "rank": 8,
+      "commonality": 0.511,
+      "french": "Je serai en retard si je ne pars pas",
+      "english": "I will be late if I don't leave",
+      "chars_fr": 36,
+      "chars_en": 31
+    },
+    {
+      "id": "unit21_0501",
+      "unit": 21,
+      "rank": 9,
+      "commonality": 0.494,
+      "french": "Ce qui est inutile, e'est que vous vous",
+      "english": "reserver ses chambres a 1 'hotel avant de",
+      "chars_fr": 39,
+      "chars_en": 41
+    },
+    {
+      "id": "unit21_0663",
+      "unit": 21,
+      "rank": 10,
+      "commonality": 0.481,
+      "french": "Je ne m'en tends pas qu'avec elle, je",
+      "english": "H n'est pas prudent de conduire a toute",
+      "chars_fr": 37,
+      "chars_en": 39
+    },
+    {
+      "id": "unit21_0500",
+      "unit": 21,
+      "rank": 11,
+      "commonality": 0.48,
+      "french": "Ce qui est essentiel, e'est de ne pas",
+      "english": "reserver ses chambres a 1 'hotel avant de",
+      "chars_fr": 37,
+      "chars_en": 41
+    },
+    {
+      "id": "unit21_0654",
+      "unit": 21,
+      "rank": 12,
+      "commonality": 0.457,
+      "french": "Ce que je ne comprends pas, c^st",
+      "english": "What I don't understand is",
+      "chars_fr": 32,
+      "chars_en": 26
+    },
+    {
+      "id": "unit21_0267",
+      "unit": 21,
+      "rank": 13,
+      "commonality": 0.455,
+      "french": "Ch ne nous a rien dit de ce que nous",
+      "english": "Tu ne feras rien de ce qu'on te demandera.",
+      "chars_fr": 36,
+      "chars_en": 42
+    },
+    {
+      "id": "unit21_0648",
+      "unit": 21,
+      "rank": 14,
+      "commonality": 0.453,
+      "french": "Ce que je ne sais pas, c'est quand",
+      "english": "What I don't know is when",
+      "chars_fr": 34,
+      "chars_en": 25
+    },
+    {
+      "id": "unit21_0606",
+      "unit": 21,
+      "rank": 15,
+      "commonality": 0.452,
+      "french": "Est-ce que nous vous verrons",
+      "english": "plusieurs malades a voir.",
+      "chars_fr": 28,
+      "chars_en": 25
+    },
+    {
+      "id": "unit21_0334",
+      "unit": 21,
+      "rank": 16,
+      "commonality": 0.446,
+      "french": "La route que je vous ai indiqufie est la",
+      "english": "Student: The car you have is the best one can find.",
+      "chars_fr": 40,
+      "chars_en": 51
+    },
+    {
+      "id": "unit21_0652",
+      "unit": 21,
+      "rank": 17,
+      "commonality": 0.446,
+      "french": "Ce que je voudrais, c'est que vous me",
+      "english": "What I would like is for you to",
+      "chars_fr": 37,
+      "chars_en": 31
+    },
+    {
+      "id": "unit21_0651",
+      "unit": 21,
+      "rank": 18,
+      "commonality": 0.441,
+      "french": "Ce qu'il faudrait, c'est que vous nous",
+      "english": "What would be needed is for you to",
+      "chars_fr": 38,
+      "chars_en": 34
+    },
+    {
+      "id": "unit21_0505",
+      "unit": 21,
+      "rank": 19,
+      "commonality": 0.437,
+      "french": "Ce qui est decourageant, c'est de",
+      "english": "notre gouvernement ne servent a rien.",
+      "chars_fr": 33,
+      "chars_en": 37
+    },
+    {
+      "id": "unit21_0066",
+      "unit": 21,
+      "rank": 20,
+      "commonality": 0.434,
+      "french": "Nous ne savons pas encore quand nous",
+      "english": "Nous l'attendons d'un jour a I 1 autre .",
+      "chars_fr": 36,
+      "chars_en": 40
+    },
+    {
+      "id": "unit22_0191",
+      "unit": 22,
+      "rank": 1,
+      "commonality": 0.673,
+      "french": "Nous ne nous en servons que",
+      "english": "We only use it for",
+      "chars_fr": 27,
+      "chars_en": 18
+    },
+    {
+      "id": "unit22_0212",
+      "unit": 22,
+      "rank": 2,
+      "commonality": 0.669,
+      "french": "Nous ne nous occupons que de ce qui nous",
+      "english": "We only deal with what concerns us",
+      "chars_fr": 40,
+      "chars_en": 34
+    },
+    {
+      "id": "unit22_0198",
+      "unit": 22,
+      "rank": 3,
+      "commonality": 0.611,
+      "french": "Nous ne nous en sommes servis que dans les",
+      "english": "Combien de temps cela vous a-t-il pris?",
+      "chars_fr": 42,
+      "chars_en": 39
+    },
+    {
+      "id": "unit22_0332",
+      "unit": 22,
+      "rank": 4,
+      "commonality": 0.553,
+      "french": "Je ne suis pas plus en mesure d'en",
+      "english": "Exercice A-l6",
+      "chars_fr": 34,
+      "chars_en": 13
+    },
+    {
+      "id": "unit22_0291",
+      "unit": 22,
+      "rank": 5,
+      "commonality": 0.527,
+      "french": "Ces appareils ne sont en service que",
+      "english": "depuis deux ans et on parle deja de les",
+      "chars_fr": 36,
+      "chars_en": 39
+    },
+    {
+      "id": "unit22_0207",
+      "unit": 22,
+      "rank": 6,
+      "commonality": 0.518,
+      "french": "Nous ne nous sommes occupes que",
+      "english": "We only dealt with",
+      "chars_fr": 31,
+      "chars_en": 18
+    },
+    {
+      "id": "unit22_0203",
+      "unit": 22,
+      "rank": 7,
+      "commonality": 0.513,
+      "french": "Je ne suis pas passe par la route que vous",
+      "english": "Exercice A-2",
+      "chars_fr": 42,
+      "chars_en": 12
+    },
+    {
+      "id": "unit22_0197",
+      "unit": 22,
+      "rank": 8,
+      "commonality": 0.512,
+      "french": "Je ne passe pas par la route",
+      "english": "I don't go by the road",
+      "chars_fr": 28,
+      "chars_en": 22
+    },
+    {
+      "id": "unit22_0194",
+      "unit": 22,
+      "rank": 9,
+      "commonality": 0.491,
+      "french": "Us ne veulent pas que j'en",
+      "english": "They don't want me to",
+      "chars_fr": 26,
+      "chars_en": 21
+    },
+    {
+      "id": "unit22_0228",
+      "unit": 22,
+      "rank": 10,
+      "commonality": 0.491,
+      "french": "Vous savez tres bien que ce que Je saia tres bien que ce que je voua",
+      "english": "Exercice A-J>",
+      "chars_fr": 68,
+      "chars_en": 13
+    },
+    {
+      "id": "unit22_0192",
+      "unit": 22,
+      "rank": 11,
+      "commonality": 0.464,
+      "french": "Je ne mets que deux heures pour",
+      "english": "It only takes me two hours to",
+      "chars_fr": 31,
+      "chars_en": 29
+    },
+    {
+      "id": "unit22_0227",
+      "unit": 22,
+      "rank": 12,
+      "commonality": 0.463,
+      "french": "En ce qui vous concerne, vous En ce qui me concerne, je prefererais que",
+      "english": "As far as you're concerned, you... As far as I'm concerned, I would prefer that",
+      "chars_fr": 71,
+      "chars_en": 79
+    },
+    {
+      "id": "unit22_0307",
+      "unit": 22,
+      "rank": 13,
+      "commonality": 0.461,
+      "french": "Nous ne prendrons votre auto que s'il",
+      "english": "We will only take your car if it",
+      "chars_fr": 37,
+      "chars_en": 32
+    },
+    {
+      "id": "unit22_0309",
+      "unit": 22,
+      "rank": 14,
+      "commonality": 0.46,
+      "french": "Vous ne pouvez entrer que si vous etes",
+      "english": "garantissez que ce que j'aurai a faire",
+      "chars_fr": 38,
+      "chars_en": 38
+    },
+    {
+      "id": "unit22_0302",
+      "unit": 22,
+      "rank": 15,
+      "commonality": 0.444,
+      "french": "Si vous me garantissez que ce",
+      "english": "que j'aurai a faire me plaira,",
+      "chars_fr": 29,
+      "chars_en": 30
+    },
+    {
+      "id": "unit22_0378",
+      "unit": 22,
+      "rank": 16,
+      "commonality": 0.437,
+      "french": "Je ne connais personne qui puisse nous",
+      "english": "I don't know anyone who can",
+      "chars_fr": 38,
+      "chars_en": 27
+    },
+    {
+      "id": "unit22_0306",
+      "unit": 22,
+      "rank": 17,
+      "commonality": 0.432,
+      "french": "Nous ne vous ecrirons que s'il y a un",
+      "english": "We will only write to you if there is a",
+      "chars_fr": 37,
+      "chars_en": 39
+    },
+    {
+      "id": "unit22_0171",
+      "unit": 22,
+      "rank": 18,
+      "commonality": 0.421,
+      "french": "Oui, il en est satisfait, mais il va la",
+      "english": "s T appretaient a traverser.",
+      "chars_fr": 39,
+      "chars_en": 28
+    },
+    {
+      "id": "unit22_0231",
+      "unit": 22,
+      "rank": 19,
+      "commonality": 0.42,
+      "french": "Je lui rends ce que je lui dois. Je lui ai rendu ce que je lui devais.",
+      "english": "I'm giving back what I owe him. I gave back what I owed him.",
+      "chars_fr": 70,
+      "chars_en": 60
+    },
+    {
+      "id": "unit22_0404",
+      "unit": 22,
+      "rank": 20,
+      "commonality": 0.414,
+      "french": "Monsieur Martin qui est presse de se mettre en route l' interrompt pour lui",
+      "english": "Mr. Martin, who is in a hurry to get on the road, interrupts him/her to",
+      "chars_fr": 75,
+      "chars_en": 71
+    },
+    {
+      "id": "unit23_0607",
+      "unit": 23,
+      "rank": 1,
+      "commonality": 0.578,
+      "french": "Vous avez bien fait de ne pas les",
+      "english": "You did well not to",
+      "chars_fr": 33,
+      "chars_en": 19
+    },
+    {
+      "id": "unit23_1284",
+      "unit": 23,
+      "rank": 2,
+      "commonality": 0.571,
+      "french": "Si vous aviez voulu que nous nous en",
+      "english": "End of tape 2l|.6",
+      "chars_fr": 36,
+      "chars_en": 17
+    },
+    {
+      "id": "unit23_1281",
+      "unit": 23,
+      "rank": 3,
+      "commonality": 0.564,
+      "french": "Nous nous en serions occupes des que nous",
+      "english": "n T aurais pas h6site a l'y envoyer.",
+      "chars_fr": 41,
+      "chars_en": 36
+    },
+    {
+      "id": "unit23_0339",
+      "unit": 23,
+      "rank": 4,
+      "commonality": 0.535,
+      "french": "Pourquoi ne vous en etes-vous pas",
+      "english": "Why didn't you take care of it",
+      "chars_fr": 33,
+      "chars_en": 30
+    },
+    {
+      "id": "unit23_0992",
+      "unit": 23,
+      "rank": 5,
+      "commonality": 0.528,
+      "french": "Nous en avons profite pour nous debarrasser de tout ce que nous ne voulions",
+      "english": "We took the opportunity to get rid of everything we didn't want (incomplete sentence)",
+      "chars_fr": 75,
+      "chars_en": 85
+    },
+    {
+      "id": "unit23_0724",
+      "unit": 23,
+      "rank": 6,
+      "commonality": 0.517,
+      "french": "Ce qui est difficile , c'est de ne pas s'en",
+      "english": "What is difficult is not to worry about it (incomplete)",
+      "chars_fr": 43,
+      "chars_en": 55
+    },
+    {
+      "id": "unit23_1009",
+      "unit": 23,
+      "rank": 7,
+      "commonality": 0.517,
+      "french": "Je prefere que vous leur disiez ce qui",
+      "english": "Elle n'a rien voulu me dire.",
+      "chars_fr": 38,
+      "chars_en": 28
+    },
+    {
+      "id": "unit23_0821",
+      "unit": 23,
+      "rank": 8,
+      "commonality": 0.513,
+      "french": "Vous vous en occup^rez s'il le",
+      "english": "You will take care of it if necessary.",
+      "chars_fr": 30,
+      "chars_en": 38
+    },
+    {
+      "id": "unit23_1195",
+      "unit": 23,
+      "rank": 9,
+      "commonality": 0.509,
+      "french": "Je ne me souviens pas de le lui avoir dit",
+      "english": "Que faut-il que vous fassiez avant de - What must you do before",
+      "chars_fr": 41,
+      "chars_en": 63
+    },
+    {
+      "id": "unit23_1116",
+      "unit": 23,
+      "rank": 10,
+      "commonality": 0.506,
+      "french": "Nous n'en avons pas assez pour tout le",
+      "english": "Nous ne pourrons pas commencer cette semaine. - We will not be able to start this week.",
+      "chars_fr": 38,
+      "chars_en": 87
+    },
+    {
+      "id": "unit23_0972",
+      "unit": 23,
+      "rank": 11,
+      "commonality": 0.504,
+      "french": "Je ne voyais pas pourquoi il fallait que",
+      "english": "A peine venait-il d'arriver qu'il voulait",
+      "chars_fr": 40,
+      "chars_en": 41
+    },
+    {
+      "id": "unit23_0827",
+      "unit": 23,
+      "rank": 12,
+      "commonality": 0.501,
+      "french": "Si vous etiez d'accord pour que nous nous",
+      "english": "If you agreed that we (incomplete)",
+      "chars_fr": 41,
+      "chars_en": 34
+    },
+    {
+      "id": "unit23_1008",
+      "unit": 23,
+      "rank": 13,
+      "commonality": 0.497,
+      "french": "Si vous ne me l'aviez pas dit, je ne",
+      "english": "Elle n'a rien voulu me dire.",
+      "chars_fr": 36,
+      "chars_en": 28
+    },
+    {
+      "id": "unit23_0946",
+      "unit": 23,
+      "rank": 14,
+      "commonality": 0.496,
+      "french": "Nous ne nous en serions pas plaints.",
+      "english": "We wouldn't have complained about it.",
+      "chars_fr": 36,
+      "chars_en": 37
+    },
+    {
+      "id": "unit23_0201",
+      "unit": 23,
+      "rank": 15,
+      "commonality": 0.487,
+      "french": "Elle est tombee et s'est fait mal au",
+      "english": "She fell and hurt her",
+      "chars_fr": 36,
+      "chars_en": 21
+    },
+    {
+      "id": "unit23_0984",
+      "unit": 23,
+      "rank": 16,
+      "commonality": 0.487,
+      "french": "Nous comptons nous debarrasser de tout ce que nous ne voulons pas.",
+      "english": "H ne faut pas hesiter a se debarrasser de tout ce qu'on ne veut pas.",
+      "chars_fr": 66,
+      "chars_en": 68
+    },
+    {
+      "id": "unit23_0321",
+      "unit": 23,
+      "rank": 17,
+      "commonality": 0.486,
+      "french": "Nous n'en avons besoin que pour",
+      "english": "We only need it for",
+      "chars_fr": 31,
+      "chars_en": 19
+    },
+    {
+      "id": "unit23_1045",
+      "unit": 23,
+      "rank": 18,
+      "commonality": 0.482,
+      "french": "Je suis desole que vous ne restiez pas",
+      "english": "<thinking>",
+      "chars_fr": 38,
+      "chars_en": 10
+    },
+    {
+      "id": "unit23_1049",
+      "unit": 23,
+      "rank": 19,
+      "commonality": 0.482,
+      "french": "Je suis desole que vous ne soyez pas",
+      "english": "Je suis desole que vous ne restiez pas - I am sorry that you are not staying",
+      "chars_fr": 36,
+      "chars_en": 76
+    },
+    {
+      "id": "unit23_0704",
+      "unit": 23,
+      "rank": 20,
+      "commonality": 0.48,
+      "french": "Nous ne les avons pas encore fait",
+      "english": "a credit.",
+      "chars_fr": 33,
+      "chars_en": 9
+    }
+  ],
+  "total_chars": 18354
+}
