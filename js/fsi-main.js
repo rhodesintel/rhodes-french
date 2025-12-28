@@ -2025,9 +2025,17 @@ function checkAnswer() {
   if (result.correct) {
     input.className = 'correct';
     feedback.className = 'feedback show success';
-    feedbackTitle.textContent = 'Correct!';
-    feedbackDetail.textContent = expected;
     drillLink.style.display = 'none';
+
+    // Handle accent warnings - correct but show accent feedback
+    if (result.accentWarning) {
+      feedbackTitle.textContent = 'Correct!';
+      feedbackDetail.innerHTML = `<span style="color: #856404;">Watch accents:</span> <strong>${expected}</strong>`;
+      feedback.className = 'feedback show success accent-warning';
+    } else {
+      feedbackTitle.textContent = 'Correct!';
+      feedbackDetail.textContent = expected;
+    }
 
     // Play success audio
     AudioFeedback.correct();
@@ -2733,6 +2741,23 @@ document.getElementById('hintBtn')?.addEventListener('click', showHint);
 document.getElementById('skipBtn')?.addEventListener('click', skipDrill);
 document.getElementById('checkBtn')?.addEventListener('click', checkAnswer);
 document.getElementById('nextBtn')?.addEventListener('click', nextDrill);
+
+// Accent keyboard - insert character at cursor position
+document.querySelectorAll('.accent-key').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const char = btn.dataset.char;
+    const input = document.getElementById('userInput');
+    if (input && char) {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const value = input.value;
+      input.value = value.substring(0, start) + char + value.substring(end);
+      input.selectionStart = input.selectionEnd = start + char.length;
+      input.focus();
+    }
+  });
+});
 
 // Title style - Style 32: Fleur accent with tricolor underline
 const TITLE_STYLES = [

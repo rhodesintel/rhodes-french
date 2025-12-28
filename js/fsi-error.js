@@ -51,13 +51,13 @@ const FSI_Error = {
       return { correct: true, errors: [], feedback: '' };
     }
 
-    // Match ignoring accents
+    // Match ignoring accents - FORGIVE by default but show difference
     if (this.stripAccents(userNorm) === this.stripAccents(expNorm)) {
       return {
-        correct: false,
-        errors: [{ type: 'accent', feedback: 'Check your accents' }],
-        primaryError: { type: 'accent' },
-        feedback: 'Almost! Check your accents (é, è, ê, à, ù, etc.)'
+        correct: true,  // Forgive accent errors
+        accentWarning: true,  // Flag for UI to show accent feedback
+        errors: [{ type: 'accent', feedback: 'Watch the accents' }],
+        feedback: `Accents: ${expected}`
       };
     }
 

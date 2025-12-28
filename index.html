@@ -266,6 +266,38 @@
       background: #f8d7da;
     }
 
+    /* Accent Keyboard */
+    .accent-keyboard {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+      justify-content: center;
+    }
+    .accent-key {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 16px;
+      font-family: inherit;
+      cursor: pointer;
+      min-width: 32px;
+    }
+    .accent-key:hover {
+      background: #e8e8e8;
+      border-color: #999;
+    }
+    .accent-key:active {
+      background: #ddd;
+    }
+
+    /* Accent warning feedback */
+    .feedback.accent-warning {
+      background: #fff3cd;
+      border-color: #ffc107;
+    }
+
     /* Feedback */
     .feedback {
       padding: 15px;
@@ -750,6 +782,23 @@
           <button class="mic-btn" id="micBtn" title="Click to speak">&#127908;</button>
         </div>
         <div class="voice-status" id="voiceStatus"></div>
+        <!-- French Accent Keyboard -->
+        <div class="accent-keyboard" id="accentKeyboard">
+          <button type="button" class="accent-key" data-char="é">é</button>
+          <button type="button" class="accent-key" data-char="è">è</button>
+          <button type="button" class="accent-key" data-char="ê">ê</button>
+          <button type="button" class="accent-key" data-char="ë">ë</button>
+          <button type="button" class="accent-key" data-char="à">à</button>
+          <button type="button" class="accent-key" data-char="â">â</button>
+          <button type="button" class="accent-key" data-char="ù">ù</button>
+          <button type="button" class="accent-key" data-char="û">û</button>
+          <button type="button" class="accent-key" data-char="ô">ô</button>
+          <button type="button" class="accent-key" data-char="î">î</button>
+          <button type="button" class="accent-key" data-char="ï">ï</button>
+          <button type="button" class="accent-key" data-char="ç">ç</button>
+          <button type="button" class="accent-key" data-char="œ">œ</button>
+          <button type="button" class="accent-key" data-char="'">&#39;</button>
+        </div>
       </div>
 
       <!-- Feedback -->
