@@ -1076,8 +1076,12 @@ function setMode(mode) {
   // Refresh stats when switching modes
   if (mode === 'srs') {
     updateSRSStats();
+    // Scroll to SRS view
+    document.getElementById('srsView').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } else {
     renderUnits();
+    // Scroll to units grid so user sees the units
+    document.getElementById('unitsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
