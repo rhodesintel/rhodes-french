@@ -81,3 +81,40 @@ Virtual displays (:10+) should only be used for:
 Real desktops (2, 3, 4) should be used for:
 - Any interactive browser automation
 - Tasks requiring reliable clicking
+
+---
+
+## Session: 2025-12-28 Google Sheets Setup
+
+### CRITICAL ERROR: Wrong Google Account
+
+**Issue**: Opened Google Sheets in personal account instead of Rhodes account
+
+**What happened**:
+- Used `google-chrome "https://docs.google.com/spreadsheets/u/0/create"`
+- `/u/0/` defaults to first logged-in account (personal)
+- Should have used Rhodes account
+
+**Fix needed**:
+- ALWAYS verify which Google account is active before creating resources
+- Use account switcher URL: `https://docs.google.com/spreadsheets/u/1/create` or `/u/2/` etc
+- Or explicitly switch accounts first: `https://accounts.google.com/AccountChooser`
+- ASK USER which account number Rhodes is before proceeding
+
+**Prevention**:
+1. Before ANY Google service action, confirm account
+2. Take screenshot and verify account avatar/email in top-right
+3. Use explicit account index in URL (/u/0/, /u/1/, /u/2/)
+4. When in doubt, ASK USER for the correct account index
+
+**CORRECT PROCEDURE for Rhodes account**:
+1. User switches Chrome profile to Rhodes (rhodesintel@gmail.com)
+2. Use the switched tab/window for all Rhodes operations
+3. DO NOT use `/u/0/` URLs - use profile switching instead
+4. Verify profile by checking avatar in top-right corner of Chrome
+
+### ERROR: Typed in wrong window/location
+- Attempted Ctrl+T then type URL
+- Typing went to wrong place (not URL bar?)
+- Need to verify URL bar is focused before typing
+- Should use xdotool key ctrl+l to focus URL bar explicitly

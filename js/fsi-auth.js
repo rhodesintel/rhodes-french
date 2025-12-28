@@ -12,7 +12,7 @@
 const FSI_Auth = {
   // Google Sheets webhook URL
   // Paste your deployed Apps Script web app URL here:
-  SHEETS_WEBHOOK_URL: '',
+  SHEETS_WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbwNUVQqYVSWkbO9PTRoygc86_PALHpbf2PtWOBkeRpQUlo4RNlwWff4WD2l4IloucHn/exec',
 
   // State
   initialized: false,
