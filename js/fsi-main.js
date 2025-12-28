@@ -861,8 +861,9 @@ function highlightWordDiff(userWord, expectedWord) {
 
 // Highlight differences between user input and expected answer
 function highlightDiff(userInput, expected) {
-  const userWords = userInput.trim().split(/\s+/);
-  const expWords = expected.trim().split(/\s+/);
+  // Split on whitespace AND hyphens so "Dites-moi" aligns with "dit moi"
+  const userWords = userInput.trim().replace(/-/g, ' ').split(/\s+/);
+  const expWords = expected.trim().replace(/-/g, ' ').split(/\s+/);
 
   // Normalize for comparison (lowercase, strip accents)
   const normalize = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[.,!?;:«»""']/g, '');
