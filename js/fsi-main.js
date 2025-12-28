@@ -8,6 +8,71 @@ window.onerror = function(msg, url, line, col, error) {
 };
 
 // ===========================================
+// AUDIO FEEDBACK SYSTEM
+// ===========================================
+// Uses Web Audio API to generate feedback tones without external files
+
+const AudioFeedback = {
+  ctx: null,
+
+  init() {
+    // Create audio context on first user interaction (browser requirement)
+    if (!this.ctx) {
+      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return this.ctx;
+  },
+
+  // Play a success sound (rising tone)
+  correct() {
+    try {
+      const ctx = this.init();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, ctx.currentTime);  // A4
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);  // A5 (rising)
+
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.2);
+    } catch (e) {
+      console.warn('Audio feedback unavailable:', e.message);
+    }
+  },
+
+  // Play an error sound (descending tone)
+  incorrect() {
+    try {
+      const ctx = this.init();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(330, ctx.currentTime);  // E4
+      osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.2);  // A3 (falling)
+
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.25);
+    } catch (e) {
+      console.warn('Audio feedback unavailable:', e.message);
+    }
+  }
+};
+
+// ===========================================
 // EXTERNAL CONTENT CONFIGURATION
 // ===========================================
 // All content (data + audio) can be hosted externally for easy updates
@@ -40,7 +105,7 @@ const CDN_CONFIG = {
   },
 
   // Version string - increment to bust browser cache after content updates
-  version: '1.0.4'
+  version: '1.0.5'
 };
 
 // Helper to build full URL with cache-busting version
@@ -930,18 +995,42 @@ async function loadCourse() {
     updateStatsBar();
   } catch (err) {
     console.error('Failed to load drills:', err);
-    // Show error if on file:// protocol (prepend to keep units visible)
+
+    // Show user-visible error for ALL protocols
+    let errorMsg = '';
+    let errorBg = '#fff3cd';
+    let errorBorder = '#ffc107';
+
     if (window.location.protocol === 'file:') {
-      document.getElementById('unitsGrid').insertAdjacentHTML('afterbegin', `
-        <div style="grid-column: 1/-1; padding: 20px; background: #fff3cd; border: 2px solid #ffc107; margin-bottom: 15px;">
-          <strong>⚠ Cannot load drills from file:// URL</strong><br><br>
-          Browsers block local file access. Use:<br><br>
-          <strong>Option 1 (Recommended):</strong> Open from extension popup (FSI FRENCH COURSE button)<br>
-          <strong>Option 2:</strong> Run <code>FSI_French_Server.bat</code><br>
-          <strong>Option 3:</strong> <code>python -m http.server 8081</code> then open localhost:8081/fsi.html
-        </div>
-      `);
+      errorMsg = `
+        <strong>Cannot load drills from file:// URL</strong><br><br>
+        Browsers block local file access. Use:<br><br>
+        <strong>Option 1 (Recommended):</strong> Open from extension popup (FSI FRENCH COURSE button)<br>
+        <strong>Option 2:</strong> Run <code>FSI_French_Server.bat</code><br>
+        <strong>Option 3:</strong> <code>python -m http.server 8081</code> then open localhost:8081/fsi.html
+      `;
+    } else {
+      // CDN or network failure
+      errorMsg = `
+        <strong>Failed to load course data</strong><br><br>
+        Error: ${err.message || 'Network request failed'}<br><br>
+        This could be due to:<br>
+        • Network connectivity issues<br>
+        • Content server (CDN) is down<br>
+        • Browser extension blocking the request<br><br>
+        <button onclick="location.reload()" style="padding: 8px 16px; cursor: pointer; background: #002395; color: white; border: none; font-family: inherit;">
+          Retry
+        </button>
+      `;
+      errorBg = '#f8d7da';
+      errorBorder = '#dc3545';
     }
+
+    document.getElementById('unitsGrid').insertAdjacentHTML('afterbegin', `
+      <div style="grid-column: 1/-1; padding: 20px; background: ${errorBg}; border: 2px solid ${errorBorder}; margin-bottom: 15px;">
+        ${errorMsg}
+      </div>
+    `);
   }
 }
 
@@ -1945,6 +2034,9 @@ function checkAnswer() {
     feedbackDetail.textContent = expected;
     drillLink.style.display = 'none';
 
+    // Play success audio
+    AudioFeedback.correct();
+
     // Track correct answer
     sessionCorrect++;
     sessionTotal++;
@@ -1984,6 +2076,9 @@ function checkAnswer() {
     feedback.className = 'feedback show error';
     sessionTotal++;
 
+    // Play error audio
+    AudioFeedback.incorrect();
+
     // Determine SRS rating based on error severity
     const rating = typeof FSI_SRS !== 'undefined'
       ? FSI_SRS.errorToRating(result.errors)
@@ -2003,14 +2098,31 @@ function checkAnswer() {
 
     feedbackTitle.textContent = errorLabel;
 
-    // Show error feedback with verb hint if relevant
-    let detailHtml = result.feedback.replace(/\n/g, '<br>');
+    // Show user's answer vs correct answer side-by-side, then error details
+    const userAnswer = input.value.trim() || '(empty)';
+    let detailHtml = `
+      <div style="display: flex; gap: 20px; margin-bottom: 10px; font-size: 18px;">
+        <div style="flex: 1; padding: 8px; background: #ffebee; border-left: 3px solid #dc3545;">
+          <div style="font-size: 12px; color: #666; margin-bottom: 2px;">YOUR ANSWER:</div>
+          <div style="color: #c62828;">${userAnswer}</div>
+        </div>
+        <div style="flex: 1; padding: 8px; background: #e8f5e9; border-left: 3px solid #28a745;">
+          <div style="font-size: 12px; color: #666; margin-bottom: 2px;">CORRECT:</div>
+          <div style="color: #2e7d32;">${expected}</div>
+        </div>
+      </div>
+    `;
+
+    // Add error analysis below the comparison
+    if (result.feedback) {
+      detailHtml += `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 14px; color: #666;">${result.feedback.replace(/\n/g, '<br>')}</div>`;
+    }
 
     // Add verb conjugation help when user gets a verb wrong
     if (result.primaryError?.type === 'grammar' || result.primaryError?.type === 'confusable') {
       const verbHint = getVerbHintForError(expected, input.value);
       if (verbHint) {
-        detailHtml += `<br><br><strong>Conjugation:</strong> ${verbHint}`;
+        detailHtml += `<div style="margin-top: 8px; padding: 8px; background: #fff3cd; border-left: 3px solid #ffc107;"><strong>Conjugation:</strong> ${verbHint}</div>`;
       }
     }
 

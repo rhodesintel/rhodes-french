@@ -22,15 +22,35 @@ function _storageGet(key) {
 }
 
 function _storageSet(key, value) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (_hasChrome) {
-      chrome.storage.local.set({ [key]: value }, resolve);
+      chrome.storage.local.set({ [key]: value }, () => {
+        if (chrome.runtime.lastError) {
+          console.error('Chrome storage error:', chrome.runtime.lastError.message);
+          reject(chrome.runtime.lastError);
+        } else {
+          resolve();
+        }
+      });
     } else {
       try {
         localStorage.setItem(key, JSON.stringify(value));
-      } catch (e) {}
-      resolve();
+        resolve();
+      } catch (e) {
+        console.error('LocalStorage error:', e.message);
+        // Show user-visible error for storage quota issues
+        const indicator = document.getElementById('saveIndicator');
+        if (indicator) {
+          indicator.innerHTML = '<span style="color:#dc3545;">Storage full</span>';
+          indicator.classList.add('show');
+          setTimeout(() => indicator.classList.remove('show'), 5000);
+        }
+        reject(e);
+      }
     }
+  }).catch(e => {
+    // Don't throw - log and continue
+    console.warn('Storage set failed:', e.message);
   });
 }
 

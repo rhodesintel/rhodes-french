@@ -14,6 +14,9 @@ const FSI_Auth = {
   // Paste your deployed Apps Script web app URL here:
   SHEETS_WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbwNUVQqYVSWkbO9PTRoygc86_PALHpbf2PtWOBkeRpQUlo4RNlwWff4WD2l4IloucHn/exec',
 
+  // API key for webhook authentication (must match google-apps-script.js)
+  API_KEY: 'rhodes-french-2024-x7k9m',
+
   // State
   initialized: false,
   userId: null,
@@ -73,6 +76,7 @@ const FSI_Auth = {
   async saveResponse(response) {
     const payload = {
       type: 'response',
+      apiKey: this.API_KEY,
       payload: {
         ...response,
         userId: this.userId
@@ -88,20 +92,39 @@ const FSI_Auth = {
     }
 
     try {
-      // Use no-cors mode - Apps Script doesn't return proper CORS headers
-      // but it still processes the request
-      await fetch(this.SHEETS_WEBHOOK_URL, {
+      const res = await fetch(this.SHEETS_WEBHOOK_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        redirect: 'follow'  // Apps Script may redirect
       });
-      console.log('Response sent to sheets');
-      return true;
+
+      // Verify the response
+      if (res.ok) {
+        try {
+          const data = await res.json();
+          if (data.success) {
+            console.log('Response saved to sheets:', data.timestamp);
+            return true;
+          } else {
+            console.warn('Sheets API error:', data.error);
+            this.pendingWrites.push(payload);
+            this.savePendingWrites();
+            return false;
+          }
+        } catch (parseErr) {
+          // Response wasn't JSON but request may have succeeded
+          console.log('Response sent to sheets (no JSON response)');
+          return true;
+        }
+      } else {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
     } catch (e) {
       console.warn('Failed to save to sheets:', e.message);
       this.pendingWrites.push(payload);
       this.savePendingWrites();
+      this.showSyncError('Failed to sync response');
       return false;
     }
   },
@@ -110,6 +133,7 @@ const FSI_Auth = {
   async saveProgress(progressData) {
     const payload = {
       type: 'progress',
+      apiKey: this.API_KEY,
       payload: {
         ...progressData,
         userId: this.userId
@@ -119,16 +143,36 @@ const FSI_Auth = {
     if (!this.SHEETS_WEBHOOK_URL) return false;
 
     try {
-      await fetch(this.SHEETS_WEBHOOK_URL, {
+      const res = await fetch(this.SHEETS_WEBHOOK_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        redirect: 'follow'
       });
-      return true;
+
+      if (res.ok) {
+        const data = await res.json().catch(() => ({}));
+        return data.success !== false;
+      }
+      return false;
     } catch (e) {
       console.warn('Failed to save progress:', e.message);
       return false;
+    }
+  },
+
+  // Show sync error indicator (non-blocking)
+  showSyncError(msg) {
+    const indicator = document.getElementById('saveIndicator');
+    if (indicator) {
+      indicator.textContent = 'Sync failed';
+      indicator.style.color = '#dc3545';
+      indicator.classList.add('show');
+      setTimeout(() => {
+        indicator.classList.remove('show');
+        indicator.style.color = '#28a745';
+        indicator.textContent = 'Saved';
+      }, 3000);
     }
   },
 
@@ -142,14 +186,21 @@ const FSI_Auth = {
     this.pendingWrites = [];
     this.savePendingWrites();
 
+    let successCount = 0;
     for (const payload of toSend) {
       try {
-        await fetch(this.SHEETS_WEBHOOK_URL, {
+        const res = await fetch(this.SHEETS_WEBHOOK_URL, {
           method: 'POST',
-          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          redirect: 'follow'
         });
+
+        if (res.ok) {
+          successCount++;
+        } else {
+          this.pendingWrites.push(payload);
+        }
         // Small delay to avoid rate limiting
         await new Promise(r => setTimeout(r, 100));
       } catch (e) {
@@ -159,14 +210,27 @@ const FSI_Auth = {
     }
 
     this.savePendingWrites();
-    console.log('Sync complete, remaining:', this.pendingWrites.length);
+    console.log(`Sync complete: ${successCount}/${toSend.length} succeeded, ${this.pendingWrites.length} pending`);
   },
 
   // Save pending writes to localStorage
   savePendingWrites() {
     try {
       localStorage.setItem('fsi_pending_writes', JSON.stringify(this.pendingWrites));
-    } catch (e) {}
+    } catch (e) {
+      console.error('Failed to save pending writes:', e.message);
+      // If localStorage is full, clear old pending writes to make room
+      if (e.name === 'QuotaExceededError') {
+        console.warn('Storage quota exceeded, clearing old pending writes');
+        this.pendingWrites = this.pendingWrites.slice(-50);  // Keep only last 50
+        try {
+          localStorage.setItem('fsi_pending_writes', JSON.stringify(this.pendingWrites));
+        } catch (e2) {
+          // Give up
+          this.pendingWrites = [];
+        }
+      }
+    }
   },
 
   // Get user ID

@@ -89,17 +89,45 @@ const FSI_SRS = {
   },
 
   async saveCards() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (this._hasChrome) {
-        chrome.storage.local.set({ [this.STORAGE_KEY]: this.cards }, resolve);
+        chrome.storage.local.set({ [this.STORAGE_KEY]: this.cards }, () => {
+          if (chrome.runtime.lastError) {
+            console.error('Chrome storage error:', chrome.runtime.lastError.message);
+            this._showStorageError('Failed to save progress (Chrome storage)');
+            reject(chrome.runtime.lastError);
+          } else {
+            resolve();
+          }
+        });
       } else {
         // Fallback to localStorage
         try {
-          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cards));
-        } catch (e) {}
-        resolve();
+          const data = JSON.stringify(this.cards);
+          localStorage.setItem(this.STORAGE_KEY, data);
+          resolve();
+        } catch (e) {
+          console.error('LocalStorage error:', e.message);
+          this._showStorageError('Storage full - progress may be lost');
+          reject(e);
+        }
       }
+    }).catch(e => {
+      // Don't throw - log and continue so app doesn't break
+      console.warn('Storage save failed, continuing:', e.message);
     });
+  },
+
+  // Show storage error to user (non-blocking)
+  _showStorageError(msg) {
+    const indicator = document.getElementById('saveIndicator');
+    if (indicator) {
+      indicator.innerHTML = '<span style="color:#dc3545;">Storage Error</span>';
+      indicator.classList.add('show');
+      setTimeout(() => indicator.classList.remove('show'), 5000);
+    }
+    // Also show a more prominent warning for critical failures
+    console.error('STORAGE ERROR:', msg);
   },
 
   // ============================================

@@ -3,9 +3,9 @@
  *
  * SETUP:
  * 1. Create a Google Sheet named "FSI French Analytics"
- * 2. Go to Extensions → Apps Script
+ * 2. Go to Extensions > Apps Script
  * 3. Paste this code
- * 4. Click Deploy → New deployment → Web app
+ * 4. Click Deploy > New deployment > Web app
  * 5. Set "Execute as" = Me, "Who has access" = Anyone
  * 6. Copy the web app URL
  * 7. Paste URL into fsi-auth.js SHEETS_WEBHOOK_URL
@@ -13,6 +13,10 @@
 
 // Sheet ID - linked directly to avoid binding issues
 const SHEET_ID = '1jzmxkOCNjQ9p6CwLAU3sOzh8-QnBmTay4c7MKcyCHc4';
+
+// Simple API key to prevent casual spam (not true security - visible in client code)
+// Change this to a unique value when deploying your own instance
+const API_KEY = 'rhodes-french-2024-x7k9m';
 
 // Sheet names
 const RESPONSES_SHEET = 'Responses';
@@ -22,14 +26,22 @@ function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
 
+    // Validate API key (simple spam protection)
+    if (data.apiKey !== API_KEY) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, error: 'Invalid API key' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     if (data.type === 'response') {
       logResponse(data.payload);
     } else if (data.type === 'progress') {
       logProgress(data.payload);
     }
 
+    // Return JSON response (CORS handled by Apps Script for deployed web apps)
     return ContentService
-      .createTextOutput(JSON.stringify({ success: true }))
+      .createTextOutput(JSON.stringify({ success: true, timestamp: new Date().toISOString() }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
@@ -40,9 +52,14 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  // Allow CORS preflight
+  // Health check endpoint - also used for CORS preflight
+  // When deployed as "Anyone can access", Apps Script handles CORS automatically
   return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok' }))
+    .createTextOutput(JSON.stringify({
+      status: 'ok',
+      message: 'Rhodes French Analytics API',
+      timestamp: new Date().toISOString()
+    }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -132,6 +149,7 @@ function logProgress(data) {
 function testPost() {
   const testData = {
     type: 'response',
+    apiKey: API_KEY,  // Required for authentication
     payload: {
       timestamp: new Date().toISOString(),
       userId: 'test-user',
