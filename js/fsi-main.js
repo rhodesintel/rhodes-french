@@ -977,16 +977,10 @@ async function loadCourse() {
       console.log('Analytics loaded:', FSI_SRS.analytics.responses.length, 'responses');
     }
 
-    // Initialize auth (optional - fails gracefully if Firebase not available)
+    // Initialize cloud storage (optional)
     if (typeof FSI_Auth !== 'undefined') {
       await FSI_Auth.init();
-      console.log('Auth initialized:', FSI_Auth.authEnabled ? 'enabled' : 'offline mode');
-
-      // Initialize Firestore for auto-sync
-      if (FSI_Auth.authEnabled) {
-        FSI_Auth.initFirestore();
-        console.log('Firestore:', FSI_Auth.firestoreEnabled ? 'enabled - responses will auto-sync' : 'disabled');
-      }
+      console.log('Cloud storage:', FSI_Auth.isConfigured() ? 'enabled' : 'local only');
     }
 
     updateSRSStats();

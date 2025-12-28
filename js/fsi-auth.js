@@ -1,22 +1,21 @@
 /**
- * Rhodes French - Cloud Storage via GitHub Gist
- * All user data stored in one gist, each user has unique ID
+ * Rhodes French - Cloud Storage via npoint.io
+ * Simple, free, no authentication required
  */
 
 const FSI_Auth = {
-  // GitHub Gist storage
-  GIST_ID: 'bb3ff70a65bb9656f251d9754c0ae32f',
-  // Token split to avoid GitHub's secret scanner
-  _t1: 'gho_qbZfWgrts7ck',
-  _t2: 'SuHy1Mm8yIPytpVa1I1gX9Ai',
-  get GIST_TOKEN() { return this._t1 + this._t2; },
-  GIST_FILE: 'rhodes-data.json',
+  // npoint.io bin ID - get from https://npoint.io
+  BIN_ID: 'a2f571b90cbc4a09707f',
+
+  // API endpoint
+  NPOINT_URL: 'https://api.npoint.io',
 
   // State
   initialized: false,
   userId: null,
-  pendingWrites: [],
   cloudData: null,
+  saveQueue: [],
+  saveTimeout: null,
 
   async init() {
     if (this.initialized) return;
@@ -29,111 +28,121 @@ const FSI_Auth = {
       localStorage.setItem('fsi_user_id', this.userId);
     }
 
-    // Load cloud data
-    await this.loadFromCloud();
-
-    console.log('FSI_Auth initialized, userId:', this.userId);
-  },
-
-  // Load data from GitHub Gist
-  async loadFromCloud() {
-    try {
-      const res = await fetch(`https://api.github.com/gists/${this.GIST_ID}`, {
-        headers: { 'Accept': 'application/vnd.github.v3+json' }
-      });
-      if (res.ok) {
-        const gist = await res.json();
-        const content = gist.files[this.GIST_FILE]?.content;
-        if (content) {
-          this.cloudData = JSON.parse(content);
-          console.log('Loaded cloud data:', Object.keys(this.cloudData.users || {}).length, 'users');
-        }
-      }
-    } catch (e) {
-      console.warn('Failed to load cloud data:', e.message);
-      this.cloudData = { users: {} };
-    }
-  },
-
-  // Save response to cloud
-  async saveResponse(response) {
-    const record = {
-      timestamp: new Date().toISOString(),
-      ...response
-    };
-
-    // Ensure we have cloud data
-    if (!this.cloudData) {
-      this.cloudData = { users: {} };
+    // Load cloud data if configured
+    if (this.isConfigured()) {
+      await this.loadFromCloud();
     }
 
-    // Ensure user exists
-    if (!this.cloudData.users[this.userId]) {
-      this.cloudData.users[this.userId] = {
-        responses: [],
-        created: new Date().toISOString()
-      };
-    }
-
-    // Add response
-    this.cloudData.users[this.userId].responses.push(record);
-    this.cloudData.users[this.userId].lastUpdate = new Date().toISOString();
-
-    // Keep only last 200 responses per user
-    if (this.cloudData.users[this.userId].responses.length > 200) {
-      this.cloudData.users[this.userId].responses =
-        this.cloudData.users[this.userId].responses.slice(-200);
-    }
-
-    // Save to cloud
-    await this.saveToCloud();
-    return true;
-  },
-
-  // Save data to GitHub Gist
-  async saveToCloud() {
-    try {
-      const res = await fetch(`https://api.github.com/gists/${this.GIST_ID}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/vnd.github.v3+json',
-          'Authorization': `token ${this.GIST_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          files: {
-            [this.GIST_FILE]: {
-              content: JSON.stringify(this.cloudData, null, 2)
-            }
-          }
-        })
-      });
-
-      if (res.ok) {
-        console.log('Saved to cloud');
-        return true;
-      } else {
-        console.warn('Cloud save failed:', res.status);
-        return false;
-      }
-    } catch (e) {
-      console.warn('Cloud save error:', e.message);
-      return false;
-    }
-  },
-
-  getUserId() {
-    return this.userId;
+    console.log('FSI_Auth initialized, userId:', this.userId,
+                'cloud:', this.isConfigured() ? 'enabled' : 'disabled');
   },
 
   isConfigured() {
+    return !!(this.BIN_ID && this.BIN_ID !== '');
+  },
+
+  // Load data from npoint.io
+  async loadFromCloud() {
+    try {
+      const res = await fetch(`${this.NPOINT_URL}/${this.BIN_ID}`);
+      if (res.ok) {
+        this.cloudData = await res.json();
+        console.log('Loaded cloud data:', Object.keys(this.cloudData.users || {}).length, 'users');
+      } else {
+        console.warn('Cloud load failed:', res.status);
+        this.cloudData = { users: {} };
+      }
+    } catch (e) {
+      console.warn('Cloud load error:', e.message);
+      this.cloudData = { users: {} };
+    }
+  },
+
+  // Save response to cloud (batched)
+  async saveResponse(response) {
+    if (!this.isConfigured()) {
+      console.log('Cloud not configured - skipping save');
+      return false;
+    }
+
+    // Add to queue
+    this.saveQueue.push({
+      timestamp: new Date().toISOString(),
+      userId: this.userId,
+      ...response
+    });
+
+    // Debounce saves (batch within 2 seconds)
+    if (this.saveTimeout) clearTimeout(this.saveTimeout);
+    this.saveTimeout = setTimeout(() => this.flushQueue(), 2000);
+
     return true;
   },
 
-  // Compatibility stubs
+  async flushQueue() {
+    if (this.saveQueue.length === 0) return;
+
+    const toSave = [...this.saveQueue];
+    this.saveQueue = [];
+
+    try {
+      // Reload latest data first to avoid overwrites
+      await this.loadFromCloud();
+
+      // Ensure cloudData structure
+      if (!this.cloudData) this.cloudData = { users: {} };
+      if (!this.cloudData.users) this.cloudData.users = {};
+      if (!this.cloudData.users[this.userId]) {
+        this.cloudData.users[this.userId] = {
+          responses: [],
+          created: new Date().toISOString()
+        };
+      }
+
+      // Add responses
+      this.cloudData.users[this.userId].responses.push(...toSave);
+      this.cloudData.users[this.userId].lastUpdate = new Date().toISOString();
+
+      // Keep only last 500 responses per user
+      const responses = this.cloudData.users[this.userId].responses;
+      if (responses.length > 500) {
+        this.cloudData.users[this.userId].responses = responses.slice(-500);
+      }
+
+      // Save to cloud
+      await this.saveToCloud();
+      console.log('Saved', toSave.length, 'responses to cloud');
+
+    } catch (e) {
+      console.warn('Cloud save error:', e.message);
+      // Re-queue on failure
+      this.saveQueue = [...toSave, ...this.saveQueue];
+    }
+  },
+
+  async saveToCloud() {
+    const res = await fetch(`${this.NPOINT_URL}/${this.BIN_ID}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.cloudData)
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to save: ' + res.status);
+    }
+
+    return true;
+  },
+
+  // Compatibility methods
+  getUserId() { return this.userId; },
   getUser() { return null; },
   isSignedIn() { return false; },
-  getUserProfile() { return { uid: this.userId, email: null, displayName: 'Anonymous' }; }
+  getUserProfile() {
+    return { uid: this.userId, email: null, displayName: 'Anonymous' };
+  }
 };
 
 // Auto-init

@@ -685,8 +685,8 @@ const FSI_SRS = {
 
     this.saveAnalytics();
 
-    // Auto-sync to Google Sheets if available
-    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.SHEETS_WEBHOOK_URL) {
+    // Auto-sync to cloud if configured
+    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.isConfigured()) {
       FSI_Auth.saveResponse(response);
     }
 
