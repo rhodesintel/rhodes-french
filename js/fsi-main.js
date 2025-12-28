@@ -691,6 +691,44 @@ function getVerbHintForError(expected, userInput) {
   return null;
 }
 
+// Character-level diff for spelling errors within a word
+function highlightWordDiff(userWord, expectedWord) {
+  const u = userWord.toLowerCase();
+  const e = expectedWord.toLowerCase();
+
+  // Find common prefix
+  let prefixLen = 0;
+  while (prefixLen < u.length && prefixLen < e.length && u[prefixLen] === e[prefixLen]) {
+    prefixLen++;
+  }
+
+  // Find common suffix (from the end)
+  let suffixLen = 0;
+  while (suffixLen < (u.length - prefixLen) && suffixLen < (e.length - prefixLen) &&
+         u[u.length - 1 - suffixLen] === e[e.length - 1 - suffixLen]) {
+    suffixLen++;
+  }
+
+  // Build highlighted versions
+  const uPrefix = userWord.substring(0, prefixLen);
+  const uMiddle = userWord.substring(prefixLen, userWord.length - suffixLen);
+  const uSuffix = userWord.substring(userWord.length - suffixLen);
+
+  const ePrefix = expectedWord.substring(0, prefixLen);
+  const eMiddle = expectedWord.substring(prefixLen, expectedWord.length - suffixLen);
+  const eSuffix = expectedWord.substring(expectedWord.length - suffixLen);
+
+  const userHtml = `<span style="color: #2e7d32;">${uPrefix}</span>` +
+    (uMiddle ? `<span style="color: #c62828; text-decoration: line-through;">${uMiddle}</span>` : '') +
+    `<span style="color: #2e7d32;">${uSuffix}</span>`;
+
+  const expHtml = `<span>${ePrefix}</span>` +
+    (eMiddle ? `<span style="color: #2e7d32; font-weight: bold;">${eMiddle}</span>` : '') +
+    `<span>${eSuffix}</span>`;
+
+  return { userHtml, expHtml };
+}
+
 // Highlight differences between user input and expected answer
 function highlightDiff(userInput, expected) {
   const userWords = userInput.trim().split(/\s+/);
@@ -713,9 +751,10 @@ function highlightDiff(userInput, expected) {
       userHtml.push(`<span style="color: #2e7d32;">${uw}</span>`);
       expHtml.push(`<span>${ew}</span>`);
     } else if (uw && ew) {
-      // Wrong word
-      userHtml.push(`<span style="color: #c62828; text-decoration: line-through;">${uw}</span>`);
-      expHtml.push(`<span style="color: #2e7d32; font-weight: bold;">${ew}</span>`);
+      // Spelling error - do character-level diff
+      const wordDiff = highlightWordDiff(uw, ew);
+      userHtml.push(wordDiff.userHtml);
+      expHtml.push(wordDiff.expHtml);
     } else if (uw && !ew) {
       // Extra word
       userHtml.push(`<span style="color: #c62828; text-decoration: line-through;">${uw}</span>`);
