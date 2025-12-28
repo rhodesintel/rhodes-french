@@ -216,78 +216,53 @@ const FSI_Error = {
     return errors;
   },
 
-  // Check grammar errors using POS
+  // Check grammar errors - CONTENT-BASED, not position-based
   checkGrammar(userTokens, expectedTokens, userPOS, expectedPOS) {
     const errors = [];
 
-    // Compare POS patterns
-    const userPattern = userPOS.join(' ');
-    const expectedPattern = expectedPOS.join(' ');
+    // Normalize tokens for comparison (lowercase, no punctuation)
+    const userWords = userTokens
+      .map(t => t.toLowerCase())
+      .filter(t => this.simplePOS(t) !== 'PUNCT');
+    const expectedWords = expectedTokens
+      .map(t => t.toLowerCase())
+      .filter(t => this.simplePOS(t) !== 'PUNCT');
 
-    if (userPattern !== expectedPattern) {
-      // Find specific differences
-      const maxLen = Math.max(userPOS.length, expectedPOS.length);
+    // Find ACTUALLY missing words (in expected but not in user's answer)
+    const userSet = new Set(userWords);
+    const missingWords = expectedWords.filter(w => !userSet.has(w));
 
-      for (let i = 0; i < maxLen; i++) {
-        if (userPOS[i] !== expectedPOS[i]) {
-          // Determine error type
-          let subtype = 'structure';
-          let feedback = '';
+    // Find extra words (in user's answer but not expected)
+    const expectedSet = new Set(expectedWords);
+    const extraWords = userWords.filter(w => !expectedSet.has(w));
 
-          // Missing word
-          if (i >= userPOS.length) {
-            errors.push({
-              type: 'grammar',
-              subtype: 'missing_word',
-              position: i,
-              expected: expectedTokens[i],
-              expectedPOS: expectedPOS[i],
-              feedback: `Missing ${expectedPOS[i]}: "${expectedTokens[i]}"`
-            });
-            continue;
-          }
+    // Report missing words (but only important ones, not articles/punctuation)
+    for (const word of missingWords) {
+      const pos = this.simplePOS(word);
+      // Skip common small words that might just be style differences
+      if (['PUNCT'].includes(pos)) continue;
 
-          // Extra word
-          if (i >= expectedPOS.length) {
-            errors.push({
-              type: 'grammar',
-              subtype: 'extra_word',
-              position: i,
-              got: userTokens[i],
-              gotPOS: userPOS[i],
-              feedback: `Extra word: "${userTokens[i]}"`
-            });
-            continue;
-          }
+      errors.push({
+        type: 'missing',
+        subtype: pos.toLowerCase(),
+        expected: word,
+        expectedPOS: pos,
+        feedback: `Missing: "${word}"`
+      });
+    }
 
-          // Wrong POS
-          if (userPOS[i] === 'VERB' && expectedPOS[i] === 'VERB') {
-            // Same POS but different word - likely conjugation error
-            if (userTokens[i] !== expectedTokens[i]) {
-              errors.push({
-                type: 'grammar',
-                subtype: 'verb_conjugation',
-                position: i,
-                got: userTokens[i],
-                expected: expectedTokens[i],
-                feedback: `Verb form: "${userTokens[i]}" → "${expectedTokens[i]}"`,
-                drillLink: 'verb_conjugation'
-              });
-            }
-          } else if (userPOS[i] === 'DET' && expectedPOS[i] === 'DET') {
-            // Article error (gender/number)
-            errors.push({
-              type: 'grammar',
-              subtype: 'article_agreement',
-              position: i,
-              got: userTokens[i],
-              expected: expectedTokens[i],
-              feedback: `Article: "${userTokens[i]}" → "${expectedTokens[i]}"`,
-              drillLink: 'articles'
-            });
-          }
-        }
-      }
+    // Report extra words
+    for (const word of extraWords) {
+      const pos = this.simplePOS(word);
+      if (['PUNCT'].includes(pos)) continue;
+
+      errors.push({
+        type: 'extra',
+        subtype: pos.toLowerCase(),
+        got: word,
+        gotPOS: pos,
+        feedback: `Extra word: "${word}"`
+      });
     }
 
     // Check verb-subject agreement (je + -e, tu + -es, il + -e, etc.)
