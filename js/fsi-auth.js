@@ -10,9 +10,9 @@
  */
 
 const FSI_Auth = {
-  // Google Sheets webhook URL
-  // Paste your deployed Apps Script web app URL here:
-  SHEETS_WEBHOOK_URL: 'https://script.google.com/macros/s/AKfycbysEM5DC6l0LJfRlo9qBN-iptH1By_AbPNa5Gux264BadmfVE2cKYOYLhjgS460-7fp/exec',
+  // Google Sheets webhook URL - DISABLED (using local storage only)
+  // To enable: paste your deployed Apps Script web app URL here
+  SHEETS_WEBHOOK_URL: '',  // Disabled - local storage works fine
 
   // API key for webhook authentication (must match google-apps-script.js)
   API_KEY: 'rhodes-french-2024-x7k9m',
