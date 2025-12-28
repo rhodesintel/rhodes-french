@@ -11,6 +11,9 @@
  * 7. Paste URL into fsi-auth.js SHEETS_WEBHOOK_URL
  */
 
+// Sheet ID - linked directly to avoid binding issues
+const SHEET_ID = '1jzmxkOCNjQ9p6CwLAU3sOzh8-QnBmTay4c7MKcyCHc4';
+
 // Sheet names
 const RESPONSES_SHEET = 'Responses';
 const SUMMARY_SHEET = 'Summary';
@@ -44,7 +47,7 @@ function doGet(e) {
 }
 
 function logResponse(data) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SHEET_ID);
   let sheet = ss.getSheetByName(RESPONSES_SHEET);
 
   // Create sheet with headers if doesn't exist
@@ -95,7 +98,7 @@ function logResponse(data) {
 }
 
 function logProgress(data) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById(SHEET_ID);
   let sheet = ss.getSheetByName(SUMMARY_SHEET);
 
   if (!sheet) {

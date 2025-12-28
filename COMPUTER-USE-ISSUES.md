@@ -118,3 +118,9 @@ Real desktops (2, 3, 4) should be used for:
 - Typing went to wrong place (not URL bar?)
 - Need to verify URL bar is focused before typing
 - Should use xdotool key ctrl+l to focus URL bar explicitly
+
+### ERROR: Forgot to update firestoreEnabled check
+- Replaced Firebase with Google Sheets but left `firestoreEnabled` check
+- Should have changed to `SHEETS_WEBHOOK_URL` check immediately
+- Trivial oversight that broke the entire feature
+- **Always search for all references when changing a system**
