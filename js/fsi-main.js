@@ -751,8 +751,19 @@ function highlightWordDiff(userWord, expectedWord) {
   const eMiddle = expectedWord.substring(prefixLen, expectedWord.length - suffixLen);
   const eSuffix = expectedWord.substring(expectedWord.length - suffixLen);
 
+  // Build user HTML - show underscores for omitted characters
+  let uMiddleHtml = '';
+  if (uMiddle) {
+    // User typed wrong characters - strikethrough them
+    uMiddleHtml = `<span style="color: #c62828; text-decoration: line-through;">${uMiddle}</span>`;
+  } else if (eMiddle) {
+    // User omitted characters - show underscores as placeholder
+    const underscores = '_'.repeat(eMiddle.length);
+    uMiddleHtml = `<span style="color: #c62828;">${underscores}</span>`;
+  }
+
   const userHtml = `<span style="color: #2e7d32;">${uPrefix}</span>` +
-    (uMiddle ? `<span style="color: #c62828; text-decoration: line-through;">${uMiddle}</span>` : '') +
+    uMiddleHtml +
     `<span style="color: #2e7d32;">${uSuffix}</span>`;
 
   const expHtml = `<span>${ePrefix}</span>` +
