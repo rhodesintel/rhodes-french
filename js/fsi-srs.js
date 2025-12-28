@@ -1,0 +1,514 @@
+/**
+ * FSI Course 2.0 - SRS Mode with FSRS + NLP-aware spacing
+ *
+ * Features:
+ * - FSRS algorithm for optimal review scheduling
+ * - POS pattern grouping to avoid similar structure back-to-back
+ * - Commonality-ranked initial ordering
+ * - Error-weighted difficulty adjustment
+ */
+
+const FSI_SRS = {
+  // FSRS Parameters (default, learned from user history)
+  params: {
+    w: [0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01,
+        1.49, 0.14, 0.94, 2.18, 0.05, 0.34, 1.26, 0.29, 2.61],
+    requestRetention: 0.9,
+    maximumInterval: 36500  // 100 years
+  },
+
+  // Rating enum
+  Rating: {
+    Again: 1,
+    Hard: 2,
+    Good: 3,
+    Easy: 4
+  },
+
+  // Card state enum
+  State: {
+    New: 0,
+    Learning: 1,
+    Review: 2,
+    Relearning: 3
+  },
+
+  // Storage key - separate from fsi.html's Storage to avoid data structure conflicts
+  // FSI_SRS expects flat cards object, Storage expects {version, cards, unitProgress, stats}
+  STORAGE_KEY: 'allonsy_fsi_srs',
+
+  // Chrome storage availability check
+  _hasChrome: typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local,
+
+  // In-memory state
+  cards: {},
+  sessionQueue: [],
+  lastPattern: null,
+  sessionStats: { reviewed: 0, correct: 0, incorrect: 0 },
+
+  // ============================================
+  // INITIALIZATION
+  // ============================================
+
+  async init() {
+    await this.loadCards();
+    this.buildSessionQueue();
+    return this;
+  },
+
+  async loadCards() {
+    return new Promise((resolve) => {
+      if (this._hasChrome) {
+        chrome.storage.local.get([this.STORAGE_KEY], (result) => {
+          this.cards = result[this.STORAGE_KEY] || {};
+          resolve();
+        });
+      } else {
+        // Fallback to localStorage
+        try {
+          const saved = localStorage.getItem(this.STORAGE_KEY);
+          this.cards = saved ? JSON.parse(saved) : {};
+        } catch (e) {
+          this.cards = {};
+        }
+        resolve();
+      }
+    });
+  },
+
+  async saveCards() {
+    return new Promise((resolve) => {
+      if (this._hasChrome) {
+        chrome.storage.local.set({ [this.STORAGE_KEY]: this.cards }, resolve);
+      } else {
+        // Fallback to localStorage
+        try {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cards));
+        } catch (e) {}
+        resolve();
+      }
+    });
+  },
+
+  // ============================================
+  // CARD CREATION
+  // ============================================
+
+  createCard(id, sentenceData) {
+    return {
+      id: id,
+      due: new Date().toISOString(),
+      stability: 0,
+      difficulty: 0,
+      elapsed_days: 0,
+      scheduled_days: 0,
+      reps: 0,
+      lapses: 0,
+      state: this.State.New,
+      last_review: null,
+
+      // NLP metadata for smart spacing
+      pos_pattern: sentenceData.pos_pattern || '',
+      commonality: sentenceData.commonality || 0.5,
+      unit: sentenceData.unit || 1,
+
+      // Error tracking
+      error_history: []  // [{type, timestamp}]
+    };
+  },
+
+  // Initialize cards for a set of sentences
+  initializeCards(sentences) {
+    // Sort by commonality (most common first for initial learning)
+    const sorted = [...sentences].sort((a, b) => b.commonality - a.commonality);
+
+    for (const sentence of sorted) {
+      if (!this.cards[sentence.id]) {
+        this.cards[sentence.id] = this.createCard(sentence.id, sentence);
+      }
+    }
+
+    this.saveCards();
+  },
+
+  // ============================================
+  // FSRS CORE FUNCTIONS
+  // ============================================
+
+  // Forgetting curve: R(t, S) = (1 + t/(9*S))^(-1)
+  retrievability(elapsedDays, stability) {
+    if (stability <= 0) return 0;
+    return Math.pow(1 + elapsedDays / (9 * stability), -1);
+  },
+
+  // Next interval: I(r, S) = 9 * S * (1/r - 1)
+  nextInterval(stability, retention = this.params.requestRetention) {
+    if (stability <= 0) return 1;
+    return Math.round(9 * stability * (1 / retention - 1));
+  },
+
+  // Initial stability based on grade
+  initStability(grade) {
+    return this.params.w[grade - 1];
+  },
+
+  // Initial difficulty based on grade
+  initDifficulty(grade) {
+    const w = this.params.w;
+    return Math.max(1, Math.min(10, w[4] - (grade - 3) * w[5]));
+  },
+
+  // Stability after successful review
+  nextReviewStability(d, s, r, grade) {
+    const w = this.params.w;
+    const hardPenalty = grade === this.Rating.Hard ? w[15] : 1;
+    const easyBonus = grade === this.Rating.Easy ? w[16] : 1;
+
+    const sinc = Math.exp(w[8]) *
+                 (11 - d) *
+                 Math.pow(s, -w[9]) *
+                 (Math.exp(w[10] * (1 - r)) - 1) *
+                 hardPenalty *
+                 easyBonus;
+
+    return s * (sinc + 1);
+  },
+
+  // Stability after forgetting (lapse)
+  nextForgetStability(d, s, r) {
+    const w = this.params.w;
+    return w[11] *
+           Math.pow(d, -w[12]) *
+           (Math.pow(s + 1, w[13]) - 1) *
+           Math.exp(w[14] * (1 - r));
+  },
+
+  // Update difficulty
+  nextDifficulty(d, grade) {
+    const w = this.params.w;
+    const d0 = this.initDifficulty(3);  // Default difficulty
+    const newD = w[7] * d0 + (1 - w[7]) * (d - w[6] * (grade - 3));
+    return Math.max(1, Math.min(10, newD));
+  },
+
+  // ============================================
+  // REVIEW PROCESSING
+  // ============================================
+
+  processReview(cardId, grade, errorInfo = null) {
+    const card = this.cards[cardId];
+    if (!card) return null;
+
+    const now = new Date();
+    const lastReview = card.last_review ? new Date(card.last_review) : now;
+    const elapsedDays = (now - lastReview) / (1000 * 60 * 60 * 24);
+
+    // Track error if present
+    if (errorInfo) {
+      card.error_history.push({
+        type: errorInfo.type,
+        timestamp: now.toISOString()
+      });
+      // Keep last 10 errors only
+      if (card.error_history.length > 10) {
+        card.error_history.shift();
+      }
+    }
+
+    // New card
+    if (card.state === this.State.New) {
+      card.stability = this.initStability(grade);
+      card.difficulty = this.initDifficulty(grade);
+      card.state = grade === this.Rating.Again ? this.State.Learning : this.State.Review;
+    }
+    // Existing card
+    else {
+      const r = this.retrievability(elapsedDays, card.stability);
+
+      if (grade === this.Rating.Again) {
+        // Lapse
+        card.stability = this.nextForgetStability(card.difficulty, card.stability, r);
+        card.lapses++;
+        card.state = this.State.Relearning;
+      } else {
+        // Success
+        card.stability = this.nextReviewStability(card.difficulty, card.stability, r, grade);
+        card.state = this.State.Review;
+      }
+
+      card.difficulty = this.nextDifficulty(card.difficulty, grade);
+    }
+
+    // Calculate next interval
+    const interval = Math.min(this.nextInterval(card.stability), this.params.maximumInterval);
+    card.scheduled_days = interval;
+    card.elapsed_days = elapsedDays;
+    card.reps++;
+    card.last_review = now.toISOString();
+
+    // Set next due date
+    const dueDate = new Date(now);
+    dueDate.setDate(dueDate.getDate() + interval);
+    card.due = dueDate.toISOString();
+
+    // Update last pattern for spacing
+    this.lastPattern = card.pos_pattern;
+
+    // Update stats
+    this.sessionStats.reviewed++;
+    if (grade >= this.Rating.Good) {
+      this.sessionStats.correct++;
+    } else {
+      this.sessionStats.incorrect++;
+    }
+
+    // Save
+    this.saveCards();
+
+    return {
+      card: card,
+      interval: interval,
+      nextDue: card.due
+    };
+  },
+
+  // ============================================
+  // QUEUE MANAGEMENT (NLP-aware)
+  // ============================================
+
+  getDueCards() {
+    const now = new Date();
+    const due = [];
+
+    for (const [id, card] of Object.entries(this.cards)) {
+      const dueDate = new Date(card.due);
+      if (dueDate <= now || card.state === this.State.New) {
+        due.push(card);
+      }
+    }
+
+    return due;
+  },
+
+  buildSessionQueue(maxCards = 20) {
+    const due = this.getDueCards();
+
+    // Sort by: New cards first (by commonality), then review cards by due date
+    due.sort((a, b) => {
+      // New cards first
+      if (a.state === this.State.New && b.state !== this.State.New) return -1;
+      if (b.state === this.State.New && a.state !== this.State.New) return 1;
+
+      // Among new cards, sort by commonality (most common first)
+      if (a.state === this.State.New && b.state === this.State.New) {
+        return b.commonality - a.commonality;
+      }
+
+      // Among review cards, sort by due date (oldest first)
+      return new Date(a.due) - new Date(b.due);
+    });
+
+    this.sessionQueue = due.slice(0, maxCards);
+    return this.sessionQueue;
+  },
+
+  getNextCard() {
+    if (this.sessionQueue.length === 0) {
+      this.buildSessionQueue();
+    }
+
+    if (this.sessionQueue.length === 0) {
+      return null;  // No cards due
+    }
+
+    // NLP-aware selection: avoid same POS pattern twice in a row
+    if (this.lastPattern) {
+      // Find first card with different pattern
+      const idx = this.sessionQueue.findIndex(c => c.pos_pattern !== this.lastPattern);
+      if (idx > 0) {
+        // Move that card to front
+        const [card] = this.sessionQueue.splice(idx, 1);
+        this.sessionQueue.unshift(card);
+      }
+    }
+
+    // Pop first card
+    return this.sessionQueue.shift();
+  },
+
+  // ============================================
+  // ERROR-TO-RATING CONVERSION
+  // ============================================
+
+  errorToRating(errors) {
+    if (!errors || errors.length === 0) return this.Rating.Good;
+
+    const primary = errors[0];
+    const errorCount = errors.length;
+
+    // Multiple errors = Again
+    if (errorCount >= 3) return this.Rating.Again;
+
+    // Based on error type
+    switch (primary.type) {
+      case 'spelling':
+        // Minor spelling = Hard, accent error = Good
+        return primary.subtype === 'accent' ? this.Rating.Hard : this.Rating.Hard;
+
+      case 'grammar':
+        // Grammar errors are more serious
+        return this.Rating.Again;
+
+      case 'word_order':
+        // Word order = important to fix
+        return this.Rating.Again;
+
+      case 'confusable':
+        // Confusables are tricky but not total failure
+        return this.Rating.Hard;
+
+      default:
+        return errorCount > 1 ? this.Rating.Again : this.Rating.Hard;
+    }
+  },
+
+  // ============================================
+  // STATISTICS
+  // ============================================
+
+  getStats() {
+    const cards = Object.values(this.cards);
+    const now = new Date();
+
+    const stats = {
+      total: cards.length,
+      new: 0,
+      learning: 0,
+      review: 0,
+      relearning: 0,
+      due_today: 0,
+      mastered: 0,  // stability > 21 days
+
+      avg_stability: 0,
+      avg_difficulty: 0,
+      total_reviews: 0,
+      total_lapses: 0,
+
+      session: this.sessionStats
+    };
+
+    let totalStability = 0;
+    let totalDifficulty = 0;
+    let reviewedCount = 0;
+
+    for (const card of cards) {
+      // State counts
+      switch (card.state) {
+        case this.State.New: stats.new++; break;
+        case this.State.Learning: stats.learning++; break;
+        case this.State.Review: stats.review++; break;
+        case this.State.Relearning: stats.relearning++; break;
+      }
+
+      // Due today
+      if (new Date(card.due) <= now) {
+        stats.due_today++;
+      }
+
+      // Mastered (stability > 21 days)
+      if (card.stability > 21) {
+        stats.mastered++;
+      }
+
+      // Averages
+      if (card.reps > 0) {
+        totalStability += card.stability;
+        totalDifficulty += card.difficulty;
+        reviewedCount++;
+      }
+
+      stats.total_reviews += card.reps;
+      stats.total_lapses += card.lapses;
+    }
+
+    if (reviewedCount > 0) {
+      stats.avg_stability = totalStability / reviewedCount;
+      stats.avg_difficulty = totalDifficulty / reviewedCount;
+    }
+
+    return stats;
+  },
+
+  // ============================================
+  // PATTERN ANALYSIS
+  // ============================================
+
+  // Group cards by POS pattern for analysis
+  getPatternGroups() {
+    const groups = {};
+
+    for (const card of Object.values(this.cards)) {
+      const pattern = card.pos_pattern || 'unknown';
+      if (!groups[pattern]) {
+        groups[pattern] = [];
+      }
+      groups[pattern].push(card);
+    }
+
+    return groups;
+  },
+
+  // Get cards with most errors
+  getProblematicCards(limit = 10) {
+    const cards = Object.values(this.cards);
+
+    return cards
+      .filter(c => c.error_history.length > 0)
+      .sort((a, b) => b.error_history.length - a.error_history.length)
+      .slice(0, limit);
+  },
+
+  // Get error type distribution
+  getErrorDistribution() {
+    const dist = {};
+
+    for (const card of Object.values(this.cards)) {
+      for (const error of card.error_history) {
+        dist[error.type] = (dist[error.type] || 0) + 1;
+      }
+    }
+
+    return dist;
+  },
+
+  // ============================================
+  // RESET / DEBUG
+  // ============================================
+
+  resetCard(cardId) {
+    if (this.cards[cardId]) {
+      const oldData = this.cards[cardId];
+      this.cards[cardId] = this.createCard(cardId, {
+        pos_pattern: oldData.pos_pattern,
+        commonality: oldData.commonality,
+        unit: oldData.unit
+      });
+      this.saveCards();
+    }
+  },
+
+  resetAllCards() {
+    for (const cardId of Object.keys(this.cards)) {
+      this.resetCard(cardId);
+    }
+  },
+
+  resetSessionStats() {
+    this.sessionStats = { reviewed: 0, correct: 0, incorrect: 0 };
+  }
+};
+
+// Export
+if (typeof module !== 'undefined') {
+  module.exports = FSI_SRS;
+}

@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The French Course | Allons-y!</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --accent-blue: #002395;
+      --accent-red: #ED2939;
+      --accent-white: #ffffff;
+      --border: #333;
+      --success: #28a745;
+      --error: #dc3545;
+      --warning: #ffc107;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'VT323', 'Courier New', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    .header {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--border);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      background: var(--accent-white);
+    }
+
+    /* Center the header in container */
+    .header-wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-box {
+      border: 2px solid var(--border);
+      padding: 5px 12px;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 3px;
+    }
+
+    .french-flag {
+      display: flex;
+      height: 30px;
+    }
+
+    .french-flag span {
+      width: 10px;
+    }
+
+    .french-flag .blue { background: var(--accent-blue); }
+    .french-flag .white { background: var(--accent-white); border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+    .french-flag .red { background: var(--accent-red); }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Mode Selector */
+    .mode-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 15px;
+      border: 3px solid var(--border);
+      background: var(--accent-white);
+      font-family: inherit;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-btn:hover {
+      background: #eee;
+    }
+
+    .mode-btn.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+
+    .mode-btn .mode-icon {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    /* Unit Grid */
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .unit-card {
+      border: 2px solid var(--border);
+      padding: 15px;
+      background: var(--accent-white);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .unit-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0 var(--border);
+    }
+
+    .unit-card.completed {
+      border-color: var(--success);
+    }
+
+    .unit-card.current {
+      border-color: var(--accent-blue);
+      border-width: 3px;
+    }
+
+    .unit-number {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .unit-title {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+
+    .unit-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background: #ddd;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--success);
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      min-width: 40px;
+    }
+
+    /* Drill View */
+    .drill-view {
+      display: none;
+      border: 3px solid var(--border);
+      background: var(--accent-white);
+      padding: 20px;
+    }
+
+    .drill-view.active {
+      display: block;
+    }
+
+    .drill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .drill-type {
+      font-size: 14px;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      background: #f0f0f0;
+    }
+
+    .drill-content {
+      margin-bottom: 20px;
+    }
+
+    .prompt {
+      font-size: 22px;
+      padding: 15px;
+      background: #f5f5f5;
+      border: 2px solid var(--border);
+      margin-bottom: 15px;
+    }
+
+    .prompt-fr {
+      color: var(--accent-blue);
+    }
+
+    .prompt-en {
+      font-size: 16px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    /* Input Area */
+    .input-area {
+      margin-bottom: 20px;
+    }
+
+    .input-area input {
+      width: 100%;
+      padding: 15px;
+      font-family: inherit;
+      font-size: 20px;
+      border: 3px solid var(--border);
+      outline: none;
+    }
+
+    .input-area input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .input-area input.correct {
+      border-color: var(--success);
+      background: #d4edda;
+    }
+
+    .input-area input.incorrect {
+      border-color: var(--error);
+      background: #f8d7da;
+    }
+
+    /* Feedback */
+    .feedback {
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 2px solid var(--border);
+      display: none;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.success {
+      background: #d4edda;
+      border-color: var(--success);
+    }
+
+    .feedback.error {
+      background: #f8d7da;
+      border-color: var(--error);
+    }
+
+    .feedback-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .feedback-detail {
+      font-size: 16px;
+    }
+
+    .drill-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 10px;
+      background: var(--accent-blue);
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      font-family: inherit;
+      font-size: 18px;
+      border: 2px solid var(--border);
+      background: var(--accent-white);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #eee;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+
+    .btn-primary:hover {
+      background: #001a75;
+    }
+
+    /* Register Toggle */
+    .register-toggle {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .register-btn {
+      padding: 8px 15px;
+      font-family: inherit;
+      font-size: 14px;
+      border: 2px solid var(--border);
+      background: var(--accent-white);
+      cursor: pointer;
+    }
+
+    .register-btn.active {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    /* Stats */
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 15px;
+      background: #f0f0f0;
+      border: 2px solid var(--border);
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* SRS Mode specific */
+    .srs-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .srs-stat-card {
+      border: 2px solid var(--border);
+      padding: 15px;
+      text-align: center;
+      background: var(--accent-white);
+    }
+
+    .srs-stat-value {
+      font-size: 32px;
+      color: var(--accent-blue);
+    }
+
+    .srs-stat-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* Audio button */
+    .audio-btn {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--border);
+      background: var(--accent-white);
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .audio-btn:hover {
+      background: #eee;
+    }
+
+    /* Microphone button */
+    .mic-btn {
+      width: 50px;
+      height: 50px;
+      border: 3px solid var(--border);
+      background: var(--accent-white);
+      cursor: pointer;
+      font-size: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .mic-btn:hover {
+      background: #eee;
+    }
+
+    .mic-btn.recording {
+      background: var(--error);
+      border-color: var(--error);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .mic-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Hands-free mode toggle */
+    .hands-free-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: #f0f0f0;
+      border: 2px solid var(--border);
+    }
+
+    .hands-free-toggle input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+    }
+
+    .input-with-mic {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .input-with-mic input {
+      flex: 1;
+    }
+
+    .voice-status {
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+      margin-top: 5px;
+      min-height: 20px;
+    }
+
+    /* Keyboard hints */
+    .keyboard-hints {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    kbd {
+      padding: 2px 6px;
+      border: 1px solid #ccc;
+      background: #f5f5f5;
+      border-radius: 3px;
+    }
+    /* Autosave indicator */
+    .save-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: #28a745;
+      opacity: 0;
+      transition: opacity 0.3s;
+      margin-left: 10px;
+    }
+    .save-indicator.show {
+      animation: fadeInOut 2s ease-in-out;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .save-indicator .spinner {
+      width: 12px;
+      height: 12px;
+      border: 2px solid #28a745;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    /* Fullscreen mode */
+    .fullscreen-btn {
+      background: none;
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .fullscreen-btn:hover {
+      background: var(--accent-light);
+    }
+    .drill-view.fullscreen {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: none !important;
+      z-index: 9999;
+      border-radius: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Title style selector removed - single style now -->
+
+    <!-- Header -->
+    <div class="header-wrapper">
+      <header class="header" style="flex-direction: column; align-items: center; text-align: center;">
+        <div class="logo" id="titleDisplay" style="flex-direction: column; align-items: center;">
+          <div class="french-flag" style="margin-bottom: 8px;">
+            <span class="blue"></span>
+            <span class="white"></span>
+            <span class="red"></span>
+          </div>
+          <div class="logo-box" style="display: flex; align-items: center; gap: 15px;">
+            <span>THE FRENCH COURSE</span>
+            <span style="font-size: 14px; font-weight: normal; opacity: 0.7;">—By Rhodes—</span>
+          </div>
+        </div>
+      </header>
+    </div>
+    <!-- Hidden import/export elements (functionality preserved, UI removed) -->
+    <input type="file" id="importFile" accept=".json" style="display:none">
+    <button id="exportBtn" style="display:none"></button>
+    <button id="importBtn" style="display:none"></button>
+
+    <!-- Mode Selector -->
+    <div class="mode-selector">
+      <button class="mode-btn active" id="linearModeBtn">
+        <span class="mode-icon">&#9654;</span>
+        LINEAR
+        <span style="font-size: 12px; display: block;">Unit by unit</span>
+      </button>
+      <button class="mode-btn" id="srsModeBtn" style="background: #F25C69 !important; color: white !important; border-color: #e04452 !important;">
+        <span class="mode-icon">&#8634;</span>
+        SRS
+        <span style="font-size: 12px; display: block;">Spaced repetition</span>
+      </button>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat"><strong>Units:</strong> <span id="unitsComplete">0</span>/24</div>
+      <div class="stat"><strong>Vocab:</strong> <span id="vocabLearned">0</span></div>
+      <div class="stat"><strong>Streak:</strong> <span id="currentStreak">0</span> days</div>
+      <div class="stat"><strong>Accuracy:</strong> <span id="accuracy">0</span>%</div>
+    </div>
+
+    <!-- Linear Mode: Unit Grid -->
+    <div id="linearView">
+      <div class="units-grid" id="unitsGrid">
+        <!-- Units populated by JS -->
+      </div>
+    </div>
+
+    <!-- SRS Mode: Stats + Queue -->
+    <div id="srsView" style="display: none;">
+      <div class="srs-stats">
+        <div class="srs-stat-card">
+          <div class="srs-stat-value" id="dueToday">0</div>
+          <div class="srs-stat-label">DUE TODAY</div>
+        </div>
+        <div class="srs-stat-card">
+          <div class="srs-stat-value" id="newCards">0</div>
+          <div class="srs-stat-label">NEW</div>
+        </div>
+        <div class="srs-stat-card">
+          <div class="srs-stat-value" id="reviewCards">0</div>
+          <div class="srs-stat-label">REVIEW</div>
+        </div>
+        <div class="srs-stat-card">
+          <div class="srs-stat-value" id="masteredCards">0</div>
+          <div class="srs-stat-label">MASTERED</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width: 100%; font-size: 24px; padding: 20px;" id="startSRSBtn">
+        START REVIEW SESSION
+      </button>
+    </div>
+
+    <!-- Unit Detail View -->
+    <div id="unitDetailView" style="display: none;">
+      <button class="btn" id="closeUnitBtn" style="margin-bottom: 15px;">&#8592; Back to Units</button>
+      <h2 id="unitDetailTitle" style="margin-bottom: 15px;">UNIT 1: Dans la rue</h2>
+
+      <!-- Dialogue Section -->
+      <div class="unit-section" id="dialogueSection">
+        <h3 style="margin-bottom: 10px; color: var(--accent-blue);">&#128172; DIALOGUE</h3>
+        <div id="dialogueContent" style="background: #f5f5f5; border: 2px solid var(--border); padding: 15px; margin-bottom: 15px; font-size: 16px; line-height: 1.8;">
+          <!-- Dialogue lines populated by JS -->
+        </div>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+          <button class="btn" id="playDialogueBtn">&#128266; Play Dialogue</button>
+          <button class="btn btn-primary" id="practiceDialogueBtn">&#9998; Practice Dialogue</button>
+        </div>
+      </div>
+
+      <!-- Grammar Introduction -->
+      <div class="unit-section" id="grammarIntroSection" style="margin-top: 20px;">
+        <h3 style="margin-bottom: 10px; color: var(--accent-blue);">&#128218; GRAMMAR POINTS</h3>
+        <div id="grammarIntroContent" style="background: #fff9e6; border: 2px solid #ffc107; padding: 15px; margin-bottom: 20px;">
+          <!-- Grammar intro populated by JS -->
+        </div>
+      </div>
+
+      <!-- Drills Section -->
+      <div class="unit-section" id="drillsSection" style="margin-top: 20px;">
+        <h3 style="margin-bottom: 10px; color: var(--accent-blue);">&#9998; DRILLS</h3>
+        <p style="color: #666; margin-bottom: 15px;"><span id="drillCount">0</span> sentences to practice</p>
+        <button class="btn btn-primary" style="width: 100%; font-size: 20px; padding: 15px;" id="startDrillsBtn">
+          START DRILLS &#10140;
+        </button>
+      </div>
+    </div>
+
+    <!-- Drill View (shared between modes) -->
+    <div class="drill-view" id="drillView">
+      <div class="drill-header">
+        <div>
+          <span class="drill-type" id="drillType">SUBSTITUTION</span>
+          <span id="drillProgress">1 / 10</span>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="audio-btn" id="playFrBtn" title="Play French">&#127467;&#127479;</button>
+          <button class="audio-btn" id="playEnBtn" title="Play English">&#127468;&#127463;</button>
+          <button class="fullscreen-btn" title="Toggle Fullscreen" id="fullscreenBtn">&#x26F6;</button>
+          <button class="btn" id="closeDrillBtn">&#10005; Close</button>
+          <span class="save-indicator" id="saveIndicator">&#10003; Saved</span>
+        </div>
+      </div>
+
+      <!-- Mode Toggles -->
+      <div style="display: flex; gap: 20px; margin-bottom: 15px;">
+        <div class="register-toggle">
+          <button class="register-btn active" id="formalBtn">FORMAL (vous)</button>
+          <button class="register-btn" id="informalBtn">INFORMAL (tu)</button>
+        </div>
+        <div class="register-toggle">
+          <button class="register-btn" id="repeatBtn">REPEAT</button>
+          <button class="register-btn active" id="translateBtn">TRANSLATE</button>
+        </div>
+      </div>
+
+      <!-- Grammar Hints (shown before prompt in translate mode) -->
+      <div id="grammarHints" style="background: #e8f4e8; border: 2px solid #28a745; padding: 10px 15px; margin-bottom: 15px; font-size: 14px;">
+        <strong style="color: #28a745;">&#128161; You'll need:</strong>
+        <span id="hintsContent">verb "être" conjugated, greeting phrase</span>
+      </div>
+
+      <!-- Drill Content -->
+      <div class="drill-content">
+        <div class="prompt">
+          <div class="prompt-en" id="promptEn" style="font-size: 20px; color: #333;">I'm happy to meet you.</div>
+          <div class="prompt-fr" id="promptFr" style="color: var(--accent-blue); margin-top: 8px; display: none;">Je suis heureux de faire votre connaissance.</div>
+        </div>
+      </div>
+
+      <!-- Hands-free mode toggle -->
+      <div class="hands-free-toggle">
+        <input type="checkbox" id="handsFreeMode">
+        <label for="handsFreeMode">HANDS-FREE MODE</label>
+        <span style="margin-left: 20px;">
+          <input type="checkbox" id="slowMode">
+          <label for="slowMode">SLOW (more time to respond)</label>
+        </span>
+      </div>
+
+      <!-- Input -->
+      <div class="input-area">
+        <div class="input-with-mic">
+          <input type="text" id="userInput" placeholder="Type or speak your answer in French..." autocomplete="off" spellcheck="false">
+          <button class="mic-btn" id="micBtn" title="Click to speak">&#127908;</button>
+        </div>
+        <div class="voice-status" id="voiceStatus"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="feedback" id="feedback">
+        <div class="feedback-title" id="feedbackTitle">Oops!</div>
+        <div class="feedback-detail" id="feedbackDetail"></div>
+        <a class="drill-link" id="drillLink" style="display: none;">Review this grammar point</a>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="btn" id="hintBtn">HINT</button>
+        <button class="btn" id="skipBtn">SKIP</button>
+        <button class="btn btn-primary" id="checkBtn">CHECK</button>
+        <button class="btn btn-primary" id="nextBtn" style="display: none;">NEXT &#10140;</button>
+      </div>
+
+      <div class="keyboard-hints">
+        <kbd>Enter</kbd> to check &nbsp; | &nbsp;
+        <kbd>Tab</kbd> for hint &nbsp; | &nbsp;
+        <kbd>Esc</kbd> to close
+      </div>
+    </div>
+  </div>
+
+  <script src="js/fsi-error.js"></script>
+  <script src="js/fsi-srs.js"></script>
+  <script src="js/fsi-linear.js"></script>
+  <script src="js/fsi-main.js"></script>
+</body>
+</html>

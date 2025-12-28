@@ -1,0 +1,580 @@
+{
+  "confusables": [
+    {
+      "id": "le-la",
+      "words": ["le", "la"],
+      "category": "gender",
+      "rule": "Masculine nouns use 'le', feminine nouns use 'la'",
+      "correct": "le livre (the book - masculine)",
+      "incorrect": "la livre",
+      "fsi_unit": "Unit 1",
+      "explanation": "Nouns have grammatical gender in French. 'Livre' is masculine, so it requires 'le'."
+    },
+    {
+      "id": "un-une",
+      "words": ["un", "une"],
+      "category": "gender",
+      "rule": "Masculine nouns use 'un', feminine nouns use 'une'",
+      "correct": "une maison (a house - feminine)",
+      "incorrect": "un maison",
+      "fsi_unit": "Unit 1",
+      "explanation": "The indefinite article must match the noun's gender. 'Maison' is feminine."
+    },
+    {
+      "id": "son-sa",
+      "words": ["son", "sa"],
+      "category": "gender",
+      "rule": "'Son' for masculine nouns, 'sa' for feminine nouns (possession)",
+      "correct": "sa mère (his/her mother - feminine)",
+      "incorrect": "son mère",
+      "fsi_unit": "Unit 3",
+      "explanation": "Possessive adjectives agree with the noun possessed, not the possessor."
+    },
+    {
+      "id": "son-sa-vowel",
+      "words": ["son", "sa"],
+      "category": "gender",
+      "rule": "Use 'son' before feminine nouns starting with vowels",
+      "correct": "son amie (his/her friend - feminine but starts with 'a')",
+      "incorrect": "sa amie",
+      "fsi_unit": "Unit 3",
+      "explanation": "For euphony, 'son' is used before feminine nouns beginning with vowels or mute h."
+    },
+    {
+      "id": "ce-cette",
+      "words": ["ce", "cette"],
+      "category": "gender",
+      "rule": "'Ce' for masculine, 'cette' for feminine (demonstrative)",
+      "correct": "cette femme (this woman - feminine)",
+      "incorrect": "ce femme",
+      "fsi_unit": "Unit 4",
+      "explanation": "Demonstrative adjectives must agree in gender with the noun."
+    },
+    {
+      "id": "ce-cet",
+      "words": ["ce", "cet"],
+      "category": "gender",
+      "rule": "Use 'cet' before masculine nouns starting with vowels",
+      "correct": "cet homme (this man - masculine but starts with 'h')",
+      "incorrect": "ce homme",
+      "fsi_unit": "Unit 4",
+      "explanation": "For euphony, 'cet' is used before masculine singular nouns beginning with vowels or mute h."
+    },
+    {
+      "id": "au-a-la",
+      "words": ["au", "à la"],
+      "category": "contraction",
+      "rule": "'Au' (à + le) for masculine, 'à la' for feminine",
+      "correct": "au restaurant (to the restaurant - masculine)",
+      "incorrect": "à la restaurant",
+      "fsi_unit": "Unit 2",
+      "explanation": "The preposition 'à' contracts with 'le' to form 'au' but not with 'la'."
+    },
+    {
+      "id": "du-de-la",
+      "words": ["du", "de la"],
+      "category": "contraction",
+      "rule": "'Du' (de + le) for masculine, 'de la' for feminine",
+      "correct": "du pain (some bread - masculine)",
+      "incorrect": "de la pain",
+      "fsi_unit": "Unit 2",
+      "explanation": "The partitive article uses 'du' for masculine nouns and 'de la' for feminine."
+    },
+    {
+      "id": "aux-a-les",
+      "words": ["aux", "à les"],
+      "category": "contraction",
+      "rule": "Always use 'aux', never 'à les'",
+      "correct": "aux enfants (to the children)",
+      "incorrect": "à les enfants",
+      "fsi_unit": "Unit 2",
+      "explanation": "The preposition 'à' always contracts with 'les' to form 'aux'."
+    },
+    {
+      "id": "des-de-les",
+      "words": ["des", "de les"],
+      "category": "contraction",
+      "rule": "Always use 'des', never 'de les'",
+      "correct": "des livres (some books)",
+      "incorrect": "de les livres",
+      "fsi_unit": "Unit 2",
+      "explanation": "The preposition 'de' always contracts with 'les' to form 'des'."
+    },
+    {
+      "id": "savoir-connaitre-fact",
+      "words": ["savoir", "connaître"],
+      "category": "verb-pair",
+      "rule": "Use 'savoir' for facts, skills, how to do something",
+      "correct": "Je sais parler français (I know how to speak French)",
+      "incorrect": "Je connais parler français",
+      "fsi_unit": "Unit 8",
+      "explanation": "'Savoir' is used for knowledge of facts or how to do something (+ infinitive)."
+    },
+    {
+      "id": "savoir-connaitre-person",
+      "words": ["savoir", "connaître"],
+      "category": "verb-pair",
+      "rule": "Use 'connaître' for people, places, things (familiarity)",
+      "correct": "Je connais Marie (I know Marie)",
+      "incorrect": "Je sais Marie",
+      "fsi_unit": "Unit 8",
+      "explanation": "'Connaître' expresses familiarity with people, places, or things."
+    },
+    {
+      "id": "etre-avoir-auxiliary",
+      "words": ["être", "avoir"],
+      "category": "verb-pair",
+      "rule": "Most verbs use 'avoir' in passé composé, but movement/reflexive verbs use 'être'",
+      "correct": "Je suis allé (I went - verb of movement)",
+      "incorrect": "J'ai allé",
+      "fsi_unit": "Unit 10",
+      "explanation": "Verbs of movement (aller, venir, arriver, partir, etc.) use 'être' as auxiliary."
+    },
+    {
+      "id": "etre-avoir-reflexive",
+      "words": ["être", "avoir"],
+      "category": "verb-pair",
+      "rule": "Reflexive verbs always use 'être' in passé composé",
+      "correct": "Je me suis levé (I got up - reflexive)",
+      "incorrect": "Je me ai levé",
+      "fsi_unit": "Unit 11",
+      "explanation": "All reflexive/pronominal verbs use 'être' as their auxiliary in compound tenses."
+    },
+    {
+      "id": "pour-pendant-duration",
+      "words": ["pour", "pendant"],
+      "category": "preposition",
+      "rule": "Use 'pendant' for completed duration, 'pour' for intended/future duration",
+      "correct": "J'ai travaillé pendant trois heures (I worked for three hours - completed)",
+      "incorrect": "J'ai travaillé pour trois heures",
+      "fsi_unit": "Unit 7",
+      "explanation": "'Pendant' describes actual duration of a completed action."
+    },
+    {
+      "id": "pour-pendant-future",
+      "words": ["pour", "pendant"],
+      "category": "preposition",
+      "rule": "Use 'pour' for intended/future duration",
+      "correct": "Je vais à Paris pour trois jours (I'm going to Paris for three days - intended)",
+      "incorrect": "Je vais à Paris pendant trois jours",
+      "fsi_unit": "Unit 7",
+      "explanation": "'Pour' indicates an intended or planned duration, especially with future actions."
+    },
+    {
+      "id": "a-de-city",
+      "words": ["à", "de"],
+      "category": "preposition",
+      "rule": "Use 'à' for 'to/in' a city, 'de' for 'from' a city",
+      "correct": "Je vais à Paris (I'm going to Paris)",
+      "incorrect": "Je vais de Paris",
+      "fsi_unit": "Unit 5",
+      "explanation": "'À' indicates destination or location with cities."
+    },
+    {
+      "id": "en-a-country-feminine",
+      "words": ["en", "à"],
+      "category": "preposition",
+      "rule": "Use 'en' for feminine countries, 'au' for masculine countries",
+      "correct": "Je vais en France (I'm going to France - feminine)",
+      "incorrect": "Je vais à France",
+      "fsi_unit": "Unit 5",
+      "explanation": "Feminine countries (usually ending in -e) use 'en' without an article."
+    },
+    {
+      "id": "au-en-country-masculine",
+      "words": ["au", "en"],
+      "category": "preposition",
+      "rule": "Use 'au' for masculine countries, 'en' for feminine countries",
+      "correct": "Je vais au Canada (I'm going to Canada - masculine)",
+      "incorrect": "Je vais en Canada",
+      "fsi_unit": "Unit 5",
+      "explanation": "Masculine countries use 'au' (à + le) to indicate destination."
+    },
+    {
+      "id": "de-depuis-origin",
+      "words": ["de", "depuis"],
+      "category": "preposition",
+      "rule": "Use 'de' for origin/from, 'depuis' for since/for (time)",
+      "correct": "Je viens de Paris (I come from Paris)",
+      "incorrect": "Je viens depuis Paris",
+      "fsi_unit": "Unit 5",
+      "explanation": "'De' indicates origin or source."
+    },
+    {
+      "id": "depuis-il-y-a",
+      "words": ["depuis", "il y a"],
+      "category": "preposition",
+      "rule": "Use 'depuis' with present tense for ongoing action, 'il y a' with passé composé for completed action",
+      "correct": "J'habite ici depuis trois ans (I've been living here for three years - ongoing)",
+      "incorrect": "J'habite ici il y a trois ans",
+      "fsi_unit": "Unit 9",
+      "explanation": "'Depuis' + present tense describes an action that started in the past and continues."
+    },
+    {
+      "id": "il-y-a-depuis",
+      "words": ["il y a", "depuis"],
+      "category": "preposition",
+      "rule": "Use 'il y a' for ago (completed action)",
+      "correct": "Je suis arrivé il y a trois ans (I arrived three years ago - completed)",
+      "incorrect": "Je suis arrivé depuis trois ans",
+      "fsi_unit": "Unit 9",
+      "explanation": "'Il y a' indicates a point in the past when a completed action occurred."
+    },
+    {
+      "id": "y-en-location",
+      "words": ["y", "en"],
+      "category": "pronoun",
+      "rule": "Use 'y' to replace 'à/dans/sur + place', 'en' to replace 'de + place'",
+      "correct": "Je vais à Paris. J'y vais. (I'm going to Paris. I'm going there.)",
+      "incorrect": "J'en vais.",
+      "fsi_unit": "Unit 12",
+      "explanation": "'Y' replaces prepositional phrases with à, dans, sur, chez + location."
+    },
+    {
+      "id": "en-y-quantity",
+      "words": ["en", "y"],
+      "category": "pronoun",
+      "rule": "Use 'en' to replace 'de + thing' or quantities",
+      "correct": "J'ai du pain. J'en ai. (I have some bread. I have some.)",
+      "incorrect": "J'y ai.",
+      "fsi_unit": "Unit 12",
+      "explanation": "'En' replaces de + noun, partitive articles, or quantities."
+    },
+    {
+      "id": "lui-leur-indirect",
+      "words": ["lui", "leur"],
+      "category": "pronoun",
+      "rule": "'Lui' for singular indirect object, 'leur' for plural",
+      "correct": "Je leur parle (I speak to them)",
+      "incorrect": "Je lui parle (when referring to multiple people)",
+      "fsi_unit": "Unit 13",
+      "explanation": "Indirect object pronouns: lui (to him/her), leur (to them)."
+    },
+    {
+      "id": "le-la-les-lui",
+      "words": ["le/la/les", "lui/leur"],
+      "category": "pronoun",
+      "rule": "Use 'le/la/les' for direct objects, 'lui/leur' for indirect objects",
+      "correct": "Je lui donne le livre (I give the book to him - indirect object)",
+      "incorrect": "Je le donne le livre",
+      "fsi_unit": "Unit 13",
+      "explanation": "Direct objects receive the action directly; indirect objects receive it indirectly (to/for someone)."
+    },
+    {
+      "id": "le-la-les-agreement",
+      "words": ["le", "la", "les"],
+      "category": "pronoun",
+      "rule": "Direct object pronouns agree in gender/number with the noun they replace",
+      "correct": "La pomme? Je la mange. (The apple? I'm eating it.)",
+      "incorrect": "Je le mange.",
+      "fsi_unit": "Unit 13",
+      "explanation": "Direct object pronouns must match the gender and number of the replaced noun."
+    },
+    {
+      "id": "bon-bien-adjective",
+      "words": ["bon", "bien"],
+      "category": "adjective-adverb",
+      "rule": "Use 'bon' (adjective) to describe nouns",
+      "correct": "C'est un bon livre (It's a good book)",
+      "incorrect": "C'est un bien livre",
+      "fsi_unit": "Unit 6",
+      "explanation": "'Bon' is an adjective that modifies nouns."
+    },
+    {
+      "id": "bien-bon-adverb",
+      "words": ["bien", "bon"],
+      "category": "adjective-adverb",
+      "rule": "Use 'bien' (adverb) to describe verbs or as predicate",
+      "correct": "Il parle bien (He speaks well)",
+      "incorrect": "Il parle bon",
+      "fsi_unit": "Unit 6",
+      "explanation": "'Bien' is an adverb that modifies verbs or describes states."
+    },
+    {
+      "id": "mauvais-mal-adjective",
+      "words": ["mauvais", "mal"],
+      "category": "adjective-adverb",
+      "rule": "Use 'mauvais' (adjective) to describe nouns",
+      "correct": "C'est un mauvais film (It's a bad movie)",
+      "incorrect": "C'est un mal film",
+      "fsi_unit": "Unit 6",
+      "explanation": "'Mauvais' is an adjective that modifies nouns."
+    },
+    {
+      "id": "mal-mauvais-adverb",
+      "words": ["mal", "mauvais"],
+      "category": "adjective-adverb",
+      "rule": "Use 'mal' (adverb) to describe verbs",
+      "correct": "Il chante mal (He sings badly)",
+      "incorrect": "Il chante mauvais",
+      "fsi_unit": "Unit 6",
+      "explanation": "'Mal' is an adverb that modifies verbs."
+    },
+    {
+      "id": "tout-tous-adjective",
+      "words": ["tout", "tous"],
+      "category": "adjective-adverb",
+      "rule": "'Tout' for singular, 'tous' for plural masculine",
+      "correct": "tous les jours (every day - plural)",
+      "incorrect": "tout les jours",
+      "fsi_unit": "Unit 14",
+      "explanation": "'Tout/tous/toute/toutes' must agree with the noun in gender and number."
+    },
+    {
+      "id": "ce-il-impersonal",
+      "words": ["c'est", "il est"],
+      "category": "verb-pair",
+      "rule": "Use 'c'est' + noun/adjective for identification, 'il est' + adjective for description",
+      "correct": "C'est un professeur (He is a teacher - identification with noun)",
+      "incorrect": "Il est un professeur",
+      "fsi_unit": "Unit 3",
+      "explanation": "'C'est' is used with nouns, modified nouns, proper names, or stressed pronouns."
+    },
+    {
+      "id": "il-est-ce-profession",
+      "words": ["il est", "c'est"],
+      "category": "verb-pair",
+      "rule": "Use 'il est' + profession (no article) for description",
+      "correct": "Il est professeur (He is a teacher - profession as description)",
+      "incorrect": "Il est un professeur",
+      "fsi_unit": "Unit 3",
+      "explanation": "When stating profession, nationality, or religion as a characteristic, use 'il/elle est' without article."
+    },
+    {
+      "id": "qui-que-subject",
+      "words": ["qui", "que"],
+      "category": "pronoun",
+      "rule": "Use 'qui' as subject of relative clause, 'que' as object",
+      "correct": "L'homme qui parle (The man who speaks - subject)",
+      "incorrect": "L'homme que parle",
+      "fsi_unit": "Unit 15",
+      "explanation": "'Qui' is the subject pronoun in a relative clause (followed by verb)."
+    },
+    {
+      "id": "que-qui-object",
+      "words": ["que", "qui"],
+      "category": "pronoun",
+      "rule": "Use 'que' as object of relative clause",
+      "correct": "Le livre que je lis (The book that I'm reading - object)",
+      "incorrect": "Le livre qui je lis",
+      "fsi_unit": "Unit 15",
+      "explanation": "'Que' is the object pronoun in a relative clause (followed by subject + verb)."
+    },
+    {
+      "id": "a-avoir-present",
+      "words": ["a", "à"],
+      "category": "verb-conjugation",
+      "rule": "'A' is 'avoir' conjugated (has), 'à' is preposition (to/at)",
+      "correct": "Il a un livre (He has a book)",
+      "incorrect": "Il à un livre",
+      "fsi_unit": "Unit 1",
+      "explanation": "'A' (no accent) is the third person singular of 'avoir'."
+    },
+    {
+      "id": "a-preposition",
+      "words": ["à", "a"],
+      "category": "verb-conjugation",
+      "rule": "'À' is preposition (to/at), 'a' is conjugated 'avoir'",
+      "correct": "Je vais à Paris (I'm going to Paris)",
+      "incorrect": "Je vais a Paris",
+      "fsi_unit": "Unit 1",
+      "explanation": "'À' (with accent) is a preposition meaning 'to' or 'at'."
+    },
+    {
+      "id": "est-et",
+      "words": ["est", "et"],
+      "category": "verb-conjugation",
+      "rule": "'Est' is 'être' conjugated (is), 'et' is conjunction (and)",
+      "correct": "Il est grand et beau (He is tall and handsome)",
+      "incorrect": "Il et grand est beau",
+      "fsi_unit": "Unit 1",
+      "explanation": "'Est' is the third person singular of 'être'; 'et' means 'and'."
+    },
+    {
+      "id": "sont-son",
+      "words": ["sont", "son"],
+      "category": "verb-conjugation",
+      "rule": "'Sont' is 'être' plural (are), 'son' is possessive (his/her)",
+      "correct": "Ils sont ici (They are here)",
+      "incorrect": "Ils son ici",
+      "fsi_unit": "Unit 1",
+      "explanation": "'Sont' is the third person plural of 'être'."
+    },
+    {
+      "id": "ont-on",
+      "words": ["ont", "on"],
+      "category": "verb-conjugation",
+      "rule": "'Ont' is 'avoir' plural (have), 'on' is pronoun (one/we)",
+      "correct": "Ils ont des livres (They have books)",
+      "incorrect": "Ils on des livres",
+      "fsi_unit": "Unit 1",
+      "explanation": "'Ont' is the third person plural of 'avoir'."
+    },
+    {
+      "id": "ces-ses",
+      "words": ["ces", "ses"],
+      "category": "pronoun",
+      "rule": "'Ces' is demonstrative (these/those), 'ses' is possessive (his/her - plural)",
+      "correct": "ses livres (his/her books - possession)",
+      "incorrect": "ces livres (when showing possession)",
+      "fsi_unit": "Unit 4",
+      "explanation": "'Ses' shows possession (his/her), 'ces' points out (these/those)."
+    },
+    {
+      "id": "ce-se",
+      "words": ["ce", "se"],
+      "category": "pronoun",
+      "rule": "'Ce' is demonstrative (this/that), 'se' is reflexive pronoun",
+      "correct": "Il se lave (He washes himself - reflexive)",
+      "incorrect": "Il ce lave",
+      "fsi_unit": "Unit 11",
+      "explanation": "'Se' is a reflexive pronoun used with pronominal verbs."
+    },
+    {
+      "id": "leur-leurs-singular",
+      "words": ["leur", "leurs"],
+      "category": "pronoun",
+      "rule": "'Leur' for singular possession, 'leurs' for plural",
+      "correct": "leur maison (their house - singular object)",
+      "incorrect": "leurs maison",
+      "fsi_unit": "Unit 3",
+      "explanation": "Possessive adjectives agree with the thing possessed, not the possessor."
+    },
+    {
+      "id": "ou-ou",
+      "words": ["où", "ou"],
+      "category": "pronoun",
+      "rule": "'Où' means 'where', 'ou' means 'or'",
+      "correct": "Où vas-tu? (Where are you going?)",
+      "incorrect": "Ou vas-tu?",
+      "fsi_unit": "Unit 2",
+      "explanation": "'Où' (with accent) is used for questions or relative clauses about location."
+    },
+    {
+      "id": "la-la-article",
+      "words": ["la", "là"],
+      "category": "pronoun",
+      "rule": "'La' is article/pronoun (the/her/it), 'là' is adverb (there)",
+      "correct": "Je suis là (I'm there/here)",
+      "incorrect": "Je suis la",
+      "fsi_unit": "Unit 2",
+      "explanation": "'Là' (with accent) means 'there' or 'here' (location)."
+    },
+    {
+      "id": "peut-peux",
+      "words": ["peut", "peux"],
+      "category": "verb-conjugation",
+      "rule": "'Peux' for je/tu, 'peut' for il/elle/on",
+      "correct": "Je peux venir (I can come)",
+      "incorrect": "Je peut venir",
+      "fsi_unit": "Unit 7",
+      "explanation": "'Pouvoir' conjugates: je peux, tu peux, il/elle/on peut."
+    },
+    {
+      "id": "veux-veut",
+      "words": ["veux", "veut"],
+      "category": "verb-conjugation",
+      "rule": "'Veux' for je/tu, 'veut' for il/elle/on",
+      "correct": "Tu veux partir? (Do you want to leave?)",
+      "incorrect": "Tu veut partir?",
+      "fsi_unit": "Unit 7",
+      "explanation": "'Vouloir' conjugates: je veux, tu veux, il/elle/on veut."
+    },
+    {
+      "id": "sais-sait",
+      "words": ["sais", "sait"],
+      "category": "verb-conjugation",
+      "rule": "'Sais' for je/tu, 'sait' for il/elle/on",
+      "correct": "Tu sais nager? (Do you know how to swim?)",
+      "incorrect": "Tu sait nager?",
+      "fsi_unit": "Unit 8",
+      "explanation": "'Savoir' conjugates: je sais, tu sais, il/elle/on sait."
+    },
+    {
+      "id": "fait-fais",
+      "words": ["fait", "fais"],
+      "category": "verb-conjugation",
+      "rule": "'Fais' for je/tu, 'fait' for il/elle/on",
+      "correct": "Que fais-tu? (What are you doing?)",
+      "incorrect": "Que fait-tu?",
+      "fsi_unit": "Unit 6",
+      "explanation": "'Faire' conjugates: je fais, tu fais, il/elle/on fait."
+    },
+    {
+      "id": "va-vas",
+      "words": ["va", "vas"],
+      "category": "verb-conjugation",
+      "rule": "'Vas' for tu (with hyphen in questions), 'va' for il/elle/on",
+      "correct": "Où vas-tu? (Where are you going?)",
+      "incorrect": "Où va-tu?",
+      "fsi_unit": "Unit 5",
+      "explanation": "'Aller' conjugates: je vais, tu vas, il/elle/on va. 'Vas' is used with inversion."
+    },
+    {
+      "id": "imparfait-passe-compose-ongoing",
+      "words": ["imparfait", "passé composé"],
+      "category": "verb-conjugation",
+      "rule": "Use imparfait for ongoing/habitual past actions, passé composé for completed actions",
+      "correct": "Je lisais quand tu es arrivé (I was reading when you arrived)",
+      "incorrect": "J'ai lu quand tu es arrivé",
+      "fsi_unit": "Unit 16",
+      "explanation": "Imparfait describes background/ongoing actions; passé composé describes specific completed events."
+    },
+    {
+      "id": "subjonctif-indicatif",
+      "words": ["subjunctive", "indicative"],
+      "category": "verb-conjugation",
+      "rule": "Use subjunctive after expressions of doubt, emotion, necessity, possibility",
+      "correct": "Il faut que je parte (It's necessary that I leave - subjunctive)",
+      "incorrect": "Il faut que je pars",
+      "fsi_unit": "Unit 20",
+      "explanation": "After 'il faut que', 'bien que', 'pour que', etc., use the subjunctive mood."
+    },
+    {
+      "id": "ne-pas-position",
+      "words": ["ne...pas", "pas...ne"],
+      "category": "verb-conjugation",
+      "rule": "'Ne' comes before verb, 'pas' after verb (or auxiliary)",
+      "correct": "Je ne sais pas (I don't know)",
+      "incorrect": "Je pas ne sais",
+      "fsi_unit": "Unit 1",
+      "explanation": "Negation wraps around the conjugated verb: ne + verb + pas."
+    },
+    {
+      "id": "ne-jamais-rien",
+      "words": ["ne...jamais", "ne...rien"],
+      "category": "verb-conjugation",
+      "rule": "'Ne...jamais' = never, 'ne...rien' = nothing (don't confuse)",
+      "correct": "Je ne vois rien (I see nothing)",
+      "incorrect": "Je ne vois jamais (when meaning 'nothing')",
+      "fsi_unit": "Unit 14",
+      "explanation": "Different negative expressions have different meanings: jamais (never), rien (nothing), personne (no one), plus (no more)."
+    },
+    {
+      "id": "quelque-chose-quelqu-un",
+      "words": ["quelque chose", "quelqu'un"],
+      "category": "pronoun",
+      "rule": "'Quelque chose' = something (thing), 'quelqu'un' = someone (person)",
+      "correct": "J'ai vu quelqu'un (I saw someone - person)",
+      "incorrect": "J'ai vu quelque chose (when referring to a person)",
+      "fsi_unit": "Unit 14",
+      "explanation": "Use 'quelqu'un' for people, 'quelque chose' for things."
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created": "2025-12-24",
+    "total_pairs": 56,
+    "categories": {
+      "gender": 6,
+      "contraction": 4,
+      "verb-pair": 6,
+      "preposition": 8,
+      "pronoun": 12,
+      "adjective-adverb": 6,
+      "verb-conjugation": 14
+    },
+    "description": "Comprehensive database of commonly confused French word pairs for error detection in the Allons-y! extension",
+    "usage": "Each confusable entry includes the confused words, grammatical rule, correct/incorrect examples, FSI unit coverage, and detailed explanation"
+  }
+}
