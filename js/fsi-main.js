@@ -1080,8 +1080,8 @@ function setMode(mode) {
     document.getElementById('srsView').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } else {
     renderUnits();
-    // Scroll to units grid so user sees the units
-    document.getElementById('unitsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to stats bar so units are visible below
+    document.querySelector('.stats-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
