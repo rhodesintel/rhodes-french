@@ -1323,8 +1323,12 @@ function getUnitProgress(unitId) {
   const cards = progress.cards || {};
   const unitProg = progress.unitProgress?.[unitId] || {};
   const seenIds = new Set(unitProg.seenIds || []);
-  // A drill is complete if it's in cards OR seenIds
-  const completed = unitDrills.filter(d => cards[d.id] || seenIds.has(d.id)).length;
+  // A drill is complete if it's been actually reviewed (has lastReview or reps > 0) OR in seenIds
+  const completed = unitDrills.filter(d => {
+    const card = cards[d.id];
+    const actuallyReviewed = card && (card.lastReview || card.reps > 0);
+    return actuallyReviewed || seenIds.has(d.id);
+  }).length;
   return Math.round((completed / unitDrills.length) * 100);
 }
 
