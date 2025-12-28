@@ -2067,6 +2067,18 @@ function checkAnswer() {
         cardLapses: card?.lapses
       });
     }
+
+    // Save to cloud
+    if (typeof FSI_Auth !== 'undefined') {
+      FSI_Auth.saveResponse({
+        cardId: drill.id,
+        unit: drill.unit || currentUnit,
+        expected: expected,
+        userAnswer: input.value,
+        correct: true
+      });
+    }
+
     Storage.reviewCard(drill.id, rating);
     Storage.setUnitProgress(currentUnit, currentDrillIndex, drill.id);
 
@@ -2137,6 +2149,19 @@ function checkAnswer() {
         cardLapses: card?.lapses
       });
     }
+
+    // Save to cloud
+    if (typeof FSI_Auth !== 'undefined') {
+      FSI_Auth.saveResponse({
+        cardId: drill.id,
+        unit: drill.unit || currentUnit,
+        expected: expected,
+        userAnswer: input.value,
+        correct: false,
+        errorType: result.primaryError?.type
+      });
+    }
+
     Storage.reviewCard(drill.id, rating);  // Also update legacy storage
 
     // Add wrong drill back to current session queue for immediate reinforcement
