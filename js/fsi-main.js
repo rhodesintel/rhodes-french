@@ -144,6 +144,8 @@ let register = 'formal';
 let drillMode = 'translate';  // 'translate' or 'repeat'
 let sessionCorrect = 0;
 let sessionTotal = 0;
+let retryMode = false;  // After wrong answer, user must retype correctly
+let retryExpected = '';  // The correct answer for retry comparison
 
 // ===========================================
 // COMPREHENSIVE FRENCH GRAMMAR SYSTEM
@@ -2144,6 +2146,11 @@ function updateDrillDisplay() {
   const drill = currentDrills[currentDrillIndex];
   if (!drill) return;
 
+  // Reset retry mode for new drill
+  retryMode = false;
+  retryExpected = '';
+  document.getElementById('checkBtn').textContent = 'CHECK';
+
   // Start analytics timer for this prompt
   if (typeof FSI_SRS !== 'undefined') {
     FSI_SRS.startPromptTimer();
@@ -2236,6 +2243,26 @@ function checkAnswer() {
   const feedbackTitle = document.getElementById('feedbackTitle');
   const feedbackDetail = document.getElementById('feedbackDetail');
   const drillLink = document.getElementById('drillLink');
+  const checkBtn = document.getElementById('checkBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // Handle retry mode - user got it wrong before and must type correctly
+  if (retryMode && result.correct) {
+    input.className = 'correct';
+    feedback.className = 'feedback show success';
+    feedbackTitle.textContent = 'Good!';
+    feedbackDetail.textContent = 'Now you\'ve got it. Moving on...';
+    drillLink.style.display = 'none';
+    AudioFeedback.correct();
+
+    // Exit retry mode, show NEXT (but don't count this for stats)
+    retryMode = false;
+    retryExpected = '';
+    checkBtn.style.display = 'none';
+    checkBtn.textContent = 'CHECK';
+    nextBtn.style.display = 'inline-block';
+    return;
+  }
 
   if (result.correct) {
     input.className = 'correct';
@@ -2396,9 +2423,13 @@ function checkAnswer() {
       currentDrills.splice(insertAt, 0, wrongDrill);
     }
 
-    // Show next button
-    document.getElementById('checkBtn').style.display = 'none';
-    document.getElementById('nextBtn').style.display = 'inline-block';
+    // Enable retry mode - user must type correct answer before continuing
+    retryMode = true;
+    retryExpected = expected;
+    input.value = '';  // Clear input for retry
+    input.className = '';  // Reset styling
+    checkBtn.textContent = 'RETRY';
+    // Keep CHECK button visible, don't show NEXT yet
   }
 }
 
