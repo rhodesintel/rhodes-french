@@ -691,6 +691,39 @@ function getVerbHintForError(expected, userInput) {
   return null;
 }
 
+// Check if two words are similar enough to be a typo (vs completely different words)
+// Returns true for "phreise/phrase" (typo), false for "chien/chat" (different words)
+function isSimilarWord(word1, word2) {
+  const a = word1.toLowerCase();
+  const b = word2.toLowerCase();
+
+  // Very short words - be lenient
+  if (a.length <= 2 || b.length <= 2) {
+    return a[0] === b[0]; // Same first letter = similar enough
+  }
+
+  // Calculate common prefix
+  let prefixLen = 0;
+  while (prefixLen < a.length && prefixLen < b.length && a[prefixLen] === b[prefixLen]) {
+    prefixLen++;
+  }
+
+  // Calculate common suffix
+  let suffixLen = 0;
+  while (suffixLen < (a.length - prefixLen) && suffixLen < (b.length - prefixLen) &&
+         a[a.length - 1 - suffixLen] === b[b.length - 1 - suffixLen]) {
+    suffixLen++;
+  }
+
+  // Coverage: what % of the longer word is matched by prefix+suffix?
+  const maxLen = Math.max(a.length, b.length);
+  const coverage = (prefixLen + suffixLen) / maxLen;
+
+  // If >40% of the word matches at start/end, it's likely a typo
+  // Also require same first letter for typos (most typos keep first letter)
+  return coverage > 0.4 && a[0] === b[0];
+}
+
 // Character-level diff for spelling errors within a word
 function highlightWordDiff(userWord, expectedWord) {
   const u = userWord.toLowerCase();
@@ -750,11 +783,15 @@ function highlightDiff(userInput, expected) {
       // Correct word (or just accent difference)
       userHtml.push(`<span style="color: #2e7d32;">${uw}</span>`);
       expHtml.push(`<span>${ew}</span>`);
-    } else if (uw && ew) {
-      // Spelling error - do character-level diff
+    } else if (uw && ew && isSimilarWord(uw, ew)) {
+      // Typo - do character-level diff (phreise→phrase)
       const wordDiff = highlightWordDiff(uw, ew);
       userHtml.push(wordDiff.userHtml);
       expHtml.push(wordDiff.expHtml);
+    } else if (uw && ew) {
+      // Completely different word (chien→chat) - word-level diff
+      userHtml.push(`<span style="color: #c62828; text-decoration: line-through;">${uw}</span>`);
+      expHtml.push(`<span style="color: #2e7d32; font-weight: bold;">${ew}</span>`);
     } else if (uw && !ew) {
       // Extra word
       userHtml.push(`<span style="color: #c62828; text-decoration: line-through;">${uw}</span>`);
