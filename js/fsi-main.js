@@ -2085,56 +2085,29 @@ function checkAnswer() {
       ? FSI_SRS.errorToRating(result.errors)
       : 1;  // Default to Again
 
-    // Build detailed error feedback
-    const errorType = result.primaryError?.type || 'error';
-    const errorLabel = {
-      'spelling': 'Spelling Error',
-      'grammar': 'Grammar Error',
-      'word_order': 'Word Order',
-      'missing': 'Missing Words',
-      'extra': 'Extra Words',
-      'confusable': 'Common Confusion',
-      'accent': 'Accent/Diacritic'
-    }[errorType] || 'Incorrect';
+    feedbackTitle.textContent = 'Incorrect';
 
-    feedbackTitle.textContent = errorLabel;
-
-    // Show user's answer vs correct answer side-by-side, then error details
+    // Show ONLY wrong vs correct - clean and simple
     const userAnswer = input.value.trim() || '(empty)';
     let detailHtml = `
-      <div style="display: flex; gap: 20px; margin-bottom: 10px; font-size: 18px;">
-        <div style="flex: 1; padding: 8px; background: #ffebee; border-left: 3px solid #dc3545;">
-          <div style="font-size: 12px; color: #666; margin-bottom: 2px;">YOUR ANSWER:</div>
-          <div style="color: #c62828;">${userAnswer}</div>
-        </div>
-        <div style="flex: 1; padding: 8px; background: #e8f5e9; border-left: 3px solid #28a745;">
-          <div style="font-size: 12px; color: #666; margin-bottom: 2px;">CORRECT:</div>
-          <div style="color: #2e7d32;">${expected}</div>
-        </div>
+      <div style="margin-bottom: 12px; padding: 10px; background: #ffebee; border-left: 4px solid #dc3545;">
+        <div style="font-size: 12px; color: #999; margin-bottom: 4px;">YOU WROTE:</div>
+        <div style="font-size: 20px; color: #c62828;">${userAnswer}</div>
+      </div>
+      <div style="padding: 10px; background: #e8f5e9; border-left: 4px solid #28a745;">
+        <div style="font-size: 12px; color: #999; margin-bottom: 4px;">CORRECT:</div>
+        <div style="font-size: 20px; color: #2e7d32;">${expected}</div>
       </div>
     `;
 
-    // Add error analysis below the comparison
-    if (result.feedback) {
-      detailHtml += `<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 14px; color: #666;">${result.feedback.replace(/\n/g, '<br>')}</div>`;
-    }
-
-    // Add verb conjugation help when user gets a verb wrong
-    if (result.primaryError?.type === 'grammar' || result.primaryError?.type === 'confusable') {
-      const verbHint = getVerbHintForError(expected, input.value);
-      if (verbHint) {
-        detailHtml += `<div style="margin-top: 8px; padding: 8px; background: #fff3cd; border-left: 3px solid #ffc107;"><strong>Conjugation:</strong> ${verbHint}</div>`;
-      }
+    // Only show verb conjugation hint if there's an actual verb mismatch
+    const verbHint = getVerbHintForError(expected, input.value);
+    if (verbHint) {
+      detailHtml += `<div style="margin-top: 12px; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107; font-size: 14px;"><strong>Conjugation:</strong> ${verbHint}</div>`;
     }
 
     feedbackDetail.innerHTML = detailHtml;
-
-    if (result.primaryError?.drillLink) {
-      drillLink.textContent = `Practice: ${result.primaryError.drillLink}`;
-      drillLink.style.display = 'inline-block';
-    } else {
-      drillLink.style.display = 'none';
-    }
+    drillLink.style.display = 'none';
 
     // SRS: Schedule card for sooner review based on error severity
     if (typeof FSI_SRS !== 'undefined') {
