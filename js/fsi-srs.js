@@ -19,8 +19,16 @@ const FSI_SRS = {
     learningSteps: [1, 10],  // 1 min, 10 min, then graduate
     relearningSteps: [1, 10],  // Same for lapsed cards
     graduatingInterval: 1,  // Days after completing learning steps
-    easyInterval: 4  // Days for Easy on new card
+    easyInterval: 4,  // Days for Easy on new card
+
+    // Drill graduation params (pattern variations retire from SRS)
+    graduationConsecutive: 5,  // Correct answers in a row to graduate
+    graduationMinInterval: 16,  // Minimum interval (days) before graduation
+    reactivationLapseThreshold: 2  // Lapses on canonical to trigger sibling reactivation
   },
+
+  // Drill metadata cache (loaded from drills.json)
+  drillMeta: {},  // {id: {pattern_group, is_canonical}}
 
   // Rating enum
   Rating: {
@@ -154,7 +162,12 @@ const FSI_SRS = {
       unit: sentenceData.unit || 1,
 
       // Error tracking
-      error_history: []  // [{type, timestamp}]
+      error_history: [],  // [{type, timestamp}]
+
+      // Graduation fields (drill variations retire from SRS)
+      graduated: false,
+      graduation_date: null,
+      consecutive_correct: 0
     };
   },
 
@@ -334,8 +347,20 @@ const FSI_SRS = {
     this.sessionStats.reviewed++;
     if (grade >= this.Rating.Good) {
       this.sessionStats.correct++;
+      // Track consecutive correct for graduation
+      card.consecutive_correct = (card.consecutive_correct || 0) + 1;
     } else {
       this.sessionStats.incorrect++;
+      // Reset streak on incorrect
+      card.consecutive_correct = 0;
+    }
+
+    // Check for drill graduation (non-canonical variations retire from SRS)
+    this._checkGraduation(card, grade);
+
+    // Check for reactivation (canonical lapse triggers sibling return)
+    if (grade === this.Rating.Again) {
+      this._checkReactivation(cardId);
     }
 
     // Save
@@ -359,6 +384,9 @@ const FSI_SRS = {
     const due = [];
 
     for (const [id, card] of Object.entries(this.cards)) {
+      // Skip graduated cards (pattern variations that have retired)
+      if (card.graduated) continue;
+
       const dueDate = new Date(card.due);
       if (dueDate <= now || card.state === this.State.New) {
         due.push(card);
@@ -583,6 +611,155 @@ const FSI_SRS = {
 
   resetSessionStats() {
     this.sessionStats = { reviewed: 0, correct: 0, incorrect: 0 };
+  },
+
+  // ============================================
+  // DRILL GRADUATION (pattern variations retire from SRS)
+  // ============================================
+
+  // Load drill metadata (pattern_group, is_canonical) from drills data
+  loadDrillMeta(drillsData) {
+    if (!drillsData?.drills) return;
+    for (const drill of drillsData.drills) {
+      this.drillMeta[drill.id] = {
+        pattern_group: drill.pattern_group || null,
+        is_canonical: drill.is_canonical !== false  // Default true if not specified
+      };
+    }
+  },
+
+  // Check if card should graduate (called after correct answer)
+  // If canonical meets criteria, swap with a sibling (pattern stays, card rotates)
+  _checkGraduation(card, grade) {
+    if (grade < this.Rating.Good) return;  // Only on correct answers
+    if (card.graduated) return;  // Already graduated
+
+    const meta = this.drillMeta[card.id];
+    if (!meta) return;  // No metadata loaded
+
+    const consecutive = card.consecutive_correct || 0;
+    const interval = card.scheduled_days || 0;
+
+    // Check graduation conditions
+    if (consecutive >= this.params.graduationConsecutive &&
+        interval >= this.params.graduationMinInterval) {
+
+      const siblings = this._getSiblingCards(meta.pattern_group);
+      const graduatedSiblings = siblings.filter(s => s.graduated && s.id !== card.id);
+      const activeSiblings = siblings.filter(s => !s.graduated && s.id !== card.id);
+
+      if (meta.is_canonical) {
+        // CANONICAL ROTATION: swap with a graduated sibling
+        if (graduatedSiblings.length > 0) {
+          // Pick random graduated sibling to become new canonical
+          const newCanonical = this._shuffle(graduatedSiblings)[0];
+
+          // Swap: old canonical graduates, sibling becomes canonical
+          card.graduated = true;
+          card.graduation_date = new Date().toISOString();
+          this.drillMeta[card.id].is_canonical = false;
+
+          newCanonical.graduated = false;
+          newCanonical.consecutive_correct = 0;
+          newCanonical.state = this.State.Review;
+          newCanonical.due = new Date().toISOString();
+          this.drillMeta[newCanonical.id].is_canonical = true;
+
+          console.log(`Canonical swap: ${card.id} → ${newCanonical.id} in ${meta.pattern_group}`);
+        }
+        // If no graduated siblings, canonical stays (pattern needs representation)
+      } else {
+        // Non-canonical: normal graduation if siblings remain
+        if (activeSiblings.length > 0) {
+          card.graduated = true;
+          card.graduation_date = new Date().toISOString();
+          console.log(`Graduated: ${card.id} from pattern ${meta.pattern_group}`);
+        }
+      }
+    }
+  },
+
+  // Check if canonical lapse should reactivate siblings
+  _checkReactivation(cardId) {
+    const meta = this.drillMeta[cardId];
+    if (!meta?.is_canonical) return;  // Only for canonical cards
+    if (!meta.pattern_group) return;
+
+    const card = this.cards[cardId];
+    if (!card) return;
+
+    // Count recent lapses (last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    let recentLapses = 0;
+    for (const err of (card.error_history || [])) {
+      if (new Date(err.timestamp) > thirtyDaysAgo) {
+        recentLapses++;
+      }
+    }
+
+    if (recentLapses >= this.params.reactivationLapseThreshold) {
+      // Reactivate some graduated siblings
+      const graduated = this._getGraduatedSiblings(meta.pattern_group);
+      const toReactivate = this._shuffle(graduated).slice(0, 3);
+
+      for (const sibling of toReactivate) {
+        sibling.graduated = false;
+        sibling.state = this.State.Relearning;
+        sibling.consecutive_correct = 0;
+        sibling.learning_step = 0;
+        sibling.due = new Date().toISOString();
+        console.log(`Reactivated: ${sibling.id} due to canonical lapse on ${cardId}`);
+      }
+    }
+  },
+
+  // Get all cards in the same pattern group
+  _getSiblingCards(patternGroup) {
+    if (!patternGroup) return [];
+    const siblings = [];
+    for (const [id, card] of Object.entries(this.cards)) {
+      const meta = this.drillMeta[id];
+      if (meta?.pattern_group === patternGroup) {
+        siblings.push(card);
+      }
+    }
+    return siblings;
+  },
+
+  // Get graduated siblings in a pattern group
+  _getGraduatedSiblings(patternGroup) {
+    return this._getSiblingCards(patternGroup).filter(c => c.graduated);
+  },
+
+  // Fisher-Yates shuffle
+  _shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  },
+
+  // Get graduation statistics
+  getGraduationStats() {
+    const cards = Object.values(this.cards);
+    const graduated = cards.filter(c => c.graduated);
+    const patterns = new Set();
+
+    for (const [id, meta] of Object.entries(this.drillMeta)) {
+      if (meta.pattern_group) patterns.add(meta.pattern_group);
+    }
+
+    return {
+      total: cards.length,
+      graduated: graduated.length,
+      active: cards.length - graduated.length,
+      patterns: patterns.size,
+      percentGraduated: cards.length ? ((graduated.length / cards.length) * 100).toFixed(1) : 0
+    };
   },
 
   // ============================================

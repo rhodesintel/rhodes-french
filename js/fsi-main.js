@@ -1205,6 +1205,9 @@ async function loadCourse() {
       }));
       FSI_SRS.initializeCards(sentences);
 
+      // Load drill metadata for graduation system (pattern groups, canonical flags)
+      FSI_SRS.loadDrillMeta(drillsData);
+
       // Load analytics data
       await FSI_SRS.loadAnalytics();
       console.log('Analytics loaded:', FSI_SRS.analytics.responses.length, 'responses');
