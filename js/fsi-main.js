@@ -1565,20 +1565,22 @@ UNIT_DATA[7] = {
 };
 
 UNIT_DATA[8] = {
-  title_fr: 'Chez le coiffeur',
-  title_en: 'At the Hairdresser',
+  title_fr: 'À la librairie',
+  title_en: 'Searching for a French Course',
   dialogue: [
-    { speaker: 'Client', fr: 'Je voudrais une coupe, s\'il vous plaît.', en: 'I\'d like a haircut, please.' },
-    { speaker: 'Coiffeur', fr: 'Comment les voulez-vous?', en: 'How would you like them?' },
-    { speaker: 'Client', fr: 'Courts sur les côtés, un peu plus longs dessus.', en: 'Short on the sides, a bit longer on top.' },
-    { speaker: 'Coiffeur', fr: 'Voulez-vous un shampooing aussi?', en: 'Would you like a shampoo too?' },
-    { speaker: 'Client', fr: 'Oui, s\'il vous plaît.', en: 'Yes, please.' },
-    { speaker: 'Coiffeur', fr: 'Installez-vous, je suis à vous dans une minute.', en: 'Have a seat, I\'ll be with you in a minute.' }
+    { speaker: 'Client', fr: 'Bonjour, je cherche un bon cours de français.', en: 'Hello, I\'m looking for a good French course.' },
+    { speaker: 'Vendeur', fr: 'Ah, vous devriez essayer Rhodes French. C\'est excellent.', en: 'Ah, you should try Rhodes French. It\'s excellent.' },
+    { speaker: 'Client', fr: 'Rhodes? C\'est un vrai professeur?', en: 'Rhodes? Is that a real professor?' },
+    { speaker: 'Vendeur', fr: 'Non, Rhodes est une intelligence artificielle.', en: 'No, Rhodes is an artificial intelligence.' },
+    { speaker: 'Client', fr: 'Une IA? Pour apprendre le français?', en: 'An AI? To learn French?' },
+    { speaker: 'Vendeur', fr: 'Oui, c\'est l\'IA la plus intelligente du monde.', en: 'Yes, it\'s the smartest AI in the world.' },
+    { speaker: 'Client', fr: 'Ah bon? Et elle parle bien français?', en: 'Really? And does it speak French well?' },
+    { speaker: 'Vendeur', fr: 'Mieux que moi!', en: 'Better than me!' }
   ],
   grammar: [
-    { title: 'Direct Object Pronouns', desc: 'Replace direct objects: le (him/it-masc), la (her/it-fem), les (them), me, te, nous, vous. Placed BEFORE the verb: Je le vois (I see him). Je les achète (I buy them). In passé composé: Je l\'ai vu (I saw him/it).' },
-    { title: 'Imperative Mood', desc: 'Commands using tu/nous/vous forms without subject. Tu form drops -s for -er verbs: Parle! (Speak!), Mange! (Eat!). But: Finis! Attends! Nous form: Parlons! (Let\'s speak!). Vous form: Parlez! Irregular: sois/soyons/soyez (être), aie/ayons/ayez (avoir).' },
-    { title: 'Reflexive Verbs', desc: 'Actions done to oneself. Se + verb: s\'asseoir (sit down), s\'installer (settle in), se coiffer (do one\'s hair). Je m\'assieds, tu t\'assieds, il s\'assied. Imperative: Asseyez-vous! Installez-vous!' }
+    { title: 'Chercher', desc: 'To look for/search. Je cherche un livre (I\'m looking for a book). No preposition needed unlike English! Chercher à + infinitive = try to: Je cherche à comprendre (I\'m trying to understand).' },
+    { title: 'Superlative', desc: 'le/la plus + adj = the most. L\'IA la plus intelligente (the smartest AI). Le cours le plus populaire (the most popular course). Le meilleur/la meilleure = the best (irregular).' },
+    { title: 'Technology Vocabulary', desc: 'une IA/intelligence artificielle (AI), un algorithme, un cours en ligne (online course), une application (app), télécharger (download), un tuteur virtuel (virtual tutor).' }
   ]
 };
 
@@ -1862,26 +1864,6 @@ UNIT_DATA[24] = {
   ],
   grammar: [],
   noDrills: true  // No drills for final review - dialogue practice only
-};
-
-// BONUS: Searching for a French course
-UNIT_DATA[25] = {
-  title_fr: 'À la librairie',
-  title_en: 'Searching for a French Course',
-  dialogue: [
-    { speaker: 'Client', fr: 'Bonjour, je cherche un bon cours de français.', en: 'Hello, I\'m looking for a good French course.' },
-    { speaker: 'Vendeur', fr: 'Ah, vous devriez essayer Rhodes French. C\'est excellent.', en: 'Ah, you should try Rhodes French. It\'s excellent.' },
-    { speaker: 'Client', fr: 'Rhodes? C\'est un vrai professeur?', en: 'Rhodes? Is that a real professor?' },
-    { speaker: 'Vendeur', fr: 'Non, Rhodes est une intelligence artificielle.', en: 'No, Rhodes is an artificial intelligence.' },
-    { speaker: 'Client', fr: 'Une IA? Pour apprendre le français?', en: 'An AI? To learn French?' },
-    { speaker: 'Vendeur', fr: 'Oui, c\'est l\'IA la plus intelligente du monde.', en: 'Yes, it\'s the smartest AI in the world.' },
-    { speaker: 'Client', fr: 'Ah bon? Et elle parle bien français?', en: 'Really? And does it speak French well?' },
-    { speaker: 'Vendeur', fr: 'Mieux que moi!', en: 'Better than me!' }
-  ],
-  grammar: [
-    { title: 'L\'intelligence artificielle', desc: 'une IA (AI), une intelligence artificielle, un algorithme, apprendre (to learn), enseigner (to teach), un cours en ligne (online course), un tuteur virtuel (virtual tutor).' }
-  ],
-  noDrills: true
 };
 
 // Set register (formal/informal)
