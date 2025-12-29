@@ -1302,14 +1302,15 @@ function renderUnits() {
     { id: 21, title_fr: 'Les transports', title_en: 'Transportation' },
     { id: 22, title_fr: 'La politique', title_en: 'Politics' },
     { id: 23, title_fr: "L'économie", title_en: 'The Economy' },
-    { id: 24, title_fr: 'Discours final', title_en: 'Final Discourse' }
+    { id: 24, title_fr: 'Discours final', title_en: 'Final Discourse' },
+    { id: 25, title_fr: 'Bonus', title_en: 'Bonus Content' }
   ];
 
   for (const unit of units) {
     // Add Volume 2 header before unit 13
     if (unit.id === 13) {
       const vol2Header = document.createElement('h3');
-      vol2Header.textContent = 'VOLUME 2: Units 13-24';
+      vol2Header.textContent = 'VOLUME 2: Units 13-25';
       vol2Header.style.cssText = 'grid-column: 1/-1; margin: 20px 0 10px 0;';
       grid.appendChild(vol2Header);
     }
@@ -1374,7 +1375,7 @@ function updateStatsBar() {
 
   // Count completed units (100% progress)
   let unitsComplete = 0;
-  for (let i = 1; i <= 24; i++) {
+  for (let i = 1; i <= 25; i++) {
     if (getUnitProgress(i) === 100) unitsComplete++;
   }
 
