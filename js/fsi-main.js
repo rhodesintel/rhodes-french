@@ -1585,6 +1585,24 @@ UNIT_DATA[8] = {
 };
 
 UNIT_DATA[9] = {
+  title_fr: 'Chez le coiffeur',
+  title_en: 'At the Hairdresser',
+  dialogue: [
+    { speaker: 'Client', fr: 'Je voudrais une coupe, s\'il vous plaît.', en: 'I\'d like a haircut, please.' },
+    { speaker: 'Coiffeur', fr: 'Comment les voulez-vous?', en: 'How would you like them?' },
+    { speaker: 'Client', fr: 'Courts sur les côtés, un peu plus longs dessus.', en: 'Short on the sides, a bit longer on top.' },
+    { speaker: 'Coiffeur', fr: 'Voulez-vous un shampooing aussi?', en: 'Would you like a shampoo too?' },
+    { speaker: 'Client', fr: 'Oui, s\'il vous plaît.', en: 'Yes, please.' },
+    { speaker: 'Coiffeur', fr: 'Installez-vous, je suis à vous dans une minute.', en: 'Have a seat, I\'ll be with you in a minute.' }
+  ],
+  grammar: [
+    { title: 'Direct Object Pronouns', desc: 'Replace direct objects: le (him/it-masc), la (her/it-fem), les (them), me, te, nous, vous. Placed BEFORE the verb: Je le vois (I see him). Je les achète (I buy them). In passé composé: Je l\'ai vu (I saw him/it).' },
+    { title: 'Imperative Mood', desc: 'Commands using tu/nous/vous forms without subject. Tu form drops -s for -er verbs: Parle! (Speak!), Mange! (Eat!). But: Finis! Attends! Nous form: Parlons! (Let\'s speak!). Vous form: Parlez! Irregular: sois/soyons/soyez (être), aie/ayons/ayez (avoir).' },
+    { title: 'Reflexive Verbs', desc: 'Actions done to oneself. Se + verb: s\'asseoir (sit down), s\'installer (settle in), se coiffer (do one\'s hair). Je m\'assieds, tu t\'assieds, il s\'assied. Imperative: Asseyez-vous! Installez-vous!' }
+  ]
+};
+
+UNIT_DATA[10] = {
   title_fr: 'Au restaurant',
   title_en: 'At the Restaurant',
   dialogue: [
@@ -1602,7 +1620,7 @@ UNIT_DATA[9] = {
   ]
 };
 
-UNIT_DATA[10] = {
+UNIT_DATA[11] = {
   title_fr: 'Au bureau',
   title_en: 'At the Office',
   dialogue: [
@@ -1620,7 +1638,7 @@ UNIT_DATA[10] = {
   ]
 };
 
-UNIT_DATA[11] = {
+UNIT_DATA[12] = {
   title_fr: 'Maison à louer',
   title_en: 'House for Rent',
   dialogue: [
@@ -1638,7 +1656,7 @@ UNIT_DATA[11] = {
   ]
 };
 
-UNIT_DATA[12] = {
+UNIT_DATA[13] = {
   title_fr: 'Vocabulaire',
   title_en: 'Vocabulary Reference',
   dialogue: [
@@ -1657,7 +1675,7 @@ UNIT_DATA[12] = {
 };
 
 // Units 13-18 from Volume 2
-UNIT_DATA[13] = {
+UNIT_DATA[14] = {
   title_fr: 'Au bureau de placement',
   title_en: 'At the Employment Office',
   dialogue: [
@@ -1675,7 +1693,7 @@ UNIT_DATA[13] = {
   ]
 };
 
-UNIT_DATA[14] = {
+UNIT_DATA[15] = {
   title_fr: 'La douane',
   title_en: 'Customs',
   dialogue: [
@@ -1693,7 +1711,7 @@ UNIT_DATA[14] = {
   ]
 };
 
-UNIT_DATA[15] = {
+UNIT_DATA[16] = {
   title_fr: 'L\'école',
   title_en: 'School',
   dialogue: [
@@ -1711,7 +1729,7 @@ UNIT_DATA[15] = {
   ]
 };
 
-UNIT_DATA[16] = {
+UNIT_DATA[17] = {
   title_fr: 'Parlons du spectacle',
   title_en: 'Let\'s Talk About the Show',
   dialogue: [
@@ -1729,7 +1747,7 @@ UNIT_DATA[16] = {
   ]
 };
 
-UNIT_DATA[17] = {
+UNIT_DATA[18] = {
   title_fr: 'À l\'aéroport',
   title_en: 'At the Airport',
   dialogue: [
@@ -1747,7 +1765,7 @@ UNIT_DATA[17] = {
   ]
 };
 
-UNIT_DATA[18] = {
+UNIT_DATA[19] = {
   title_fr: 'Révision',
   title_en: 'Review',
   dialogue: [
@@ -1761,7 +1779,7 @@ UNIT_DATA[18] = {
 };
 
 // Units 19-24 from Volume 2
-UNIT_DATA[19] = {
+UNIT_DATA[20] = {
   title_fr: 'Chez le médecin',
   title_en: 'At the Doctor',
   dialogue: [
@@ -1779,7 +1797,7 @@ UNIT_DATA[19] = {
   ]
 };
 
-UNIT_DATA[20] = {
+UNIT_DATA[21] = {
   title_fr: 'À la banque',
   title_en: 'At the Bank',
   dialogue: [
@@ -1797,7 +1815,7 @@ UNIT_DATA[20] = {
   ]
 };
 
-UNIT_DATA[21] = {
+UNIT_DATA[22] = {
   title_fr: 'Les transports',
   title_en: 'Transportation',
   dialogue: [
@@ -1815,7 +1833,7 @@ UNIT_DATA[21] = {
   ]
 };
 
-UNIT_DATA[22] = {
+UNIT_DATA[23] = {
   title_fr: 'La politique',
   title_en: 'Politics',
   dialogue: [
@@ -1833,7 +1851,7 @@ UNIT_DATA[22] = {
   ]
 };
 
-UNIT_DATA[23] = {
+UNIT_DATA[24] = {
   title_fr: 'L\'économie',
   title_en: 'The Economy',
   dialogue: [
@@ -1851,7 +1869,7 @@ UNIT_DATA[23] = {
   ]
 };
 
-UNIT_DATA[24] = {
+UNIT_DATA[25] = {
   title_fr: 'Discours final',
   title_en: 'Final Discourse',
   dialogue: [
