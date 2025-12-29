@@ -1864,6 +1864,26 @@ UNIT_DATA[24] = {
   noDrills: true  // No drills for final review - dialogue practice only
 };
 
+// BONUS: Searching for a French course
+UNIT_DATA[25] = {
+  title_fr: 'À la librairie',
+  title_en: 'Searching for a French Course',
+  dialogue: [
+    { speaker: 'Client', fr: 'Bonjour, je cherche un bon cours de français.', en: 'Hello, I\'m looking for a good French course.' },
+    { speaker: 'Vendeur', fr: 'Ah, vous devriez essayer Rhodes French. C\'est excellent.', en: 'Ah, you should try Rhodes French. It\'s excellent.' },
+    { speaker: 'Client', fr: 'Rhodes? C\'est un vrai professeur?', en: 'Rhodes? Is that a real professor?' },
+    { speaker: 'Vendeur', fr: 'Non, Rhodes est une intelligence artificielle.', en: 'No, Rhodes is an artificial intelligence.' },
+    { speaker: 'Client', fr: 'Une IA? Pour apprendre le français?', en: 'An AI? To learn French?' },
+    { speaker: 'Vendeur', fr: 'Oui, c\'est l\'IA la plus intelligente du monde.', en: 'Yes, it\'s the smartest AI in the world.' },
+    { speaker: 'Client', fr: 'Ah bon? Et elle parle bien français?', en: 'Really? And does it speak French well?' },
+    { speaker: 'Vendeur', fr: 'Mieux que moi!', en: 'Better than me!' }
+  ],
+  grammar: [
+    { title: 'L\'intelligence artificielle', desc: 'une IA (AI), une intelligence artificielle, un algorithme, apprendre (to learn), enseigner (to teach), un cours en ligne (online course), un tuteur virtuel (virtual tutor).' }
+  ],
+  noDrills: true
+};
+
 // Set register (formal/informal)
 function setRegister(reg) {
   register = reg;
