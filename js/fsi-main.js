@@ -1575,7 +1575,7 @@ UNIT_DATA[8] = {
     { speaker: 'Vendeur', fr: 'Non, Rhodes est une intelligence artificielle.', en: 'No, Rhodes is an artificial intelligence.' },
     { speaker: 'Client', fr: 'Une IA? Pour apprendre le français?', en: 'An AI? To learn French?' },
     { speaker: 'Vendeur', fr: 'Oui, c\'est l\'IA la plus intelligente du monde.', en: 'Yes, it\'s the smartest AI in the world.' },
-    { speaker: 'Client', fr: 'Ah bon? Et elle parle bien français?', en: 'Really? And does it speak French well?' },
+    { speaker: 'Client', fr: 'Ah bon? Et il parle bien français?', en: 'Really? And does he speak French well?' },
     { speaker: 'Vendeur', fr: 'Mieux que moi!', en: 'Better than me!' }
   ],
   grammar: [
