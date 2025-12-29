@@ -1285,32 +1285,32 @@ function renderUnits() {
     { id: 5, title_fr: 'Le climat', title_en: 'The Climate' },
     { id: 6, title_fr: 'Révision', title_en: 'Review' },
     { id: 7, title_fr: 'Prenons rendez-vous', title_en: "Let's Make an Appointment" },
-    { id: 8, title_fr: 'Chez le coiffeur', title_en: 'At the Hairdresser' },
-    { id: 9, title_fr: 'Au restaurant', title_en: 'At the Restaurant' },
-    { id: 10, title_fr: 'Au bureau', title_en: 'At the Office' },
-    { id: 11, title_fr: 'Maison à louer', title_en: 'House for Rent' },
-    { id: 12, title_fr: 'Vocabulaire', title_en: 'Vocabulary Reference' },
+    { id: 8, title_fr: 'À la librairie', title_en: 'Searching for a French Course' },
+    { id: 9, title_fr: 'Chez le coiffeur', title_en: 'At the Hairdresser' },
+    { id: 10, title_fr: 'Au restaurant', title_en: 'At the Restaurant' },
+    { id: 11, title_fr: 'Au bureau', title_en: 'At the Office' },
+    { id: 12, title_fr: 'Maison à louer', title_en: 'House for Rent' },
+    { id: 13, title_fr: 'Vocabulaire', title_en: 'Vocabulary Reference' },
     // Volume 2
-    { id: 13, title_fr: 'Au bureau de placement', title_en: 'At the Employment Office' },
-    { id: 14, title_fr: 'La douane', title_en: 'Customs' },
-    { id: 15, title_fr: "L'école", title_en: 'School' },
-    { id: 16, title_fr: 'Parlons du spectacle', title_en: "Let's Talk About the Show" },
-    { id: 17, title_fr: "À l'aéroport", title_en: 'At the Airport' },
-    { id: 18, title_fr: 'Révision', title_en: 'Review' },
-    { id: 19, title_fr: 'Chez le médecin', title_en: 'At the Doctor' },
-    { id: 20, title_fr: 'La banque', title_en: 'The Bank' },
-    { id: 21, title_fr: 'Les transports', title_en: 'Transportation' },
-    { id: 22, title_fr: 'La politique', title_en: 'Politics' },
-    { id: 23, title_fr: "L'économie", title_en: 'The Economy' },
-    { id: 24, title_fr: 'Discours final', title_en: 'Final Discourse' },
-    { id: 25, title_fr: 'Bonus', title_en: 'Bonus Content' }
+    { id: 14, title_fr: 'Au bureau de placement', title_en: 'At the Employment Office' },
+    { id: 15, title_fr: 'La douane', title_en: 'Customs' },
+    { id: 16, title_fr: "L'école", title_en: 'School' },
+    { id: 17, title_fr: 'Parlons du spectacle', title_en: "Let's Talk About the Show" },
+    { id: 18, title_fr: "À l'aéroport", title_en: 'At the Airport' },
+    { id: 19, title_fr: 'Révision', title_en: 'Review' },
+    { id: 20, title_fr: 'Chez le médecin', title_en: 'At the Doctor' },
+    { id: 21, title_fr: 'La banque', title_en: 'The Bank' },
+    { id: 22, title_fr: 'Les transports', title_en: 'Transportation' },
+    { id: 23, title_fr: 'La politique', title_en: 'Politics' },
+    { id: 24, title_fr: "L'économie", title_en: 'The Economy' },
+    { id: 25, title_fr: 'Discours final', title_en: 'Final Discourse' }
   ];
 
   for (const unit of units) {
-    // Add Volume 2 header before unit 13
-    if (unit.id === 13) {
+    // Add Volume 2 header before unit 14
+    if (unit.id === 14) {
       const vol2Header = document.createElement('h3');
-      vol2Header.textContent = 'VOLUME 2: Units 13-25';
+      vol2Header.textContent = 'VOLUME 2: Units 14-25';
       vol2Header.style.cssText = 'grid-column: 1/-1; margin: 20px 0 10px 0;';
       grid.appendChild(vol2Header);
     }
