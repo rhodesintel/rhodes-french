@@ -142,6 +142,7 @@ let currentDrillIndex = 0;
 let currentDrills = [];
 let register = 'formal';
 let drillMode = 'translate';  // 'translate' or 'repeat'
+let drillDirection = 'en-fr';  // 'en-fr' (English→French) or 'fr-en' (French→English)
 let sessionCorrect = 0;
 let sessionTotal = 0;
 let retryMode = false;  // After wrong answer, user must retype correctly
@@ -939,28 +940,17 @@ const Storage = {
   },
 
   async load() {
-    // CLOUD IS SOURCE OF TRUTH for signed-in users
-    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.isSignedIn()) {
-      const cloudData = await FSI_Auth.loadProgress();
-      if (cloudData && cloudData.cards) {
-        console.log('Using cloud data as source of truth');
-        // Also update localStorage as cache
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData));
-        return cloudData;
-      }
-    }
-
-    // Fallback: Try chrome.storage.sync (cross-device)
+    // Try chrome.storage.sync first (cross-device)
     if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
       try {
         const result = await chrome.storage.sync.get(SYNC_KEY);
         if (result[SYNC_KEY]) return result[SYNC_KEY];
       } catch (e) {}
     }
-    // Fallback: Try main localStorage
+    // Try main localStorage
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) try { return JSON.parse(saved); } catch (e) {}
-    // Fallback: Try recovering from backups
+    // Try recovering from backups
     const recovered = await this.recover();
     if (recovered) {
       console.log('Recovered from backup!');
@@ -976,13 +966,8 @@ const Storage = {
   async save() {
     if (!this.data) return;
 
-    // Save current state to localStorage (always, as cache)
+    // Save current state
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
-
-    // SYNC TO CLOUD for signed-in users (cloud is source of truth)
-    if (typeof FSI_Auth !== 'undefined' && FSI_Auth.isSignedIn()) {
-      FSI_Auth.saveProgress(this.data);
-    }
 
     // Auto-backup: keep last 10 versions with timestamps
     const backupKey = 'fsi_backup_' + new Date().toISOString().split('T')[0];
@@ -1205,9 +1190,6 @@ async function loadCourse() {
       }));
       FSI_SRS.initializeCards(sentences);
 
-      // Load drill metadata for graduation system (pattern groups, canonical flags)
-      FSI_SRS.loadDrillMeta(drillsData);
-
       // Load analytics data
       await FSI_SRS.loadAnalytics();
       console.log('Analytics loaded:', FSI_SRS.analytics.responses.length, 'responses');
@@ -1285,32 +1267,31 @@ function renderUnits() {
     { id: 5, title_fr: 'Le climat', title_en: 'The Climate' },
     { id: 6, title_fr: 'Révision', title_en: 'Review' },
     { id: 7, title_fr: 'Prenons rendez-vous', title_en: "Let's Make an Appointment" },
-    { id: 8, title_fr: 'À la librairie', title_en: 'Searching for a French Course' },
-    { id: 9, title_fr: 'Chez le coiffeur', title_en: 'At the Hairdresser' },
-    { id: 10, title_fr: 'Au restaurant', title_en: 'At the Restaurant' },
-    { id: 11, title_fr: 'Au bureau', title_en: 'At the Office' },
-    { id: 12, title_fr: 'Maison à louer', title_en: 'House for Rent' },
-    { id: 13, title_fr: 'Vocabulaire', title_en: 'Vocabulary Reference' },
+    { id: 8, title_fr: 'Chez le coiffeur', title_en: 'At the Hairdresser' },
+    { id: 9, title_fr: 'Au restaurant', title_en: 'At the Restaurant' },
+    { id: 10, title_fr: 'Au bureau', title_en: 'At the Office' },
+    { id: 11, title_fr: 'Maison à louer', title_en: 'House for Rent' },
+    { id: 12, title_fr: 'Vocabulaire', title_en: 'Vocabulary Reference' },
     // Volume 2
-    { id: 14, title_fr: 'Au bureau de placement', title_en: 'At the Employment Office' },
-    { id: 15, title_fr: 'La douane', title_en: 'Customs' },
-    { id: 16, title_fr: "L'école", title_en: 'School' },
-    { id: 17, title_fr: 'Parlons du spectacle', title_en: "Let's Talk About the Show" },
-    { id: 18, title_fr: "À l'aéroport", title_en: 'At the Airport' },
-    { id: 19, title_fr: 'Révision', title_en: 'Review' },
-    { id: 20, title_fr: 'Chez le médecin', title_en: 'At the Doctor' },
-    { id: 21, title_fr: 'La banque', title_en: 'The Bank' },
-    { id: 22, title_fr: 'Les transports', title_en: 'Transportation' },
-    { id: 23, title_fr: 'La politique', title_en: 'Politics' },
-    { id: 24, title_fr: "L'économie", title_en: 'The Economy' },
-    { id: 25, title_fr: 'Discours final', title_en: 'Final Discourse' }
+    { id: 13, title_fr: 'Au bureau de placement', title_en: 'At the Employment Office' },
+    { id: 14, title_fr: 'La douane', title_en: 'Customs' },
+    { id: 15, title_fr: "L'école", title_en: 'School' },
+    { id: 16, title_fr: 'Parlons du spectacle', title_en: "Let's Talk About the Show" },
+    { id: 17, title_fr: "À l'aéroport", title_en: 'At the Airport' },
+    { id: 18, title_fr: 'Révision', title_en: 'Review' },
+    { id: 19, title_fr: 'Chez le médecin', title_en: 'At the Doctor' },
+    { id: 20, title_fr: 'La banque', title_en: 'The Bank' },
+    { id: 21, title_fr: 'Les transports', title_en: 'Transportation' },
+    { id: 22, title_fr: 'La politique', title_en: 'Politics' },
+    { id: 23, title_fr: "L'économie", title_en: 'The Economy' },
+    { id: 24, title_fr: 'Discours final', title_en: 'Final Discourse' }
   ];
 
   for (const unit of units) {
-    // Add Volume 2 header before unit 14
-    if (unit.id === 14) {
+    // Add Volume 2 header before unit 13
+    if (unit.id === 13) {
       const vol2Header = document.createElement('h3');
-      vol2Header.textContent = 'VOLUME 2: Units 14-25';
+      vol2Header.textContent = 'VOLUME 2: Units 13-24';
       vol2Header.style.cssText = 'grid-column: 1/-1; margin: 20px 0 10px 0;';
       grid.appendChild(vol2Header);
     }
@@ -1343,12 +1324,8 @@ function getUnitProgress(unitId) {
   const cards = progress.cards || {};
   const unitProg = progress.unitProgress?.[unitId] || {};
   const seenIds = new Set(unitProg.seenIds || []);
-  // A drill is complete if it's been actually reviewed (has lastReview or reps > 0) OR in seenIds
-  const completed = unitDrills.filter(d => {
-    const card = cards[d.id];
-    const actuallyReviewed = card && (card.lastReview || card.reps > 0);
-    return actuallyReviewed || seenIds.has(d.id);
-  }).length;
+  // A drill is complete if it's in cards OR seenIds
+  const completed = unitDrills.filter(d => cards[d.id] || seenIds.has(d.id)).length;
   return Math.round((completed / unitDrills.length) * 100);
 }
 
@@ -1375,7 +1352,7 @@ function updateStatsBar() {
 
   // Count completed units (100% progress)
   let unitsComplete = 0;
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= 24; i++) {
     if (getUnitProgress(i) === 100) unitsComplete++;
   }
 
@@ -1566,26 +1543,6 @@ UNIT_DATA[7] = {
 };
 
 UNIT_DATA[8] = {
-  title_fr: 'À la librairie',
-  title_en: 'Searching for a French Course',
-  dialogue: [
-    { speaker: 'Client', fr: 'Bonjour, je cherche un bon cours de français.', en: 'Hello, I\'m looking for a good French course.' },
-    { speaker: 'Vendeur', fr: 'Ah, vous devriez essayer Rhodes French. C\'est excellent.', en: 'Ah, you should try Rhodes French. It\'s excellent.' },
-    { speaker: 'Client', fr: 'Rhodes? C\'est un vrai professeur?', en: 'Rhodes? Is that a real professor?' },
-    { speaker: 'Vendeur', fr: 'Non, Rhodes est une intelligence artificielle.', en: 'No, Rhodes is an artificial intelligence.' },
-    { speaker: 'Client', fr: 'Une IA? Pour apprendre le français?', en: 'An AI? To learn French?' },
-    { speaker: 'Vendeur', fr: 'Oui, c\'est l\'IA la plus intelligente du monde.', en: 'Yes, it\'s the smartest AI in the world.' },
-    { speaker: 'Client', fr: 'Ah bon? Et il parle bien français?', en: 'Really? And does he speak French well?' },
-    { speaker: 'Vendeur', fr: 'Mieux que moi!', en: 'Better than me!' }
-  ],
-  grammar: [
-    { title: 'Chercher', desc: 'To look for/search. Je cherche un livre (I\'m looking for a book). No preposition needed unlike English! Chercher à + infinitive = try to: Je cherche à comprendre (I\'m trying to understand).' },
-    { title: 'Superlative', desc: 'le/la plus + adj = the most. L\'IA la plus intelligente (the smartest AI). Le cours le plus populaire (the most popular course). Le meilleur/la meilleure = the best (irregular).' },
-    { title: 'Technology Vocabulary', desc: 'une IA/intelligence artificielle (AI), un algorithme, un cours en ligne (online course), une application (app), télécharger (download), un tuteur virtuel (virtual tutor).' }
-  ]
-};
-
-UNIT_DATA[9] = {
   title_fr: 'Chez le coiffeur',
   title_en: 'At the Hairdresser',
   dialogue: [
@@ -1603,7 +1560,7 @@ UNIT_DATA[9] = {
   ]
 };
 
-UNIT_DATA[10] = {
+UNIT_DATA[9] = {
   title_fr: 'Au restaurant',
   title_en: 'At the Restaurant',
   dialogue: [
@@ -1621,7 +1578,7 @@ UNIT_DATA[10] = {
   ]
 };
 
-UNIT_DATA[11] = {
+UNIT_DATA[10] = {
   title_fr: 'Au bureau',
   title_en: 'At the Office',
   dialogue: [
@@ -1639,7 +1596,7 @@ UNIT_DATA[11] = {
   ]
 };
 
-UNIT_DATA[12] = {
+UNIT_DATA[11] = {
   title_fr: 'Maison à louer',
   title_en: 'House for Rent',
   dialogue: [
@@ -1657,7 +1614,7 @@ UNIT_DATA[12] = {
   ]
 };
 
-UNIT_DATA[13] = {
+UNIT_DATA[12] = {
   title_fr: 'Vocabulaire',
   title_en: 'Vocabulary Reference',
   dialogue: [
@@ -1676,7 +1633,7 @@ UNIT_DATA[13] = {
 };
 
 // Units 13-18 from Volume 2
-UNIT_DATA[14] = {
+UNIT_DATA[13] = {
   title_fr: 'Au bureau de placement',
   title_en: 'At the Employment Office',
   dialogue: [
@@ -1694,7 +1651,7 @@ UNIT_DATA[14] = {
   ]
 };
 
-UNIT_DATA[15] = {
+UNIT_DATA[14] = {
   title_fr: 'La douane',
   title_en: 'Customs',
   dialogue: [
@@ -1712,7 +1669,7 @@ UNIT_DATA[15] = {
   ]
 };
 
-UNIT_DATA[16] = {
+UNIT_DATA[15] = {
   title_fr: 'L\'école',
   title_en: 'School',
   dialogue: [
@@ -1730,7 +1687,7 @@ UNIT_DATA[16] = {
   ]
 };
 
-UNIT_DATA[17] = {
+UNIT_DATA[16] = {
   title_fr: 'Parlons du spectacle',
   title_en: 'Let\'s Talk About the Show',
   dialogue: [
@@ -1748,7 +1705,7 @@ UNIT_DATA[17] = {
   ]
 };
 
-UNIT_DATA[18] = {
+UNIT_DATA[17] = {
   title_fr: 'À l\'aéroport',
   title_en: 'At the Airport',
   dialogue: [
@@ -1766,7 +1723,7 @@ UNIT_DATA[18] = {
   ]
 };
 
-UNIT_DATA[19] = {
+UNIT_DATA[18] = {
   title_fr: 'Révision',
   title_en: 'Review',
   dialogue: [
@@ -1780,7 +1737,7 @@ UNIT_DATA[19] = {
 };
 
 // Units 19-24 from Volume 2
-UNIT_DATA[20] = {
+UNIT_DATA[19] = {
   title_fr: 'Chez le médecin',
   title_en: 'At the Doctor',
   dialogue: [
@@ -1798,7 +1755,7 @@ UNIT_DATA[20] = {
   ]
 };
 
-UNIT_DATA[21] = {
+UNIT_DATA[20] = {
   title_fr: 'À la banque',
   title_en: 'At the Bank',
   dialogue: [
@@ -1816,7 +1773,7 @@ UNIT_DATA[21] = {
   ]
 };
 
-UNIT_DATA[22] = {
+UNIT_DATA[21] = {
   title_fr: 'Les transports',
   title_en: 'Transportation',
   dialogue: [
@@ -1834,7 +1791,7 @@ UNIT_DATA[22] = {
   ]
 };
 
-UNIT_DATA[23] = {
+UNIT_DATA[22] = {
   title_fr: 'La politique',
   title_en: 'Politics',
   dialogue: [
@@ -1852,7 +1809,7 @@ UNIT_DATA[23] = {
   ]
 };
 
-UNIT_DATA[24] = {
+UNIT_DATA[23] = {
   title_fr: 'L\'économie',
   title_en: 'The Economy',
   dialogue: [
@@ -1870,7 +1827,7 @@ UNIT_DATA[24] = {
   ]
 };
 
-UNIT_DATA[25] = {
+UNIT_DATA[24] = {
   title_fr: 'Discours final',
   title_en: 'Final Discourse',
   dialogue: [
@@ -1890,6 +1847,23 @@ function setRegister(reg) {
   register = reg;
   document.getElementById('formalBtn').classList.toggle('active', reg === 'formal');
   document.getElementById('informalBtn').classList.toggle('active', reg === 'informal');
+  // Update current drill display
+  updateDrillDisplay();
+}
+
+// Set direction (EN→FR / FR→EN)
+function setDirection(dir) {
+  drillDirection = dir;
+  const btnEnFr = document.getElementById('btn-en-fr');
+  const btnFrEn = document.getElementById('btn-fr-en');
+  if (btnEnFr) btnEnFr.classList.toggle('active', dir === 'en-fr');
+  if (btnFrEn) btnFrEn.classList.toggle('active', dir === 'fr-en');
+
+  // Update placeholder
+  const input = document.getElementById('userInput');
+  if (input) {
+    input.placeholder = dir === 'fr-en' ? 'Type English translation...' : 'Tapez votre réponse en français...';
+  }
   // Update current drill display
   updateDrillDisplay();
 }
@@ -2095,7 +2069,6 @@ const REVIEW_UNITS = [6, 12, 18, 24];
 
 // Check if user has completed Unit 1 (all Unit 1 drills reviewed at least once)
 function hasCompletedUnit1() {
-  if (!drillsData?.drills) return false;
   const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
   const cards = progress.cards || {};
   const unit1Drills = drillsData.drills.filter(d => d.unit === 1);
@@ -2220,17 +2193,28 @@ function updateDrillDisplay() {
 
   // Handle drill mode display
   if (drillMode === 'translate') {
-    // Translation mode: show English prompt, hide French answer, show grammar hints
-    if (drill.english && drill.english.trim()) {
-      // Has English - show English, hide French
+    if (drillDirection === 'fr-en') {
+      // French→English mode: show French prompt, expect English answer
+      promptFr.style.display = 'block';
+      promptFr.style.fontSize = '20px';
+      promptEn.textContent = '(Type in English)';
+      promptEn.style.display = 'block';
+      promptEn.style.fontSize = '12px';
+      promptEn.style.color = '#666';
+      // Play French audio for comprehension
+      playDrillAudio(drill, 'fr');
+    } else if (drill.english && drill.english.trim()) {
+      // English→French mode: show English prompt, hide French answer
       promptEn.style.display = 'block';
       promptEn.style.fontSize = '20px';
+      promptEn.style.color = '#333';
       promptFr.style.display = 'none';
     } else {
       // No English - show French with instruction to type it
       promptEn.textContent = '(Type the French sentence below)';
       promptEn.style.display = 'block';
       promptEn.style.fontSize = '14px';
+      promptEn.style.color = '#333';
       promptFr.style.display = 'block';
       promptFr.style.fontSize = '20px';
     }
@@ -2276,9 +2260,16 @@ function checkAnswer() {
   const input = document.getElementById('userInput');
   const drill = currentDrills[currentDrillIndex];
 
-  let expected = drill.french;
-  if (register === 'informal') {
-    expected = convertToTu(expected);
+  let expected;
+  if (drillDirection === 'fr-en') {
+    // French→English: expect English answer
+    expected = drill.english;
+  } else {
+    // English→French: expect French answer
+    expected = drill.french;
+    if (register === 'informal') {
+      expected = convertToTu(expected);
+    }
   }
 
   // Use error classifier
@@ -2460,14 +2451,12 @@ function checkAnswer() {
 
     Storage.reviewCard(drill.id, rating);  // Also update legacy storage
 
-    // Add wrong drill back to current session queue for immediate reinforcement (max 5 times)
+    // Add wrong drill back to current session queue for immediate reinforcement
     if (currentMode === 'srs' && rating === FSI_SRS?.Rating?.Again) {
       const wrongDrill = {...drill, wrongCount: (drill.wrongCount || 0) + 1};
-      if (wrongDrill.wrongCount <= 5) {
-        // Insert it 3-5 drills later for immediate reinforcement
-        const insertAt = Math.min(currentDrillIndex + 3 + Math.floor(Math.random() * 3), currentDrills.length);
-        currentDrills.splice(insertAt, 0, wrongDrill);
-      }
+      // Insert it 3-5 drills later for immediate reinforcement
+      const insertAt = Math.min(currentDrillIndex + 3 + Math.floor(Math.random() * 3), currentDrills.length);
+      currentDrills.splice(insertAt, 0, wrongDrill);
     }
 
     // Enable retry mode - user must type correct answer before continuing
