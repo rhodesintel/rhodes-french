@@ -2900,6 +2900,9 @@ function startListening() {
     currentAudio = null;
   }
 
+  // Set recognition language based on direction
+  recognition.lang = drillDirection === 'fr-en' ? 'en-US' : 'fr-FR';
+
   document.getElementById('userInput').value = '';
   try {
     recognition.start();
@@ -2927,8 +2930,11 @@ function startHandsFreeFlow() {
   document.getElementById('voiceStatus').textContent = 'Playing audio...';
   document.getElementById('voiceStatus').style.color = '#666';
 
-  // Play prompt, wait for it to END, then listen
-  playAudio('en', () => {
+  // Play prompt based on direction, wait for it to END, then listen
+  const promptLang = drillDirection === 'fr-en' ? 'fr' : 'en';
+  const responseLang = drillDirection === 'fr-en' ? 'English' : 'French';
+
+  playAudio(promptLang, () => {
     // Ensure audio fully stopped before listening
     speechSynthesis.cancel();
     if (currentAudio) {
@@ -2936,7 +2942,7 @@ function startHandsFreeFlow() {
       currentAudio = null;
     }
     setTimeout(() => {
-      document.getElementById('voiceStatus').textContent = '🎤 Say it in French!';
+      document.getElementById('voiceStatus').textContent = `🎤 Say it in ${responseLang}!`;
       startListening();
     }, 300);
   });
