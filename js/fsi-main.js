@@ -2201,8 +2201,10 @@ function updateDrillDisplay() {
       promptEn.style.display = 'block';
       promptEn.style.fontSize = '12px';
       promptEn.style.color = '#666';
-      // Play French audio for comprehension
-      playDrillAudio(drill, 'fr');
+      // Play French audio for comprehension (unless hands-free which handles its own audio)
+      if (!handsFreeMode) {
+        setTimeout(() => playAudio('fr'), 300);
+      }
     } else if (drill.english && drill.english.trim()) {
       // English→French mode: show English prompt, hide French answer
       promptEn.style.display = 'block';
